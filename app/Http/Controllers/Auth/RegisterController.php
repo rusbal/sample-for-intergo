@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Mail\UserSignedUp;
 use App\User;
+use App\Mail\AppMailer;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
@@ -40,6 +45,41 @@ class RegisterController extends Controller
     }
 
     /**
+     * Handle a registration request for the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function register(Request $request)
+    {
+        $this->validator($request->all())->validate();
+
+        $user = $this->create($request->all());
+        event(new Registered($user));
+
+        Mail::to($user->email)->send(new UserSignedUp($user));
+
+        flash('Please confirm your email address.');
+
+        return $this->registered($request, $user)
+            ?: redirect($this->redirectPath());
+    }
+
+    public function confirmEmail($token)
+    {
+        $user = User::confirmEmail($token);
+
+        if ($user) {
+            flash("Welcome $user->name.  Your registration is now complete!", 'success');
+            $this->guard()->login($user);
+        } else {
+            flash("Sorry, the confirmation link you clicked is not valid.", 'danger');
+        }
+
+        return redirect($this->redirectPath());
+    }
+
+    /**
      * Get a validator for an incoming registration request.
      *
      * @param  array  $data
@@ -51,7 +91,7 @@ class RegisterController extends Controller
             'name' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|min:6|confirmed',
-            'g-recaptcha-response' => 'required|captcha',
+//            'g-recaptcha-response' => 'required|captcha',
         ]);
     }
 

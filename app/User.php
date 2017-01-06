@@ -26,4 +26,31 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function($user){
+            $user->token = str_random(30);
+        });
+    }
+
+    public static function confirmEmail($token)
+    {
+        $user = self::where('token', $token)->first();
+
+        if ($user) {
+            $user->token = null;
+            $user->verified = true;
+            $user->save();
+        }
+
+        return $user;
+    }
+
+    public static function isVerifiedEmail($email)
+    {
+        return (bool) self::where(['email' => $email, 'verified' => 1])->count();
+    }
 }
