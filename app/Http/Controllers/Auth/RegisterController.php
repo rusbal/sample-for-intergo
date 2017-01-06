@@ -87,12 +87,27 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        return Validator::make($data, [
+        $conditions = [
             'name' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|min:6|confirmed',
-            'g-recaptcha-response' => 'required|captcha',
-        ]);
+        ];
+
+        if (config('app.name') == 'SKU Bright Dev') {
+            /**
+             * 'SKU Bright Dev' means local development server
+             *
+             * Development is throwing error * cURL error 51: SSL: certificate verification failed (result: 5)
+             * (see http://curl.haxx.se/libcurl/c/libcurl-errors.html)
+             *
+             * Development: No Google recaptcha
+             */
+        } else {
+            // Live: With Google recaptcha
+            $conditions['g-recaptcha-response'] = 'required|captcha';
+        }
+
+        return Validator::make($data, $conditions);
     }
 
     /**
