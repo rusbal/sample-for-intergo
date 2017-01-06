@@ -18,3 +18,11 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index');
+
+Route::get('captcha-form-validation', [
+    'as' => 'google.get-recaptcha-validation-form',
+    'uses' => 'FileController@getCaptchaForm']) ;
+
+Route::post('captcha-form-validation', [
+    'as' => 'google.post-recaptcha-validation',
+    'uses' => 'FileController@postCaptchaForm']) ;
