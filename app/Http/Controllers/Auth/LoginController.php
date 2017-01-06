@@ -60,13 +60,15 @@ class LoginController extends Controller
 
         $email = $request->get('email');
 
-        if (User::isVerifiedEmail($email)) {
-            if ($this->attemptLogin($request)) {
-                return $this->sendLoginResponse($request);
+        if (User::doesEmailExist($email)) {
+            if (User::isEmailVerified($email)) {
+                if ($this->attemptLogin($request)) {
+                    return $this->sendLoginResponse($request);
+                }
+            } else {
+                flash('Sorry, have you verified you email yet?  It is a required step to complete registration.', 'danger');
+                return redirect($this->redirectPath());
             }
-        } else {
-            flash('Sorry, have you verified you email yet?  It is a required step to complete registration.', 'danger');
-            return redirect($this->redirectPath());
         }
 
         // If the login attempt was unsuccessful we will increment the number of attempts

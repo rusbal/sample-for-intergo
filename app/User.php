@@ -49,7 +49,12 @@ class User extends Authenticatable
         return $user;
     }
 
-    public static function isVerifiedEmail($email)
+    public static function doesEmailExist($email)
+    {
+        return (bool) self::where('email', $email)->count();
+    }
+
+    public static function isEmailVerified($email)
     {
         return (bool) self::where(['email' => $email, 'verified' => 1])->count();
     }
