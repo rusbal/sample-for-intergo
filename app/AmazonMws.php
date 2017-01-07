@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class AmazonMws extends Model
 {
+    protected $fillable = [
+        'merchant_id', 'marketplace_id', 'key_id', 'secret_key'
+    ];
+
     /**
      * Relationship: belongs to
      *

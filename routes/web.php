@@ -29,3 +29,4 @@ Route::post('captcha-form-validation', [
     'uses' => 'FileController@postCaptchaForm']) ;
 
 Route::resource('/my/settings', 'UserSettingsController');
+Route::resource('/my/dashboard', 'DashboardController');
