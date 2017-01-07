@@ -11,8 +11,9 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\User::class, 3)->create()->each(function ($u) {
-            $u->amazonMws()->save(factory(App\AmazonMws::class)->make());
-        });
+//        factory(App\User::class, 3)->create()->each(function ($u) {
+//            $u->amazonMws()->save(factory(App\AmazonMws::class)->make());
+//        });
+        factory(App\User::class, 3)->create();
     }
 }
