@@ -32,7 +32,9 @@
                                     @foreach ($inventory as $item)
                                         <tr>
                                             <td>{{ $item['SellerSKU'] }}</td>
-                                            <td>{{ $item['ASIN'] }}</td>
+                                            <td>
+                                                <a href="{{ amazonOfferLink($item['ASIN']) }}" target="_blank">{{ $item['ASIN'] }}</a>
+                                            </td>
                                             <td class="text-right">{{ $item['TotalSupplyQuantity'] }}</td>
                                             <td>{{ $item['FNSKU'] }}</td>
                                             <td>{{ $item['Condition'] }}</td>
