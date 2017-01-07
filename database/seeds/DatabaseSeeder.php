@@ -11,6 +11,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UsersTableSeeder::class);
+        DB::table('users')->truncate();
+        DB::table('amazon_mws')->truncate();
+
+        $this->call(UsersTableSeeder::class);
+        $this->setFirstUserToRaymond();
+    }
+
+    private function setFirstUserToRaymond()
+    {
+        $user = User::first();
+        $user->name = "Raymond Usbal";
+        $user->email = "raymond@philippinedev.com";
+        $user->save();
     }
 }

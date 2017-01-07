@@ -27,6 +27,16 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    /**
+     * Relationship: has one
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function amazonMws()
+    {
+        return $this->hasOne('App\AmazonMws');
+    }
+
     public static function boot()
     {
         parent::boot();

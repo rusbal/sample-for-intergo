@@ -170,6 +170,7 @@ return [
          */
         Collective\Html\HtmlServiceProvider::class,
         Anhskohbo\NoCaptcha\NoCaptchaServiceProvider::class,
+        Peron\AmazonMws\ServiceProvider::class,
 
         //
 

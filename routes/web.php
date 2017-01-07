@@ -27,3 +27,5 @@ Route::get('captcha-form-validation', [
 Route::post('captcha-form-validation', [
     'as' => 'google.post-recaptcha-validation',
     'uses' => 'FileController@postCaptchaForm']) ;
+
+Route::resource('/admin/settings', 'UserSettingsController');
