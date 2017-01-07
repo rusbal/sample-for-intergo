@@ -11,9 +11,11 @@
             </button>
 
             <!-- Branding Image -->
-            <a class="navbar-brand" href="{{ url('/') }}">
-                {{ config('app.name', 'Laravel') }}
-            </a>
+            @if (Auth::guest())
+                <a class="navbar-brand" href="{{ url('/') }}"> {{ config('app.name', 'Laravel') }} </a>
+            @else
+                <a class="navbar-brand" href="{{ url('/my/dashboard') }}"> {{ config('app.name', 'Laravel') }} </a>
+            @endif
         </div>
 
         <div class="collapse navbar-collapse" id="app-navbar-collapse">
@@ -35,7 +37,9 @@
                         </a>
 
                         <ul class="dropdown-menu" role="menu">
-                            <li> <a href="{{ url('/my/settings') }}"> My Settings </a> </li>
+                            <li> <a href="{{ url('/my/dashboard') }}"> Dashboard </a> </li>
+                            <li> <a href="{{ url('/my/settings') }}"> Settings </a> </li>
+                            <li role="separator" class="divider"></li>
                             <li>
                                 <a href="{{ url('/logout') }}"
                                    onclick="event.preventDefault();
