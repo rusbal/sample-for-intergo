@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
         $user = User::first();
         $user->name = "Raymond Usbal";
         $user->email = "raymond@philippinedev.com";
+        $user->password = bcrypt('default');
         $user->save();
         echo "First User: 'Raymond Usbal' set\n";
     }
