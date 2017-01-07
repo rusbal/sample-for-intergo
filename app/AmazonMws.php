@@ -25,7 +25,7 @@ class AmazonMws extends Model
      *
      * @return array
      */
-    public function configFormat()
+    public function storeConfiguration()
     {
         return [
             'merchantId' => $this->merchant_id,

@@ -37,6 +37,23 @@ class User extends Authenticatable
         return $this->hasOne('App\AmazonMws');
     }
 
+    protected $nullObjectSubstitutable = [
+        'amazonMws'
+    ];
+
+    public function __get($key)
+    {
+        $value = parent::__get($key);
+
+        if (is_null($value)) {
+            if (in_array($key, $this->nullObjectSubstitutable)) {
+                $value = NullObject::create();
+            }
+        }
+
+        return $value;
+    }
+
     public static function boot()
     {
         parent::boot();
