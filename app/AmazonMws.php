@@ -19,4 +19,19 @@ class AmazonMws extends Model
     {
         return $this->belongsTo('App\User');
     }
+
+    /**
+     * Return values in the format required by peron/laravel5-amazon-mws.
+     *
+     * @return array
+     */
+    public function configFormat()
+    {
+        return [
+            'merchantId' => $this->merchant_id,
+            'marketplaceId' => $this->marketplace_id,
+            'keyId' => $this->key_id,
+            'secretKey' => $this->secret_key,
+        ];
+    }
 }

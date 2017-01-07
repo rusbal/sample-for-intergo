@@ -12,6 +12,18 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
+    protected $requireAuthorizedUserOn = [
+        DashboardController::class,
+        UserSettingsController::class,
+    ];
+
+    public function __construct()
+    {
+        if (in_array(get_class($this), $this->requireAuthorizedUserOn)) {
+            $this->middleware('auth');
+        }
+    }
+
     public function untokenize(Request $request)
     {
         $arr = $request->all();

@@ -6,6 +6,12 @@ $testStore['marketplaceId'] = 'ATVPDKIKX0DER';
 $testStore['keyId'] = 'key';
 $testStore['secretKey'] = 'secret';
 
+$invalidStore = [];
+$invalidStore['merchantId'] = 'A124QSH1IWDCW2';
+$invalidStore['marketplaceId'] = 'ATVPDKIKX0DER';
+$invalidStore['keyId'] = 'AKIAIV6SV2IKZL4RFMKQ';
+$invalidStore['secretKey'] = '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';
+
 return [
 	'store' => [
 		'gregStore' => [
@@ -15,12 +21,7 @@ return [
 			'secretKey' => 'LuOxZN23dZli/8Wj8lbpRGsNnQW3cX9SkcyVpHny',
         ],
         'testStore' => $testStore,
-		'invalidStore' => [
-            'merchantId' => 'A124QSH1IWDCW2',
-            'marketplaceId' => 'ATVPDKIKX0DER',
-            'keyId' => 'AKIAIV6SV2IKZL4RFMKQ',
-            'secretKey' => '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',
-        ]
+		'invalidStore' => $invalidStore,
 	],
 
 	// Default service URL
