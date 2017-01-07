@@ -1,5 +1,6 @@
 <?php
 
+use App\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -24,5 +25,6 @@ class DatabaseSeeder extends Seeder
         $user->name = "Raymond Usbal";
         $user->email = "raymond@philippinedev.com";
         $user->save();
+        echo "First User: 'Raymond Usbal' set\n";
     }
 }

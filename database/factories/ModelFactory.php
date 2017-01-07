@@ -23,3 +23,12 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'remember_token' => str_random(10),
     ];
 });
+
+$factory->define(App\AmazonMws::class, function (Faker\Generator $faker) {
+    return [
+        'merchant_id' => str_random(14),
+        'marketplace_id' => str_random(13),
+        'key_id' => str_random(20),
+        'secret_key' => str_random(40),
+    ];
+});
