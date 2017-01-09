@@ -14,7 +14,7 @@
                             <div class="alert alert-{{ session('message_style') }}">{{ session('message') }}</div>
                         @endif
 
-                        @if (count($products))
+                        @if (count($inventory))
                             <div class="table-responsive">
                                 <h3>Amazon Inventory</h3>
                                 <table class="table table-hover">

@@ -204,7 +204,10 @@ return [
         'Blade' => Illuminate\Support\Facades\Blade::class,
         'Bus' => Illuminate\Support\Facades\Bus::class,
         'Cache' => Illuminate\Support\Facades\Cache::class,
-        'Config' => Illuminate\Support\Facades\Config::class,
+
+//        'Config' => Illuminate\Support\Facades\Config::class,
+        'Config' => Four13\AmazonMws\Config::class,
+
         'Cookie' => Illuminate\Support\Facades\Cookie::class,
         'Crypt' => Illuminate\Support\Facades\Crypt::class,
         'DB' => Illuminate\Support\Facades\DB::class,

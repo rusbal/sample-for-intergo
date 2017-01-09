@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Peron\AmazonMws\AmazonInventoryList;
 
 class AmazonMws extends Model
 {
@@ -27,11 +28,49 @@ class AmazonMws extends Model
      */
     public function storeConfiguration()
     {
-        return [
+        $storeConfig = [
             'merchantId' => $this->merchant_id,
             'marketplaceId' => $this->marketplace_id,
             'keyId' => $this->key_id,
             'secretKey' => $this->secret_key,
         ];
+
+        return [
+            $this->storeName() => $storeConfig
+        ];
+    }
+
+    /**
+     * Return store name which is used as configuration ID.
+     *
+     * @return string
+     */
+    public function storeName()
+    {
+        /**
+         * User id used as store name
+         */
+        return (string) $this->user->id;
+    }
+
+    /**
+     * Gets Amazon Inventory List for user
+     *
+     * @param User $user
+     * @return array|null
+     */
+    public function getSupply($user)
+    {
+        $storeName = $user->amazonMws->storeName();
+
+        try {
+            $obj = new AmazonInventoryList($storeName);
+            $obj->setUseToken(); //tells the object to automatically use tokens right away
+            $obj->setStartTime("- 24 hours");
+            $obj->fetchInventoryList(); //this is what actually sends the request
+            return $obj->getSupply();
+        } catch (Exception $ex) {
+            echo 'There was a problem with the Amazon library. Error: '.$ex->getMessage();
+        }
     }
 }
