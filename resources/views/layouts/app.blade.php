@@ -11,7 +11,8 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Styles -->
-    <link href="/css/app.css" rel="stylesheet">
+    <link href="{!! elixir('css/app.css') !!}" rel="stylesheet">
+    <script src="{!! elixir('js/all.js') !!}"></script>
 
     <!-- Scripts -->
     <script>
