@@ -46,11 +46,8 @@ class Config extends Facade
          *  'Config' => Illuminate\Support\Facades\Config::class, <-- COMMENTED OUT (overriden)
          *  'Config' => Four13\AmazonMws\Config::class, <-- INSERTED
          */
-        if (array_key_exists($method, self::$specialCase)) {
-            $specialCaseParams = self::$specialCase[$method];
-            if (in_array($args[0], $specialCaseParams)) {
-                return self::specialCase($method, $args);
-            }
+        if (self::isSpecialCase($method, $args)) {
+            return self::specialCase($method, $args);
         }
 
         $instance = static::getFacadeRoot();
@@ -71,5 +68,25 @@ class Config extends Facade
         }
 
         throw new \Exception(__CLASS__ . " :: Special case not handled (method: $method; params: " . implode(',', $args) . ")");
+    }
+
+    /**
+     * Private functions
+     */
+
+    /**
+     * Checks if this call is defined in $specialCase
+     *
+     * @param $method
+     * @param $args
+     * @return bool
+     */
+    private static function isSpecialCase($method, $args)
+    {
+        if (array_key_exists($method, self::$specialCase)) {
+            $specialCaseParams = self::$specialCase[$method];
+            return (in_array($args[0], $specialCaseParams));
+        }
+        return false;
     }
 }
