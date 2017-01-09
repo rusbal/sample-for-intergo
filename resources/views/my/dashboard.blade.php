@@ -45,7 +45,7 @@
                                 </table>
                             </div>
                         @else
-                            <div class="alert alert-warning }}">Amazon keys not set or set incorrectly.  {{ link_to_route('settings.index', 'Enter you Amazon keys here.') }}.</div>
+                            <div class="alert alert-warning }}">Amazon keys not set or set incorrectly.  {{ link_to_route('settings.index', 'Enter you Amazon keys here') }}.</div>
                         @endif
                     </div>
                 </div>

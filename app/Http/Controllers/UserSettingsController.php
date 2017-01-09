@@ -36,7 +36,6 @@ class UserSettingsController extends Controller
         Auth::user()->amazonMws()->update(
             $this->untokenize($request)
         );
-        flash('Your Amazon MWS settings was successfully updated.', 'success');
     }
 
     private function createAmazonMws(Request $request)
@@ -44,6 +43,5 @@ class UserSettingsController extends Controller
         Auth::user()->amazonMws()->create(
             $this->untokenize($request)
         );
-        flash('Your Amazon MWS settings was successfully created.', 'success');
     }
 }
