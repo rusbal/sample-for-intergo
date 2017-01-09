@@ -61,9 +61,9 @@ class AmazonMws extends Model
      * @param User $user
      * @return array|null
      */
-    public function getSupply($user)
+    public function getSupply()
     {
-        $storeName = $user->amazonMws->storeName();
+        $storeName = $this->storeName();
 
         try {
             $obj = new AmazonInventoryList($storeName);
