@@ -38,7 +38,7 @@ elixir((mix) => {
         'public/css/app.css',
         'public/js/all.js'
     ]);
-    //
+
     // mix.copy('node_modules/font-awesome/fonts','public/build/fonts');
     // mix.copy('node_modules/bootstrap-sass/assets/fonts/bootstrap/','public/build/fonts/bootstrap');
 });
