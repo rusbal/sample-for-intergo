@@ -1,6 +1,5 @@
 <form class="form-horizontal" role="form" method="POST">
     <fieldset>
-        <legend>Amazon MWS Settings</legend>
         {{ csrf_field() }}
 
         <div class="form-group{{ $errors->has('merchant_id') ? ' has-error' : '' }}">
