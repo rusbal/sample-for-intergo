@@ -19,9 +19,9 @@ class UserSettingsController extends Controller
     public function store(Request $request)
     {
         if (Auth::user()->amazonMws->isNull()) {
-            $this->updateAmazonMws($request);
-        } else {
             $this->createAmazonMws($request);
+        } else {
+            $this->updateAmazonMws($request);
         }
 
         return redirect()->action('DashboardController@index');

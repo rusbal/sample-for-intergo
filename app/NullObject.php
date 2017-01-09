@@ -23,7 +23,7 @@ class NullObject implements Countable
 
     public function isNull()
     {
-        return false;
+        return true;
     }
 
     public function __call($name, $arguments)

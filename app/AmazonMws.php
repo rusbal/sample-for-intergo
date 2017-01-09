@@ -7,6 +7,8 @@ use Peron\AmazonMws\AmazonInventoryList;
 
 class AmazonMws extends Model
 {
+    use ObjectTrait;
+
     protected $fillable = [
         'merchant_id', 'marketplace_id', 'key_id', 'secret_key'
     ];
