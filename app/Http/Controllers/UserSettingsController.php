@@ -36,7 +36,7 @@ class UserSettingsController extends Controller
 
     private function updateAmazonMws(Request $request)
     {
-        Auth::user()->amazonMws()->update(
+        Auth::user()->amazonMws->update(
             $this->untokenize($request)
         );
     }

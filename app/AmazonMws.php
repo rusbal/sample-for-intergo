@@ -2,9 +2,9 @@
 
 namespace App;
 
+use Peron\AmazonMws\AmazonReport;
 use Illuminate\Database\Eloquent\Model;
 use Peron\AmazonMws\AmazonInventoryList;
-use Peron\AmazonMws\AmazonReport;
 use Peron\AmazonMws\AmazonReportRequest;
 
 class AmazonMws extends Model
@@ -37,13 +37,9 @@ class AmazonMws extends Model
      * Important: Mutators are only executed if there is assignment to the attribute.
      * Mutators used to assign default values
      */
-    public function setKeyIdAttribute($val)
+    public function setMwsAuthTokenAttribute($val)
     {
-        $this->attributes['key_id'] = AmazonMws::DEFAULT_KEY_ID;
-    }
-    public function setSecretKeyAttribute($val)
-    {
-        $this->attributes['secret_key'] = AmazonMws::DEFAULT_SECRET_KEY;
+        $this->attributes['mws_auth_token'] = trim($val);
     }
 
     /**
