@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\AmazonMws;
 use App\NullObject;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,6 +19,8 @@ class UserSettingsController extends Controller
 
     public function store(Request $request)
     {
+        $this->validate($request, AmazonMws::$rules);
+
         if (Auth::user()->amazonMws->isNull()) {
             $this->createAmazonMws($request);
         } else {

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\GenerateListing;
 use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
@@ -16,9 +17,11 @@ class DashboardController extends Controller
 
     public function report()
     {
-        $user = Auth::user();
-        $report = $user->amazonMws->getSupply();
+//        $user = Auth::user();
+//        $report = $user->amazonMws->getListing();
 
-        var_dump($report);
+        $job = new GenerateListing;
+        $this->dispatch($job);
+        return 'done';
     }
 }

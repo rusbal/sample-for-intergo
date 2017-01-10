@@ -9,7 +9,6 @@
                 <input id="merchant_id" type="text" class="form-control" name="merchant_id"
                        value="{{ old('merchant_id', $row->merchant_id) }}" placeholder="Exactly 14 characters"
                        pattern=".{14}" required autofocus>
-                {{--<span class="help-block">Exactly 14 characters</span>--}}
 
                 @if ($errors->has('merchant_id'))
                     <span class="help-block">
@@ -24,9 +23,8 @@
 
             <div class="col-md-12">
                 <input id="marketplace_id" type="text" class="form-control" name="marketplace_id"
-                       value="{{ old('marketplace_id', $row->marketplace_id) }}" placeholder="Exactly 13 characters"
-                       pattern=".{13}" required>
-                {{--<span class="help-block">Exactly 13 characters</span>--}}
+                       value="ATVPDKIKX0DER" placeholder="Exactly 13 characters"
+                       pattern=".{13}" required readonly>
 
                 @if ($errors->has('marketplace_id'))
                     <span class="help-block">
@@ -36,36 +34,22 @@
             </div>
         </div>
 
-        <div class="form-group{{ $errors->has('key_id') ? ' has-error' : '' }}">
-            <label for="key_id" class="col-md-12">AWS Access Key ID</label>
+        <div class="form-group{{ $errors->has('mws_auth_token') ? ' has-error' : '' }}">
+            <label for="mws_auth_token" class="col-md-12">MWS Auth Token</label>
 
             <div class="col-md-12">
-                <input id="key_id" type="text" class="form-control" name="key_id"
-                       value="{{ old('key_id', $row->key_id) }}" placeholder="Exactly 20 characters" pattern=".{20}" required>
-                {{--<span class="help-block">Exactly 20 characters</span>--}}
-
-                @if ($errors->has('key_id'))
+                <textarea name="mws_auth_token" id="mws_auth_token" cols="30" rows="2" class="form-control"
+                          placeholder="amzn.mws.long-code-here" required>{{ old('mws_auth_token', $row->mws_auth_token) }}</textarea>
+                @if ($errors->has('mws_auth_token'))
                     <span class="help-block">
-                        <strong>{{ $errors->first('key_id') }}</strong>
+                        <strong>{{ $errors->first('mws_auth_token') }}</strong>
                     </span>
                 @endif
             </div>
         </div>
 
         <div class="form-group">
-            <label for="secret_key" class="col-md-12">Secret Key</label>
-
             <div class="col-md-12">
-                <input id="secret_key" type="text" class="form-control" name="secret_key"
-                       value="{{ old('secret_key', $row->secret_key) }}" placeholder="Exactly 40 characters" pattern=".{40}"
-                       required>
-                {{--<span class="help-block">Exactly 40 characters</span>--}}
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-12">
-                {{--{{ link_to_route('dashboard.index', 'Cancel', [], ['class' => 'btn btn-default']) }}--}}
                 <button type="submit" class="btn btn-primary form-control"> UPDATE </button>
             </div>
         </div>

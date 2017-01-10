@@ -4,14 +4,47 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Peron\AmazonMws\AmazonInventoryList;
+use Peron\AmazonMws\AmazonReport;
+use Peron\AmazonMws\AmazonReportRequest;
 
 class AmazonMws extends Model
 {
     use ObjectTrait;
 
     protected $fillable = [
-        'merchant_id', 'marketplace_id', 'key_id', 'secret_key'
+        'merchant_id', 'marketplace_id', 'key_id', 'secret_key', 'mws_auth_token'
     ];
+
+    public static $rules = [
+        'merchant_id' => 'required|size:14',
+        'mws_auth_token' => 'required',
+    ];
+
+    const DEFAULT_KEY_ID = 'AKIAITF5AZ2VRC4WXBGA';
+    const DEFAULT_SECRET_KEY = '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';
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            $model->key_id = self::DEFAULT_KEY_ID;
+            $model->secret_key = self::DEFAULT_SECRET_KEY;
+        });
+    }
+
+    /**
+     * Important: Mutators are only executed if there is assignment to the attribute.
+     * Mutators used to assign default values
+     */
+    public function setKeyIdAttribute($val)
+    {
+        $this->attributes['key_id'] = AmazonMws::DEFAULT_KEY_ID;
+    }
+    public function setSecretKeyAttribute($val)
+    {
+        $this->attributes['secret_key'] = AmazonMws::DEFAULT_SECRET_KEY;
+    }
 
     /**
      * Relationship: belongs to
@@ -74,5 +107,32 @@ class AmazonMws extends Model
         } catch (Exception $ex) {
             echo 'There was a problem with the Amazon library. Error: '.$ex->getMessage();
         }
+    }
+
+    public function getListing()
+    {
+        $storeName = $this->storeName();
+//        $request = $this->requestReport('_GET_MERCHANT_LISTINGS_DATA_', '- 7 days');
+
+//        $obj = new AmazonReport($storeName, $request['ReportRequestId']);
+        $obj = new AmazonReport($storeName, '209798017175');
+        $report = $obj->fetchReport();
+        var_dump($report);
+    }
+
+    /**
+     * Private
+     */
+
+    private function requestReport($type, $start, $end = 'now')
+    {
+        $storeName = $this->storeName();
+
+        $obj = new AmazonReportRequest($storeName);
+        $obj->setReportType($type);
+        $obj->setTimeLimits($start, $end);
+        $obj->setMarketplaces($this->marketplace_id);
+        $obj->requestReport();
+        return $obj->getResponse();
     }
 }
