@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\NullObject;
 use App\Jobs\GenerateListing;
 use Illuminate\Support\Facades\Auth;
 
