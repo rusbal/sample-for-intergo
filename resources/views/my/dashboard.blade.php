@@ -16,29 +16,28 @@
 
                         @if (count($listing))
                             <div class="table-responsive">
-                                <h3>Amazon Inventory</h3>
+                                <h3 class="pull-left">Amazon Inventory</h3>
+                                <div class="pull-right">Total: {!! count($listing) !!}</div>
                                 <table class="table table-hover">
                                     <thead>
                                         <tr>
                                             <th>Seller SKU</th>
                                             <th>ASIN</th>
-                                            <th class="text-center">Total Supply Quantity</th>
-                                            <th>FNSKU</th>
-                                            <th>Condition</th>
-                                            <th class="text-center">In Stock Supply Quantity</th>
+                                            <th>Listing ID</th>
+                                            <th>Item Name</th>
+                                            <th>Description</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                     @foreach ($listing as $item)
                                         <tr>
-                                            <td>{{ $item['SellerSKU'] }}</td>
+                                            <td>{{ $item['seller_sku'] }}</td>
                                             <td>
-                                                <a href="{{ amazonOfferLink($item['ASIN']) }}" target="_blank">{{ $item['ASIN'] }}</a>
+                                                <a href="{{ amazonOfferLink($item['asin1']) }}" target="_blank">{{ $item['asin1'] }}</a>
                                             </td>
-                                            <td class="text-right">{{ $item['TotalSupplyQuantity'] }}</td>
-                                            <td>{{ $item['FNSKU'] }}</td>
-                                            <td>{{ $item['Condition'] }}</td>
-                                            <td class="text-right">{{ $item['InStockSupplyQuantity'] }}</td>
+                                            <td>{{ $item['listing_id'] }}</td>
+                                            <td>{{ $item['item_name'] }}</td>
+                                            <td>{!! str_limit($item['item_description'], 100) !!}</td>
                                         </tr>
                                     @endforeach
                                     </tbody>
