@@ -1,34 +1,43 @@
 <?php
 
-namespace App\Jobs;
+namespace App\Console\Commands;
 
 use App\AmazonRequestQueue;
-use Illuminate\Bus\Queueable;
+use Illuminate\Console\Command;
 use Four13\AmazonMws\RequestReport;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
 use Four13\AmazonMws\ToDb\MerchantListing;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
-class ProcessAmazonQueue implements ShouldQueue
+class CallProcessorCommand extends Command
 {
-    use InteractsWithQueue, Queueable, SerializesModels;
+    /**
+     * The name and signature of the console command.
+     *
+     * @var string
+     */
+    protected $signature = 'skubright:poke-amazon';
 
     /**
-     * Create a new job instance.
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Poke Amazon MWS on requests.';
+
+    /**
+     * Create a new command instance.
      *
      * @return void
      */
     public function __construct()
     {
-        //
+        parent::__construct();
     }
 
     /**
-     * Execute the job.
+     * Execute the console command.
      *
-     * @return void
+     * @return mixed
      */
     public function handle()
     {

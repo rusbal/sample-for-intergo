@@ -50,7 +50,7 @@ class CreateAmazonMerchantListingsTable extends Migration
              */
 
             $table->string('item_name');
-            $table->string('item_description');
+            $table->text('item_description');
             $table->string('listing_id');
             $table->integer('seller_sku');
             $table->decimal('price', 9, 2);
@@ -65,13 +65,13 @@ class CreateAmazonMerchantListingsTable extends Migration
             $table->string('zshop_category1');
             $table->string('zshop_browse_path');
             $table->string('zshop_storefront_feature');
-            $table->integer('asin1');
-            $table->integer('asin2');
-            $table->integer('asin3');
+            $table->string('asin1');
+            $table->string('asin2');
+            $table->string('asin3');
             $table->smallInteger('will_ship_internationally');
             $table->string('expedited_shipping');
             $table->string('zshop_boldface');
-            $table->integer('product_id');
+            $table->string('product_id');
             $table->string('bid_for_featured_placement');
             $table->string('add_delete');
             $table->integer('pending_quantity');

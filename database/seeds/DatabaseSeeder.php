@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
         DB::table('amazon_mws')->truncate();
         DB::table('amazon_request_queues')->truncate();
         DB::table('amazon_request_histories')->truncate();
+        DB::table('amazon_merchant_listings')->truncate();
 
         $this->call(UsersTableSeeder::class);
         $this->setFirstUserToRaymond();

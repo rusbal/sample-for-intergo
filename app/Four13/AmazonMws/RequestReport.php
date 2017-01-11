@@ -4,17 +4,24 @@ namespace Four13\AmazonMws;
 
 
 use App\AmazonMws;
-use App\AmazonRequestHistory;
 use App\AmazonRequestQueue;
-use Illuminate\Support\Facades\File;
+use App\AmazonRequestHistory;
+use Four13\AmazonMws\ToDb\ToDbInterface;
 use Peron\AmazonMws\AmazonReport;
+use Illuminate\Support\Facades\File;
 use Peron\AmazonMws\AmazonReportRequest;
+use Four13\AmazonMws\ToDb\MerchantListing;
 use Peron\AmazonMws\AmazonReportRequestList;
 
 class RequestReport
 {
     private $storeName;
     private $requestId;
+
+    /**
+     * @var ToDbInterface
+     */
+    private $toDb;
 
     public function __construct($storeName, $requestId)
     {
@@ -45,14 +52,15 @@ class RequestReport
         return $response;
     }
 
-    public static function process($item)
+    public static function process(MerchantListing $toDb, $item)
     {
-        self::poke($item['store_name'], $item['request_id']);
+        self::poke($toDb, $item['store_name'], $item['request_id']);
     }
 
-    public static function poke($storeName, $requestId)
+    public static function poke($toDb, $storeName, $requestId)
     {
         $instance = new static($storeName, $requestId);
+        $instance->toDb = $toDb;
 
         $obj = new AmazonReportRequestList($storeName);
         $obj->setRequestIds($requestId);
@@ -92,10 +100,13 @@ class RequestReport
         $obj = new AmazonReport($this->storeName);
         $obj->setReportId($reportId);
         $report = $obj->fetchReport();
+
         if ($report) {
+            $this->toDb->saveToDb($report);
             $obj->saveReport($this->filename());
             return true;
         }
+
         return false;
     }
 
