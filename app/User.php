@@ -47,6 +47,16 @@ class User extends Authenticatable
         return $this->hasMany('App\AmazonRequestHistory');
     }
 
+    /**
+     * Relationship: has many
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function amazonMerchantListing()
+    {
+        return $this->hasMany('App\AmazonMerchantListing');
+    }
+
     protected $nullObjectSubstitutable = [
         'amazonMws'
     ];

@@ -91,7 +91,8 @@ class RequestReport
     {
         $obj = new AmazonReport($this->storeName);
         $obj->setReportId($reportId);
-        if ($obj->fetchReport()) {
+        $report = $obj->fetchReport();
+        if ($report) {
             $obj->saveReport($this->filename());
             return true;
         }
