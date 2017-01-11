@@ -9,6 +9,7 @@
         "anhskohbo/no-captcha": "^2.2",
         "laravel/framework": "5.3.*",
         "laravelcollective/html": "^5.3",
+        "pda/pheanstalk": "~3.0",
         "peron/laravel5-amazon-mws": "^2.0"
     },
     "require-dev": {
