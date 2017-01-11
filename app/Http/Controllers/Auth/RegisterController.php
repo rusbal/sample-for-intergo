@@ -57,7 +57,7 @@ class RegisterController extends Controller
         $user = $this->create($request->all());
         event(new Registered($user));
 
-        Mail::to($user->email)->send(new UserSignedUp($user));
+        Mail::to($user->email)->queue(new UserSignedUp($user));
 
         flash('Please confirm your email address.');
 
