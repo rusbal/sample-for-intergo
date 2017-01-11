@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Jobs\GenerateListing;
 use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
@@ -10,18 +9,17 @@ class DashboardController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $inventory = $user->amazonMws->getSupply();
 
-        return view('my.dashboard', compact('inventory'));
-    }
+        if ($user->amazonRequestHistory->count() == 0) {
+            /**
+             * requestListing() only executes if amazonMws settings exists.
+             * If it does not exist, amazonMws is NullObject.
+             */
+            $user->amazonMws->requestListing();
+        }
 
-    public function report()
-    {
-//        $user = Auth::user();
-//        $report = $user->amazonMws->getListing();
+        $listing = null;
 
-        $job = new GenerateListing;
-        $this->dispatch($job);
-        return 'done';
+        return view('my.dashboard', compact('listing'));
     }
 }

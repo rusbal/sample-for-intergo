@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Four13\AmazonMws\RequestReport;
 use Peron\AmazonMws\AmazonReport;
 use Illuminate\Database\Eloquent\Model;
 use Peron\AmazonMws\AmazonInventoryList;
@@ -22,6 +23,7 @@ class AmazonMws extends Model
 
     const DEFAULT_KEY_ID = 'AKIAITF5AZ2VRC4WXBGA';
     const DEFAULT_SECRET_KEY = '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';
+    const UNITED_STATES_MARKETPLACE_ID = 'ATVPDKIKX0DER';
 
     protected static function boot()
     {
@@ -100,35 +102,16 @@ class AmazonMws extends Model
             $obj->setStartTime("- 24 hours");
             $obj->fetchInventoryList(); //this is what actually sends the request
             return $obj->getSupply();
-        } catch (Exception $ex) {
+        } catch (\Exception $ex) {
             echo 'There was a problem with the Amazon library. Error: '.$ex->getMessage();
         }
     }
 
-    public function getListing()
+    public function requestListing()
     {
-        $storeName = $this->storeName();
-//        $request = $this->requestReport('_GET_MERCHANT_LISTINGS_DATA_', '- 7 days');
-
-//        $obj = new AmazonReport($storeName, $request['ReportRequestId']);
-        $obj = new AmazonReport($storeName, '209798017175');
-        $report = $obj->fetchReport();
-        var_dump($report);
-    }
-
-    /**
-     * Private
-     */
-
-    private function requestReport($type, $start, $end = 'now')
-    {
-        $storeName = $this->storeName();
-
-        $obj = new AmazonReportRequest($storeName);
-        $obj->setReportType($type);
-        $obj->setTimeLimits($start, $end);
-        $obj->setMarketplaces($this->marketplace_id);
-        $obj->requestReport();
-        return $obj->getResponse();
+        RequestReport::queue(
+            $this->storeName(),
+            '_GET_MERCHANT_LISTINGS_DATA_'
+        );
     }
 }

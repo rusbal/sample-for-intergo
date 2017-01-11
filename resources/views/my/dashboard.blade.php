@@ -14,7 +14,7 @@
                             <div class="alert alert-{{ session('message_style') }}">{{ session('message') }}</div>
                         @endif
 
-                        @if (count($inventory))
+                        @if (count($listing))
                             <div class="table-responsive">
                                 <h3>Amazon Inventory</h3>
                                 <table class="table table-hover">
@@ -29,7 +29,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach ($inventory as $item)
+                                    @foreach ($listing as $item)
                                         <tr>
                                             <td>{{ $item['SellerSKU'] }}</td>
                                             <td>
@@ -45,7 +45,11 @@
                                 </table>
                             </div>
                         @else
-                            <div class="alert alert-warning }}">Amazon keys not set or set incorrectly.  {{ link_to_route('settings.index', 'Enter you Amazon keys here') }}.</div>
+                            @if (issetAmazonMwsForUser())
+                                <div class="alert alert-default }}">We are currently requesting your listing from Amazon using <strong>{{ link_to_route('settings.index', 'your keys') }}</strong>.</div>
+                            @else
+                                <div class="alert alert-warning }}">Amazon keys not set or set incorrectly.  {{ link_to_route('settings.index', 'Enter you Amazon keys here') }}.</div>
+                            @endif
                         @endif
                     </div>
                 </div>

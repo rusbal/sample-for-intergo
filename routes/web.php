@@ -31,4 +31,3 @@ Route::post('captcha-form-validation', [
 Route::resource('/my/settings', 'UserSettingsController');
 Route::resource('/my/dashboard', 'DashboardController');
 
-Route::get('/my/report', 'DashboardController@report');
