@@ -170,7 +170,6 @@ return [
          */
         Collective\Html\HtmlServiceProvider::class,
         Anhskohbo\NoCaptcha\NoCaptchaServiceProvider::class,
-        Peron\AmazonMws\ServiceProvider::class,
 
         //
 
@@ -237,6 +236,7 @@ return [
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
 
+        'Setting' => App\Setting::class,
     ],
 
 ];

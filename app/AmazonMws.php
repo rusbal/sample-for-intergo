@@ -5,7 +5,7 @@ namespace App;
 use Four13\AmazonMws\Config;
 use Four13\AmazonMws\RequestReport;
 use Illuminate\Database\Eloquent\Model;
-use Peron\AmazonMws\AmazonInventoryList;
+use Zaffar\AmazonMws\AmazonInventoryList;
 
 class AmazonMws extends Model
 {
@@ -21,20 +21,6 @@ class AmazonMws extends Model
         'merchant_id' => 'required|size:14',
         'mws_auth_token' => 'required',
     ];
-
-    private $gettableConfig = [
-        'key_id' => 'amazon-mws.AMAZON_KEY_ID',
-        'secret_key' => 'amazon-mws.AMAZON_SECRET_KEY',
-    ];
-
-    public function __get($key)
-    {
-        if (isset($this->gettableConfig[$key])) {
-            return Config::get($this->gettableConfig[$key]);
-        }
-
-        return parent::__get($key);
-    }
 
     /**
      * Important: Mutators are only executed if there is assignment to the attribute.
@@ -56,17 +42,21 @@ class AmazonMws extends Model
     }
 
     /**
-     * Return values in the format required by peron/laravel5-amazon-mws.
+     * Return values in the format required by Zaffar/laravel5-amazon-mws.
      *
      * @return array
      */
     public function storeConfiguration()
     {
+        $keyId = env('AMAZON_KEY_ID');
+        $secretKey = env('AMAZON_SECRET_KEY');
+
         $storeConfig = [
             'merchantId' => $this->merchant_id,
             'marketplaceId' => $this->marketplace_id,
-            'keyId' => $this->key_id,
-            'secretKey' => $this->secret_key,
+            'keyId' => $keyId,
+            'secretKey' => $secretKey,
+            'authToken'=> $this->mws_auth_token,
         ];
 
         return [

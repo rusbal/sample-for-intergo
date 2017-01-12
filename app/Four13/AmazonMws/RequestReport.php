@@ -7,11 +7,11 @@ use App\AmazonMws;
 use App\AmazonRequestQueue;
 use App\AmazonRequestHistory;
 use Four13\AmazonMws\ToDb\ToDbInterface;
-use Peron\AmazonMws\AmazonReport;
+use Zaffar\AmazonMws\AmazonReport;
 use Illuminate\Support\Facades\File;
-use Peron\AmazonMws\AmazonReportRequest;
+use Zaffar\AmazonMws\AmazonReportRequest;
 use Four13\AmazonMws\ToDb\MerchantListing;
-use Peron\AmazonMws\AmazonReportRequestList;
+use Zaffar\AmazonMws\AmazonReportRequestList;
 
 class RequestReport
 {
@@ -23,16 +23,20 @@ class RequestReport
      */
     private $toDb;
 
-    public function __construct($storeName, $requestId)
+    public function __construct($storeName, $requestId, ToDbInterface $toDb)
     {
         $this->storeName = $storeName;
         $this->requestId = $requestId;
+        $this->toDb = $toDb;
     }
 
     public static function queue($storeName, $type)
     {
         $item = AmazonRequestQueue::queueOne($storeName, 'report', $type, '', '');
-        self::initiate($item);
+
+        if ($item->request_id == '') {
+            self::initiate($item);
+        }
     }
 
     public static function initiate($item)
@@ -59,8 +63,7 @@ class RequestReport
 
     public static function poke($toDb, $storeName, $requestId)
     {
-        $instance = new static($storeName, $requestId);
-        $instance->toDb = $toDb;
+        $instance = new static($storeName, $requestId, $toDb);
 
         $obj = new AmazonReportRequestList($storeName);
         $obj->setRequestIds($requestId);
@@ -68,14 +71,14 @@ class RequestReport
         $list = $obj->getList();
 
         if ($instance->checkIfDone($list)) {
-            $instance->logToHistory();
+            $instance->moveQueueToHistory();
             return true;
         }
 
         return false;
     }
 
-    private function logToHistory()
+    private function moveQueueToHistory()
     {
         $item = AmazonRequestQueue::where('request_id', $this->requestId);
 

@@ -10,7 +10,7 @@
         "laravel/framework": "5.3.*",
         "laravelcollective/html": "^5.3",
         "pda/pheanstalk": "~3.0",
-        "peron/laravel5-amazon-mws": "^2.0"
+        "zaffar-saffee/laravel-5-amazon-mws-persistent": "dev-master"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.2",
@@ -56,5 +56,7 @@
     "config": {
         "preferred-install": "dist",
         "sort-packages": true
-    }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
