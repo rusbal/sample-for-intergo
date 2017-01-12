@@ -32,11 +32,17 @@ class ProcessAmazonQueue implements ShouldQueue
      */
     public function handle()
     {
-        $queue = AmazonRequestQueue::where('request_id', '!=', '')->get();
+        $queue = AmazonRequestQueue::all();
 
         foreach ($queue as $item) {
             Auth::loginUsingId($item->store_name);
-            RequestReport::process(new MerchantListing, $item);
+
+            if ($item->request_id == '') {
+                RequestReport::initiate($item);
+            } else {
+                RequestReport::process(new MerchantListing, $item);
+            }
+
             Auth::logout();
         }
     }
