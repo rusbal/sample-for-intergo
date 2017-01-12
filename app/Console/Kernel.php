@@ -15,6 +15,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         Commands\QueueProcessorCommand::class,
         Commands\CallProcessorCommand::class,
+        Commands\BeginRequestCommand::class,
     ];
 
     /**

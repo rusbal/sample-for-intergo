@@ -6,23 +6,22 @@ use App\AmazonRequestQueue;
 use Illuminate\Console\Command;
 use Four13\AmazonMws\RequestReport;
 use Illuminate\Support\Facades\Auth;
-use Four13\AmazonMws\ToDb\MerchantListing;
 
-class CallProcessorCommand extends Command
+class BeginRequestCommand extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'skubright:poke-amazon';
+    protected $signature = 'skubright:begin-request';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Poke Amazon MWS on requests.';
+    protected $description = 'Start report requests to Amazon';
 
     /**
      * Create a new command instance.
@@ -41,14 +40,14 @@ class CallProcessorCommand extends Command
      */
     public function handle()
     {
-        $queue = AmazonRequestQueue::where('request_id', '!=', '')->get();
+        $queue = AmazonRequestQueue::where('request_id', '')->get();
 
         foreach ($queue as $item) {
             Auth::loginUsingId($item->store_name);
-            RequestReport::process(new MerchantListing, $item);
+            RequestReport::initiate($item);
             Auth::logout();
         }
 
-        $this->info('Job: Poke Amazon requests executed.');
+        $this->info('Job: Start report requests executed.');
     }
 }

@@ -43,6 +43,6 @@ class QueueProcessorCommand extends Command
     {
         $job = new ProcessAmazonQueue;
         $this->dispatch($job);
-        $this->info('Job: ProcessAmazonQueue is dispatched.');
+        $this->info('Job: ProcessAmazonQueue executed.');
     }
 }
