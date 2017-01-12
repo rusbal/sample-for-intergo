@@ -3,17 +3,17 @@
 namespace App;
 
 use Four13\AmazonMws\RequestReport;
-use Peron\AmazonMws\AmazonReport;
 use Illuminate\Database\Eloquent\Model;
 use Peron\AmazonMws\AmazonInventoryList;
-use Peron\AmazonMws\AmazonReportRequest;
 
 class AmazonMws extends Model
 {
     use ObjectTrait;
 
+    const UNITED_STATES_MARKETPLACE_ID = 'ATVPDKIKX0DER';
+
     protected $fillable = [
-        'merchant_id', 'marketplace_id', 'key_id', 'secret_key', 'mws_auth_token'
+        'merchant_id', 'marketplace_id', 'mws_auth_token'
     ];
 
     public static $rules = [
@@ -21,18 +21,18 @@ class AmazonMws extends Model
         'mws_auth_token' => 'required',
     ];
 
-    const DEFAULT_KEY_ID = 'AKIAITF5AZ2VRC4WXBGA';
-    const DEFAULT_SECRET_KEY = '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';
-    const UNITED_STATES_MARKETPLACE_ID = 'ATVPDKIKX0DER';
+    private $gettableConfig = [
+        'key_id' => 'amazon-mws.AMAZON_KEY_ID',
+        'secret_key' => 'amazon-mws.AMAZON_SECRET_KEY',
+    ];
 
-    protected static function boot()
+    public function __get($key)
     {
-        parent::boot();
+        if (isset($this->gettableConfig[$key])) {
+            return config($this->gettableConfig[$key]);
+        }
 
-        static::creating(function ($model) {
-            $model->key_id = self::DEFAULT_KEY_ID;
-            $model->secret_key = self::DEFAULT_SECRET_KEY;
-        });
+        return parent::__get($key);
     }
 
     /**

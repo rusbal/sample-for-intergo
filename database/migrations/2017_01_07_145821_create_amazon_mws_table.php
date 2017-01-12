@@ -18,8 +18,6 @@ class CreateAmazonMwsTable extends Migration
             $table->integer('user_id')->indexed()->unsigned();
             $table->string('merchant_id');
             $table->string('marketplace_id');
-            $table->string('key_id');
-            $table->string('secret_key');
             $table->string('mws_auth_token');
             $table->timestamps();
         });

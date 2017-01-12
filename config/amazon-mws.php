@@ -27,5 +27,17 @@ return [
 	// Default service URL
 	'AMAZON_SERVICE_URL' => 'https://mws.amazonservices.com/',
 
-	'muteLog' => false
+	'muteLog' => false,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Amazon Secret Keys
+    |--------------------------------------------------------------------------
+    |
+    | Values on .env
+    */
+
+    'AMAZON_KEY_ID' => env('AMAZON_KEY_ID'),
+    'AMAZON_SECRET_KEY' => env('AMAZON_SECRET_KEY'),
+
 ];

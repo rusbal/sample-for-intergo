@@ -21,7 +21,7 @@ class AmazonRequestHistory extends Model
         return $this->belongsTo('App\User');
     }
 
-    public static function logHistory($data, $user = null)
+    public static function logHistory($data, User $user = null)
     {
         if (! isset($data['user_id'])) {
             $data['user_id'] = $user ? $user->id : Auth::id();
