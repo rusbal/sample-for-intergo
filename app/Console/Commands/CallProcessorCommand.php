@@ -45,7 +45,14 @@ class CallProcessorCommand extends Command
 
         foreach ($queue as $item) {
             Auth::loginUsingId($item->store_name);
-            RequestReport::process(new MerchantListing, $item);
+
+            $result = RequestReport::process(new MerchantListing, $item);
+            if ($result) {
+                $this->info('*** Success: Poked and got data from Amazon.');
+            } else {
+                $this->info('--- Poked but no data from Amazon yet.');
+            }
+
             Auth::logout();
         }
 

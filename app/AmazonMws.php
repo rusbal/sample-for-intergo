@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Four13\AmazonMws\Config;
 use Four13\AmazonMws\RequestReport;
 use Illuminate\Database\Eloquent\Model;
 use Peron\AmazonMws\AmazonInventoryList;
@@ -29,7 +30,7 @@ class AmazonMws extends Model
     public function __get($key)
     {
         if (isset($this->gettableConfig[$key])) {
-            return config($this->gettableConfig[$key]);
+            return Config::get($this->gettableConfig[$key]);
         }
 
         return parent::__get($key);

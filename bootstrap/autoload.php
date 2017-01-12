@@ -2,6 +2,11 @@
 
 define('LARAVEL_START', microtime(true));
 
+/**
+ * By Raymond
+ */
+require __DIR__.'/../app/Four13/override.php';
+
 /*
 |--------------------------------------------------------------------------
 | Register The Composer Auto Loader

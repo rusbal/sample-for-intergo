@@ -54,7 +54,7 @@ class RequestReport
 
     public static function process(MerchantListing $toDb, $item)
     {
-        self::poke($toDb, $item['store_name'], $item['request_id']);
+        return self::poke($toDb, $item['store_name'], $item['request_id']);
     }
 
     public static function poke($toDb, $storeName, $requestId)
@@ -69,7 +69,10 @@ class RequestReport
 
         if ($instance->checkIfDone($list)) {
             $instance->logToHistory();
+            return true;
         }
+
+        return false;
     }
 
     private function logToHistory()
