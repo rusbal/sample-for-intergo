@@ -44,7 +44,15 @@ class BeginRequestCommand extends Command
 
         foreach ($queue as $item) {
             Auth::loginUsingId($item->store_name);
-            RequestReport::initiate($item);
+
+            $result = RequestReport::initiate($item);
+
+            if ($result) {
+                $this->info("*** Successfully started request for: {$item->store_name}");
+            } else {
+                $this->info("--- Failed to started request for: {$item->store_name}");
+            }
+
             Auth::logout();
         }
 
