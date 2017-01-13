@@ -14,7 +14,7 @@
                         <ol class="li-m-b-10 font-em-05">
                             <li>{{ link_to('https://developer.amazonservices.com/index.html', 'Visit Amazon Marketplace Web Services', ['target' => '_blank']) }} (Amazon MWS) and click on yellow button "Sign up for MWS" on the right side.</li>
                             <li>Choose the 3rd option "I want to give a developer access to my Amazon seller account with MWS.</li>
-                            <li>For "Application Name" enter <strong>SkuBright</strong> and for "Application's Account Number" enter <strong>1234-5678-1234</strong></li>
+                            <li>For "Application Name" enter <strong>{!! env('APP_NAME') !!}</strong> and for "Application's Account Number" enter <strong>{!! env('AMAZON_DEVELOPER_ACCOUNT_NUMBER') !!}</strong></li>
                             <li>Click next, then copy and paste the data into these fields on the right.</li>
                         </ol>
                     </div>
