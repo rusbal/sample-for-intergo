@@ -23,9 +23,8 @@
                                         <tr>
                                             <th>Seller SKU</th>
                                             <th>ASIN</th>
-                                            <th>Listing ID</th>
                                             <th>Item Name</th>
-                                            <th>Description</th>
+                                            <th>Quantity</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -35,9 +34,8 @@
                                             <td>
                                                 <a href="{{ amazonOfferLink($item['asin1']) }}" target="_blank">{{ $item['asin1'] }}</a>
                                             </td>
-                                            <td>{{ $item['listing_id'] }}</td>
                                             <td>{{ $item['item_name'] }}</td>
-                                            <td>{!! str_limit($item['item_description'], 100) !!}</td>
+                                            <td>{!! $item['quantity'] !!}</td>
                                         </tr>
                                     @endforeach
                                     </tbody>

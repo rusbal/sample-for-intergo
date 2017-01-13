@@ -16,6 +16,7 @@ class CreateAmazonMerchantListingsTable extends Migration
         Schema::create('amazon_merchant_listings', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->indexed()->unsigned();
+            $table->boolean('will_monitor')->default(0);
 
             /**
              * Amazon Merchant Listing Data
