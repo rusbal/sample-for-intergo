@@ -14,6 +14,14 @@ class MerchantListing implements ToDbInterface
     protected $rows;
     protected $user;
 
+    private $filters = [
+        'quantity' => [
+            'condition' => '>',
+            'value' => 0,
+            'index' => 5
+        ],
+    ];
+
     public function __construct($user = null)
     {
         $user = $user ?: Auth::user();
@@ -33,7 +41,9 @@ class MerchantListing implements ToDbInterface
 
         DB::transaction(function () {
             foreach ($this->rows as $row) {
-                $this->saveRow($row);
+//                if ($this->isValid($row)) {
+                    $this->saveRow($row);
+//                }
             }
         });
     }
@@ -41,6 +51,25 @@ class MerchantListing implements ToDbInterface
     /**
      * Private
      */
+
+    private function isValid($row)
+    {
+        foreach ($this->filters as $filter) {
+            $condition = $filter['condition'];
+            $value = $filter['value'];
+            $index = $filter['index'];
+
+            $checkAgainstValue = $row[$index];
+
+            $valid = eval("return '$checkAgainstValue' $condition '$value';");
+
+            if (! $valid) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 
     private function saveRow($row)
     {

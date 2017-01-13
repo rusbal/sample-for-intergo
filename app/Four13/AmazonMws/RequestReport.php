@@ -70,6 +70,10 @@ class RequestReport
         $obj->fetchRequestList();
         $list = $obj->getList();
 
+        if (empty($list)) {
+            return false;
+        }
+
         if ($instance->checkIfDone($list)) {
             $instance->moveQueueToHistory();
             return true;
