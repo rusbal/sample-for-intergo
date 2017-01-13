@@ -36,7 +36,10 @@ class RequestReport
 
         if ($item->request_id == '') {
             self::initiate($item);
+            return true;
         }
+
+        return false;
     }
 
     public static function initiate($item)

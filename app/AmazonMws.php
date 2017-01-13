@@ -98,9 +98,12 @@ class AmazonMws extends Model
         }
     }
 
+    /**
+     * @return bool
+     */
     public function requestListing()
     {
-        RequestReport::queue(
+        return RequestReport::queue(
             $this->storeName(),
             '_GET_MERCHANT_LISTINGS_DATA_'
         );
