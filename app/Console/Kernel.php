@@ -13,13 +13,16 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        Commands\QueueProcessorCommand::class,
         Commands\CallProcessorCommand::class,
+        Commands\QueueProcessorCommand::class,
+
         Commands\BeginRequestCommand::class,
         Commands\PauseRequestsCommand::class,
         Commands\UnpauseRequestsCommand::class,
-        Commands\ShowRequestsCommand::class,
         Commands\DiscardRequestsCommand::class,
+
+        Commands\ShowRequestsCommand::class,
+        Commands\ShowInvalidSkuCommand::class,
         Commands\ShowInventoryFetchCommand::class,
     ];
 
