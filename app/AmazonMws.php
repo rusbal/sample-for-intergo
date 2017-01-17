@@ -2,12 +2,11 @@
 
 namespace App;
 
-use Four13\AmazonMws\Config;
 use Four13\AmazonMws\RequestReport;
-use Four13\AmazonMws\ToDb\MerchantListing;
-use Four13\AmazonMws\ToDb\MerchantSkuQuantity;
 use Illuminate\Database\Eloquent\Model;
 use Zaffar\AmazonMws\AmazonInventoryList;
+use Four13\AmazonMws\ToDb\MerchantListing;
+use Four13\AmazonMws\ToDb\MerchantSkuQuantity;
 
 class AmazonMws extends Model
 {

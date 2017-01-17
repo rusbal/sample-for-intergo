@@ -16,6 +16,9 @@ class Kernel extends ConsoleKernel
         Commands\QueueProcessorCommand::class,
         Commands\CallProcessorCommand::class,
         Commands\BeginRequestCommand::class,
+        Commands\PauseRequestsCommand::class,
+        Commands\UnpauseRequestsCommand::class,
+        Commands\ShowRequestsCommand::class,
     ];
 
     /**
