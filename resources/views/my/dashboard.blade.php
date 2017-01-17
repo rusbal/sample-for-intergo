@@ -35,7 +35,7 @@
                                                 <a href="{{ amazonOfferLink($item['asin1']) }}" target="_blank">{{ $item['asin1'] }}</a>
                                             </td>
                                             <td>{{ $item['item_name'] }}</td>
-                                            <td>{!! $item['quantity'] !!}</td>
+                                            <td>{!! $item['quantity_available'] !!}</td>
                                         </tr>
                                     @endforeach
                                     </tbody>
