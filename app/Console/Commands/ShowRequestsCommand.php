@@ -41,10 +41,16 @@ class ShowRequestsCommand extends Command
     {
         $rows = AmazonRequestQueue::withoutGlobalScopes()->get();
 
+        if ($rows->count() == 0) {
+            $this->info('-- No request to show --');
+            return;
+        }
+
         $this->info(
             str_pad('STORE', 7) .
             str_pad('NAME', 30) .
             str_pad('REQUEST ID', 15) .
+            str_pad('CLASS', 20) .
             str_pad('TYPE', 30) .
             str_pad('CREATED', 15) .
             'STATUS'
@@ -60,9 +66,10 @@ class ShowRequestsCommand extends Command
                 str_pad($row->store_name,7) .
                 str_pad($user->name, 30) .
                 str_pad($row->request_id, 15) .
+                str_pad($row->class, 20) .
                 str_pad($row->type, 30) .
                 str_pad($row->created_at->diffForHumans(), 15) .
-                ($row->pause ? 'paused' : 'active')
+                ($row->pause ? 'deactivated' : '*** On Queue ***')
             );
         }
     }
