@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
 class AmazonRequestQueue extends Model
 {
@@ -10,9 +11,17 @@ class AmazonRequestQueue extends Model
         'store_name', 'class', 'type', 'request_id', 'response'
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+        static::addGlobalScope('age', function (Builder $builder) {
+            $builder->where('pause', '=', false);
+        });
+    }
+
     public static function queueOne($storeName, $class, $type, $requestId, $data)
     {
-        $builder = self::where([
+        $builder = self::withoutGlobalScopes()->where([
             'store_name' => $storeName,
             'class' => $class,
             'type' => $type
