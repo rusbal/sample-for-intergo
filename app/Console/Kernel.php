@@ -20,6 +20,7 @@ class Kernel extends ConsoleKernel
         Commands\UnpauseRequestsCommand::class,
         Commands\ShowRequestsCommand::class,
         Commands\DiscardRequestsCommand::class,
+        Commands\ShowInventoryFetchCommand::class,
     ];
 
     /**
