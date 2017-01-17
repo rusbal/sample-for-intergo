@@ -15,6 +15,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         Commands\PokeAmazonCommand::class,
         Commands\QueueProcessorCommand::class,
+        Commands\RequestForUpdatesCommand::class,
 
         Commands\BeginRequestCommand::class,
         Commands\PauseRequestsCommand::class,
@@ -39,6 +40,9 @@ class Kernel extends ConsoleKernel
 
         $schedule->command('skubright:process-queue')
                  ->everyMinute();
+
+        $schedule->command('skubright:update-data-request')
+                 ->hourly();
     }
 
     /**

@@ -46,7 +46,7 @@ class PokeAmazonCommand extends Command
         foreach ($queue as $item) {
             Auth::loginUsingId($item->store_name);
 
-            $dataHandler = AmazonMws::getDataHandler($item->type);
+            $dataHandler = AmazonMws::getDataHandler($item->type, $item->class);
 
             if (! $dataHandler) {
                 $this->info("--- No data handler for request type: $item->type");

@@ -120,11 +120,15 @@ class AmazonMws extends Model
         );
     }
 
-    public static function getDataHandler($reportType)
+    public static function getDataHandler($reportType, $reportClass)
     {
+        /**
+         * Report data handler files location: Four13/AmazonMws/ToDb/*
+         */
+
         if (array_key_exists($reportType, self::REPORT_DATA_HANDLERS)) {
             $handlerClass = '\\' . self::REPORT_DATA_HANDLERS[$reportType];
-            return new $handlerClass;
+            return new $handlerClass($reportClass);
         }
 
         return false;

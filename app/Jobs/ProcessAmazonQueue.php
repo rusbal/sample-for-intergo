@@ -36,14 +36,14 @@ class ProcessAmazonQueue implements ShouldQueue
         $queue = AmazonRequestQueue::all();
 
         foreach ($queue as $item) {
-            $dataHandler = AmazonMws::getDataHandler($item->type);
+            Auth::loginUsingId($item->store_name);
+
+            $dataHandler = AmazonMws::getDataHandler($item->type, $item->class);
 
             if (! $dataHandler) {
                 $this->info("--- No data handler for request type: $item->type");
                 continue;
             }
-
-            Auth::loginUsingId($item->store_name);
 
             if ($item->request_id == '') {
                 RequestReport::initiate($item);

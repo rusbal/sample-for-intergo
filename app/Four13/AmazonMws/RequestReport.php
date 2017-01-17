@@ -37,9 +37,11 @@ class RequestReport
      * @param $type
      * @return bool
      */
-    public static function queue($storeName, $type)
+    public static function queue($storeName, $type, $isUpdateRun = false)
     {
-        $item = AmazonRequestQueue::queueOne($storeName, 'report', $type, '', '');
+        $reportClass = $isUpdateRun ? 'report-update' : 'report';
+
+        $item = AmazonRequestQueue::queueOne($storeName, $reportClass, $type, '', '');
 
         if ($item->request_id == '') {
             self::initiate($item);

@@ -64,7 +64,6 @@ class MerchantSkuQuantity extends ToDb
      * Private
      */
 
-
     /**
      * @param Builder $updateBuilder
      * @param $row array
