@@ -6,7 +6,7 @@ namespace Four13\AmazonMws;
 use App\AmazonMws;
 use App\AmazonRequestQueue;
 use App\AmazonRequestHistory;
-use Four13\AmazonMws\ToDb\ToDbInterface;
+use Four13\AmazonMws\ToDb\ToDb;
 use Zaffar\AmazonMws\AmazonReport;
 use Illuminate\Support\Facades\File;
 use Zaffar\AmazonMws\AmazonReportRequest;
@@ -19,17 +19,24 @@ class RequestReport
     private $requestId;
 
     /**
-     * @var ToDbInterface
+     * @var ToDb
      */
     private $toDb;
 
-    public function __construct($storeName, $requestId, ToDbInterface $toDb)
+    public function __construct($storeName, $requestId, ToDb $toDb)
     {
         $this->storeName = $storeName;
         $this->requestId = $requestId;
         $this->toDb = $toDb;
     }
 
+    /**
+     * Initiates a report request saving it to table: amazon_request_queues
+     *
+     * @param $storeName
+     * @param $type
+     * @return bool
+     */
     public static function queue($storeName, $type)
     {
         $item = AmazonRequestQueue::queueOne($storeName, 'report', $type, '', '');
@@ -59,7 +66,7 @@ class RequestReport
         return $response;
     }
 
-    public static function process(MerchantListing $toDb, $item)
+    public static function process(ToDb $toDb, $item)
     {
         return self::poke($toDb, $item['store_name'], $item['request_id']);
     }
@@ -83,15 +90,6 @@ class RequestReport
         }
 
         return false;
-    }
-
-    private function moveQueueToHistory()
-    {
-        $item = AmazonRequestQueue::where('request_id', $this->requestId);
-
-        AmazonRequestHistory::logHistory($item->first()->toArray());
-
-        $item->delete();
     }
 
     public function checkIfDone($list)
@@ -123,6 +121,10 @@ class RequestReport
         return false;
     }
 
+    /**
+     * Private
+     */
+
     private function filename($extension = '.txt')
     {
         $amazonStoragePath = storage_path('amazon');
@@ -133,5 +135,14 @@ class RequestReport
 
         $filename = $this->requestId . '.' . microtime(true) . $extension;
         return $amazonStoragePath . DIRECTORY_SEPARATOR . $filename;
+    }
+
+    private function moveQueueToHistory()
+    {
+        $item = AmazonRequestQueue::where('request_id', $this->requestId);
+
+        AmazonRequestHistory::logHistory($item->first()->toArray());
+
+        $item->delete();
     }
 }

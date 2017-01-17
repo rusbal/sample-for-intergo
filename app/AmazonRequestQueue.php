@@ -18,7 +18,7 @@ class AmazonRequestQueue extends Model
             'type' => $type
         ]);
 
-        if ($builder->count() > 0) {
+        if ($builder->exists()) {
             return $builder->first();
         }
 

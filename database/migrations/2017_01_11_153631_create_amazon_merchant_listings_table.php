@@ -20,6 +20,7 @@ class CreateAmazonMerchantListingsTable extends Migration
 
             /**
              * Amazon Merchant Listing Data
+             * Report Request Type: _GET_MERCHANT_LISTINGS_DATA_
              *
                 item-name:                   (string)     An Incomplete Education: 3,684 Things You Should Have Learned but Probably Di...
                 item-description:            (string)
@@ -52,8 +53,8 @@ class CreateAmazonMerchantListingsTable extends Migration
 
             $table->string('item_name');
             $table->text('item_description');
-            $table->string('listing_id');
-            $table->integer('seller_sku');
+            $table->string('listing_id')->indexed();
+            $table->integer('seller_sku')->indexed();
             $table->decimal('price', 9, 2);
             $table->integer('quantity');
             $table->dateTimeTz('open_date');
@@ -77,6 +78,22 @@ class CreateAmazonMerchantListingsTable extends Migration
             $table->string('add_delete');
             $table->integer('pending_quantity');
             $table->string('fulfillment_channel');
+
+            /**
+             * Report Request Type: _GET_AFN_INVENTORY_DATA_
+             *
+                 seller-sku               (integer) 1003192344 -- used as match field, not saved
+                 fulfillment-channel-sku  (string)  X000V0Z339
+                 asin                     (string)  B00DLLZZXM -- duplicate field, saved temporarily
+                 condition-type           (string)  NewItem
+                 warehouse-condition-code (string)  SELLABLE
+                 quantity-available       (integer) 23
+             */
+            $table->string('afn_asin')->nullable();
+            $table->string('fulfillment_channel_sku')->nullable();
+            $table->string('condition_type')->nullable();
+            $table->string('warehouse_condition_code')->nullable();
+            $table->integer('quantity_available')->nullable();
 
             $table->timestamps();
         });

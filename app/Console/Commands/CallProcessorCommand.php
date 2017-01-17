@@ -2,11 +2,11 @@
 
 namespace App\Console\Commands;
 
+use App\AmazonMws;
 use App\AmazonRequestQueue;
 use Illuminate\Console\Command;
 use Four13\AmazonMws\RequestReport;
 use Illuminate\Support\Facades\Auth;
-use Four13\AmazonMws\ToDb\MerchantListing;
 
 class CallProcessorCommand extends Command
 {
@@ -44,9 +44,16 @@ class CallProcessorCommand extends Command
         $queue = AmazonRequestQueue::where('request_id', '!=', '')->get();
 
         foreach ($queue as $item) {
+            $dataHandler = $this->getDataHandler($item->type);
+
+            if (! $dataHandler) {
+                $this->info("--- No data handler for request type: $item->type");
+                continue;
+            }
+
             Auth::loginUsingId($item->store_name);
 
-            $result = RequestReport::process(new MerchantListing, $item);
+            $result = RequestReport::process($dataHandler, $item);
             if ($result) {
                 $this->info('*** Success: Poked and got data from Amazon.');
             } else {
@@ -57,5 +64,19 @@ class CallProcessorCommand extends Command
         }
 
         $this->info('Job: Poke Amazon requests executed.');
+    }
+
+    /**
+     * Private
+     */
+
+    private function getDataHandler($reportType)
+    {
+        if (array_key_exists($reportType, AmazonMws::REPORT_DATA_HANDLERS)) {
+            $handlerClass = '\\' . AmazonMws::REPORT_DATA_HANDLERS[$reportType];
+            return new $handlerClass;
+        }
+
+        return false;
     }
 }

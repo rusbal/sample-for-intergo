@@ -4,22 +4,22 @@ namespace Four13\AmazonMws\ToDb;
 
 use Four13\TextLTSV\LTSV;
 use App\AmazonMerchantListing;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
-class MerchantListing implements ToDbInterface
+class MerchantListing extends ToDb
 {
     const IGNORE_FIRST_LINE_WITH_FIRST_COLUMN = 'item-name';
 
     protected $rows;
     protected $user;
 
-    private $filters = [
-        'quantity' => [
-            'condition' => '>',
-            'value' => 0,
-            'index' => 5
-        ],
+    protected $filters = [
+//        'quantity' => [
+//            'condition' => '>',
+//            'value' => 0,
+//            'index' => 5
+//        ],
     ];
 
     public function __construct($user = null)
@@ -41,9 +41,9 @@ class MerchantListing implements ToDbInterface
 
         DB::transaction(function () {
             foreach ($this->rows as $row) {
-//                if ($this->isValid($row)) {
+                if ($this->isValid($row)) {
                     $this->saveRow($row);
-//                }
+                }
             }
         });
     }

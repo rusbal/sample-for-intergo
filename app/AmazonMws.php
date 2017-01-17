@@ -4,6 +4,8 @@ namespace App;
 
 use Four13\AmazonMws\Config;
 use Four13\AmazonMws\RequestReport;
+use Four13\AmazonMws\ToDb\MerchantListing;
+use Four13\AmazonMws\ToDb\MerchantSkuQuantity;
 use Illuminate\Database\Eloquent\Model;
 use Zaffar\AmazonMws\AmazonInventoryList;
 
@@ -15,6 +17,16 @@ class AmazonMws extends Model
 
     protected $fillable = [
         'merchant_id', 'marketplace_id', 'mws_auth_token'
+    ];
+
+    const REPORT_REQUEST_TYPES = [
+        '_GET_MERCHANT_LISTINGS_DATA_',
+        '_GET_AFN_INVENTORY_DATA_',
+    ];
+
+    const REPORT_DATA_HANDLERS = [
+        '_GET_MERCHANT_LISTINGS_DATA_' => MerchantListing::class,
+        '_GET_AFN_INVENTORY_DATA_' => MerchantSkuQuantity::class,
     ];
 
     public static $rules = [

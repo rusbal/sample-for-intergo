@@ -26,8 +26,11 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-         $schedule->command('skubright:process-queue')
-                  ->everyMinute();
+        $schedule->command('skubright:begin-request')
+                 ->everyMinute();
+
+        $schedule->command('skubright:process-queue')
+                 ->everyMinute();
     }
 
     /**
