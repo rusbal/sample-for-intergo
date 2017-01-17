@@ -120,4 +120,14 @@ class AmazonMws extends Model
             '_GET_MERCHANT_LISTINGS_DATA_'
         );
     }
+
+    public static function getDataHandler($reportType)
+    {
+        if (array_key_exists($reportType, self::REPORT_DATA_HANDLERS)) {
+            $handlerClass = '\\' . self::REPORT_DATA_HANDLERS[$reportType];
+            return new $handlerClass;
+        }
+
+        return false;
+    }
 }

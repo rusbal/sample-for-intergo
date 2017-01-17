@@ -44,7 +44,7 @@ class CallProcessorCommand extends Command
         $queue = AmazonRequestQueue::where('request_id', '!=', '')->get();
 
         foreach ($queue as $item) {
-            $dataHandler = $this->getDataHandler($item->type);
+            $dataHandler = AmazonMws::getDataHandler($item->type);
 
             if (! $dataHandler) {
                 $this->info("--- No data handler for request type: $item->type");
@@ -64,19 +64,5 @@ class CallProcessorCommand extends Command
         }
 
         $this->info('Job: Poke Amazon requests executed.');
-    }
-
-    /**
-     * Private
-     */
-
-    private function getDataHandler($reportType)
-    {
-        if (array_key_exists($reportType, AmazonMws::REPORT_DATA_HANDLERS)) {
-            $handlerClass = '\\' . AmazonMws::REPORT_DATA_HANDLERS[$reportType];
-            return new $handlerClass;
-        }
-
-        return false;
     }
 }

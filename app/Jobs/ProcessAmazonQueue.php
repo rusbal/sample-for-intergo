@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\AmazonMws;
 use App\AmazonRequestQueue;
 use Illuminate\Bus\Queueable;
 use Four13\AmazonMws\RequestReport;
@@ -35,12 +36,19 @@ class ProcessAmazonQueue implements ShouldQueue
         $queue = AmazonRequestQueue::all();
 
         foreach ($queue as $item) {
+            $dataHandler = AmazonMws::getDataHandler($item->type);
+
+            if (! $dataHandler) {
+                $this->info("--- No data handler for request type: $item->type");
+                continue;
+            }
+
             Auth::loginUsingId($item->store_name);
 
             if ($item->request_id == '') {
                 RequestReport::initiate($item);
             } else {
-                RequestReport::process(new MerchantListing, $item);
+                RequestReport::process($dataHandler, $item);
             }
 
             Auth::logout();
