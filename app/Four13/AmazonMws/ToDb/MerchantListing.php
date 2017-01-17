@@ -52,25 +52,6 @@ class MerchantListing extends ToDb
      * Private
      */
 
-    private function isValid($row)
-    {
-        foreach ($this->filters as $filter) {
-            $condition = $filter['condition'];
-            $value = $filter['value'];
-            $index = $filter['index'];
-
-            $checkAgainstValue = $row[$index];
-
-            $valid = eval("return '$checkAgainstValue' $condition '$value';");
-
-            if (! $valid) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
     private function saveRow($row)
     {
         $openDate = (new \DateTime($row[6]))->format( 'Y-m-d H:i:s' );
