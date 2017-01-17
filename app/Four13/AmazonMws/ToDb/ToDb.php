@@ -5,6 +5,17 @@ namespace Four13\AmazonMws\ToDb;
 
 abstract class ToDb
 {
+    /**
+     * Example filter:
+     *
+     *  'quantity' => [ 'index' => 5, 'condition' => '>', 'value' => 0 ]
+     *
+     * Where:
+     *   'quantity'  = Not used in the code and doesn't mean anything except as human readable label
+     *   'index'     = Index to array of data to be validated.  This is used to get the data to be validated.
+     *   'condition' = Comparison operators
+     *   'value'     = The value to be compared against
+     */
     protected $filters = [];
 
     abstract public function saveToDb($fileContents);
