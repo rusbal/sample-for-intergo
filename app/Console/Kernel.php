@@ -19,6 +19,7 @@ class Kernel extends ConsoleKernel
         Commands\PauseRequestsCommand::class,
         Commands\UnpauseRequestsCommand::class,
         Commands\ShowRequestsCommand::class,
+        Commands\DiscardRequestsCommand::class,
     ];
 
     /**
