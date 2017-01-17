@@ -44,6 +44,12 @@ class MerchantSkuQuantity extends ToDb
                 }
 
                 $sellerSku = (int) $row[0];
+
+                if ($sellerSku == 0) {
+                    $invalid++;
+                    continue;
+                }
+
                 $updateBuilder = AmazonMerchantListing::where('seller_sku', $sellerSku);
 
                 if ($updateBuilder->exists()) {
