@@ -8,7 +8,7 @@ use Illuminate\Console\Command;
 use Four13\AmazonMws\RequestReport;
 use Illuminate\Support\Facades\Auth;
 
-class CallProcessorCommand extends Command
+class PokeAmazonCommand extends Command
 {
     /**
      * The name and signature of the console command.
@@ -44,14 +44,14 @@ class CallProcessorCommand extends Command
         $queue = AmazonRequestQueue::where('request_id', '!=', '')->get();
 
         foreach ($queue as $item) {
+            Auth::loginUsingId($item->store_name);
+
             $dataHandler = AmazonMws::getDataHandler($item->type);
 
             if (! $dataHandler) {
                 $this->info("--- No data handler for request type: $item->type");
                 continue;
             }
-
-            Auth::loginUsingId($item->store_name);
 
             $result = RequestReport::process($dataHandler, $item);
             if ($result) {

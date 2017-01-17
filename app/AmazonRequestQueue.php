@@ -44,4 +44,9 @@ class AmazonRequestQueue extends Model
             'response' => serialize($data)
         ]);
     }
+
+    public static function getRequest($requestId)
+    {
+        return self::where('request_id', $requestId)->first();
+    }
 }

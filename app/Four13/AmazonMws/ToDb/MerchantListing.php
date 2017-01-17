@@ -14,17 +14,18 @@ class MerchantListing extends ToDb
     protected $rows;
     protected $user;
 
-    protected $filters = [
-//        'quantity' => [
-//            'condition' => '>',
-//            'value' => 0,
-//            'index' => 5
-//        ],
-    ];
+//    protected $filters = [
+//        'quantity' => [ 'index' => 5, 'condition' => '>', 'value' => 0 ],
+//    ];
 
     public function __construct($user = null)
     {
         $user = $user ?: Auth::user();
+
+        if (! $user) {
+            throw new \Exception('Cannot instantiate ' . __CLASS__ . ' when there is no authenticated user.');
+        }
+
         $this->user = $user;
     }
 

@@ -127,14 +127,27 @@ class RequestReport
 
     private function filename($extension = '.txt')
     {
-        $amazonStoragePath = storage_path('amazon');
+        $queue = AmazonRequestQueue::getRequest($this->requestId);
+        $requestType = $queue ? ".{$queue->type}" : '';
 
-        if (! file_exists($amazonStoragePath)) {
-            File::makeDirectory($amazonStoragePath);
+        return $this->amazonStoragePath()
+            . DIRECTORY_SEPARATOR
+            . date("Ymd.g:ia")
+            . $requestType
+            . '.' . $this->requestId
+            . '.' . microtime(true)
+            . $extension;
+    }
+
+    private function amazonStoragePath()
+    {
+        $path = storage_path('amazon');
+
+        if (! file_exists($path)) {
+            File::makeDirectory($path);
         }
 
-        $filename = $this->requestId . '.' . microtime(true) . $extension;
-        return $amazonStoragePath . DIRECTORY_SEPARATOR . $filename;
+        return $path;
     }
 
     private function moveQueueToHistory()

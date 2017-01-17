@@ -13,7 +13,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        Commands\CallProcessorCommand::class,
+        Commands\PokeAmazonCommand::class,
         Commands\QueueProcessorCommand::class,
 
         Commands\BeginRequestCommand::class,
