@@ -62,7 +62,7 @@ class ShowRequestsCommand extends Command
                 str_pad($row->request_id, 15) .
                 str_pad($row->type, 30) .
                 str_pad($row->created_at->diffForHumans(), 15) .
-                ($row->pause ? '--- PAUSED ---' : '*** ACTIVE ***')
+                ($row->pause ? 'PAUSED' : 'active')
             );
         }
     }
