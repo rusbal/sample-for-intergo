@@ -14,7 +14,9 @@ class MerchantSkuQuantity extends ToDb
 
     protected $rows;
 
-    protected $filters = [];
+    protected $filters = [
+        'seller_sku' => [ 'index' => 0, 'condition' => '>', 'value' => 0 ],
+    ];
 
     public function saveToDb($fileContents)
     {
@@ -33,24 +35,28 @@ class MerchantSkuQuantity extends ToDb
              */
             $matched = 0;
             $unmatched = 0;
+            $invalid = 0;
 
             foreach ($this->rows as $row) {
-                if ($this->isValid($row)) {
+                if (! $this->isValid($row)) {
+                    $invalid++;
+                    continue;
+                }
 
-                    $sellerSku = (int) $row[0];
-                    $updateBuilder = AmazonMerchantListing::where('seller_sku', $sellerSku);
+                $sellerSku = (int) $row[0];
+                $updateBuilder = AmazonMerchantListing::where('seller_sku', $sellerSku);
 
-                    if ($updateBuilder->exists()) {
-                        $this->saveRow($updateBuilder, $row);
-                        $matched++;
-                    } else {
-                        $unmatched++;
-                    }
+                if ($updateBuilder->exists()) {
+                    $this->saveRow($updateBuilder, $row);
+                    $matched++;
+                } else {
+                    $unmatched++;
                 }
             }
 
-            Log::info(__CLASS__ . '@' . __METHOD__ . " matched: $matched");
-            Log::info(__CLASS__ . '@' . __METHOD__ . " unmatched: $unmatched");
+            Log::info(__CLASS__ . '@saveToDb' . " matched: $matched");
+            Log::info(__CLASS__ . '@saveToDb' . " unmatched: $unmatched");
+            Log::info(__CLASS__ . '@saveToDb' . " invalid: $invalid");
         });
     }
 
