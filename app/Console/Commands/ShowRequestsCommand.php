@@ -51,7 +51,9 @@ class ShowRequestsCommand extends Command
 
     private function showLatestHistory()
     {
-        $rows = AmazonRequestHistory::where('created_at', '>=', \Carbon\Carbon::now()->subHour())->get();
+        $rows = AmazonRequestHistory::withoutGlobalScopes()
+            ->where('created_at', '>=', \Carbon\Carbon::now()->subHour())
+            ->get();
 
         if ($rows->count() == 0) {
             $this->info("-- No request history in the previous 60 minutes --");
