@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Builder;
 class AmazonRequestHistory extends Model
 {
     protected $fillable = [
-        'user_id', 'store_name', 'class', 'type', 'request_id', 'response'
+        'user_id', 'store_name', 'class', 'type', 'request_id', 'response', 'status'
     ];
 
     protected static function boot()
