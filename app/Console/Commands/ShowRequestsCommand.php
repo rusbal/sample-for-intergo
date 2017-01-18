@@ -100,7 +100,7 @@ class ShowRequestsCommand extends Command
             str_pad('REQUEST ID', 15) .
             str_pad('CLASS', 20) .
             str_pad('TYPE', 30) .
-            str_pad('CREATED', 15) .
+            str_pad('CREATED', 20) .
             'STATUS'
         );
 
@@ -116,7 +116,7 @@ class ShowRequestsCommand extends Command
                 str_pad($row->request_id, 15) .
                 str_pad($row->class, 20) .
                 str_pad($row->type, 30) .
-                str_pad($row->created_at->diffForHumans(), 15) .
+                str_pad($row->created_at->diffForHumans(), 20) .
                 ($row->pause ? 'deactivated' : '*** On Queue ***')
             );
         }
