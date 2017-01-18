@@ -68,7 +68,7 @@ class ShowRequestsCommand extends Command
             str_pad('REQUEST ID', 15) .
             str_pad('CLASS', 20) .
             str_pad('TYPE', 30) .
-            str_pad('RUN', 20) .
+            str_pad('WHEN', 20) .
             'STATUS'
         );
 
