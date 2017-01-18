@@ -71,7 +71,7 @@ class ShowRequestsCommand extends Command
             str_pad('REQUEST ID', 15) .
             str_pad('CLASS', 20) .
             str_pad('TYPE', 30) .
-            str_pad('CREATED', 15)
+            str_pad('SUCCESS RUN', 15)
         );
 
         foreach ($rows as $row) {
