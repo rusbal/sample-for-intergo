@@ -73,6 +73,14 @@ class RequestReport
         return self::poke($toDb, $item['store_name'], $item['request_id']);
     }
 
+    /**
+     * Follows up Amazon on the previous request with request_id.
+     *
+     * @param $toDb
+     * @param $storeName
+     * @param $requestId
+     * @return bool
+     */
     public static function poke($toDb, $storeName, $requestId)
     {
         $instance = new static($storeName, $requestId, $toDb);
@@ -91,12 +99,7 @@ class RequestReport
          */
         $singleRequest = $list[0];
 
-        if ($instance->checkIfDone($singleRequest)) {
-            $instance->moveQueueToHistory();
-            return true;
-        }
-
-        return false;
+        return $instance->checkIfDone($singleRequest);
     }
 
     /**
@@ -109,12 +112,15 @@ class RequestReport
     public function checkIfDone($request)
     {
         if ($request['ReportProcessingStatus'] == '_CANCELLED_') {
-            AmazonRequestQueue::where('request_id', $this->requestId)->delete();
+            $this->moveQueueToHistory($request['ReportProcessingStatus']);
             return false;
         }
 
         if ($request['ReportProcessingStatus'] == '_DONE_') {
-            return $this->getReport($request['GeneratedReportId']);
+            if ($this->getReport($request['GeneratedReportId'])) {
+                $this->moveQueueToHistory($request['ReportProcessingStatus']);
+                return true;
+            }
         }
 
         return false;
@@ -170,12 +176,15 @@ class RequestReport
         return $path;
     }
 
-    private function moveQueueToHistory()
+    private function moveQueueToHistory($status)
     {
-        $item = AmazonRequestQueue::where('request_id', $this->requestId);
+        $queue = AmazonRequestQueue::where('request_id', $this->requestId);
 
-        AmazonRequestHistory::logHistory($item->first()->toArray());
+        $data = $queue->first()->toArray();
+        $data['status'] = $status;
 
-        $item->delete();
+        AmazonRequestHistory::logHistory($data);
+
+        $queue->delete();
     }
 }

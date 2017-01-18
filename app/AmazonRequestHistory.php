@@ -4,12 +4,21 @@ namespace App;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
 class AmazonRequestHistory extends Model
 {
     protected $fillable = [
         'user_id', 'store_name', 'class', 'type', 'request_id', 'response'
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::addGlobalScope('status-done', function (Builder $builder) {
+            $builder->where('status', '=', '_DONE_');
+        });
+    }
 
     /**
      * Relationship: belongs to

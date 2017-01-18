@@ -14,7 +14,7 @@ class AmazonRequestQueue extends Model
     protected static function boot()
     {
         parent::boot();
-        static::addGlobalScope('age', function (Builder $builder) {
+        static::addGlobalScope('not-pause', function (Builder $builder) {
             $builder->where('pause', '=', false);
         });
     }

@@ -62,7 +62,7 @@ class ShowRequestsCommand extends Command
             $this->info("-- No request in the previous hour --");
             return;
         } else {
-            $this->info("-- Successful requests in the previous hour --");
+            $this->info("-- Requests in the previous hour --");
         }
 
         $this->info(
@@ -71,7 +71,8 @@ class ShowRequestsCommand extends Command
             str_pad('REQUEST ID', 15) .
             str_pad('CLASS', 20) .
             str_pad('TYPE', 30) .
-            str_pad('SUCCESS RUN', 15)
+            str_pad('RUN', 15) .
+            'STATUS'
         );
 
         foreach ($rows as $row) {
@@ -81,7 +82,8 @@ class ShowRequestsCommand extends Command
                 str_pad($row->request_id, 15) .
                 str_pad($row->class, 20) .
                 str_pad($row->type, 30) .
-                str_pad($row->created_at->diffForHumans(), 15)
+                str_pad($row->created_at->diffForHumans(), 15) .
+                $row->status
             );
         }
     }
