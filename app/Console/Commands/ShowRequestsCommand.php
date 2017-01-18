@@ -54,10 +54,10 @@ class ShowRequestsCommand extends Command
         $rows = AmazonRequestHistory::where('created_at', '>=', \Carbon\Carbon::now()->subHour())->get();
 
         if ($rows->count() == 0) {
-            $this->info("-- No request in the previous hour --");
+            $this->info("-- No request history in the previous 60 minutes --");
             return;
         } else {
-            $this->info("-- Requests in the previous hour --");
+            $this->info("-- Request history in the previous 60 minutes --");
         }
 
         $this->info(
