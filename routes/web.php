@@ -20,14 +20,6 @@ Route::get('register/confirm/{token}', 'Auth\RegisterController@confirmEmail');
 
 Route::get('/home', 'HomeController@index');
 
-Route::get('captcha-form-validation', [
-    'as' => 'google.get-recaptcha-validation-form',
-    'uses' => 'FileController@getCaptchaForm']) ;
-
-Route::post('captcha-form-validation', [
-    'as' => 'google.post-recaptcha-validation',
-    'uses' => 'FileController@postCaptchaForm']) ;
-
 Route::resource('/my/settings', 'UserSettingsController');
 Route::resource('/my/dashboard', 'DashboardController');
 
