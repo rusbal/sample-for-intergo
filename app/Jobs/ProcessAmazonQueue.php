@@ -9,7 +9,6 @@ use Four13\AmazonMws\RequestReport;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
-use Four13\AmazonMws\ToDb\MerchantListing;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
 class ProcessAmazonQueue implements ShouldQueue
