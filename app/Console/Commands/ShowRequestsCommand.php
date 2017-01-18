@@ -40,14 +40,9 @@ class ShowRequestsCommand extends Command
      */
     public function handle()
     {
-        $rows = AmazonRequestQueue::withoutGlobalScopes()->get();
-
-        if ($rows->count() > 0) {
-            $this->showRequest($rows);
-        } else {
-            $this->info("-- No request to show --\n");
-            $this->showLatestHistory();
-        }
+        $this->showRequest();
+        $this->info('');
+        $this->showLatestHistory();
     }
 
     /**
@@ -88,8 +83,15 @@ class ShowRequestsCommand extends Command
         }
     }
 
-    private function showRequest($rows)
+    private function showRequest()
     {
+        $rows = AmazonRequestQueue::withoutGlobalScopes()->get();
+
+        if ($rows->count() == 0) {
+            $this->info("-- No request to show --");
+            return;
+        }
+
         $this->info(
             str_pad('STORE', 7) .
             str_pad('NAME', 30) .
