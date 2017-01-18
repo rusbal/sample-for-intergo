@@ -111,15 +111,19 @@ class RequestReport
      */
     public function checkIfDone($request)
     {
-        if ($request['ReportProcessingStatus'] == '_DONE_') {
-            if ($this->getReport($request['GeneratedReportId'])) {
-                $this->moveQueueToHistory($request['ReportProcessingStatus']);
-                return true;
-            }
+        $status = $request['ReportProcessingStatus'];
+
+        if ($status == '_SUBMITTED_'
+         || $status == '_IN_PROGRESS_') {
+            return false;
         }
 
-        if ($request['ReportProcessingStatus'] == '_SUBMITTED_'
-         || $request['ReportProcessingStatus'] == '_IN_PROGRESS_') {
+        if ($status == '_DONE_') {
+            if ($this->getReport($request['GeneratedReportId'])) {
+                $this->moveQueueToHistory($status);
+                return true;
+            }
+
             return false;
         }
 
@@ -127,7 +131,7 @@ class RequestReport
          * _CANCELLED_
          * _DONE_NO_DATA_
          */
-        $this->moveQueueToHistory($request['ReportProcessingStatus']);
+        $this->moveQueueToHistory($status);
         return false;
     }
 
