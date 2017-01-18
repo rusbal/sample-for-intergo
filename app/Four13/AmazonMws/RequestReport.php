@@ -86,7 +86,12 @@ class RequestReport
             return false;
         }
 
-        if ($instance->checkIfDone($list)) {
+        /**
+         * We only passed one Request ID so we only expect one item from list.
+         */
+        $singleRequest = $list[0];
+
+        if ($instance->checkIfDone($singleRequest)) {
             $instance->moveQueueToHistory();
             return true;
         }
@@ -94,20 +99,33 @@ class RequestReport
         return false;
     }
 
-    public function checkIfDone($list)
+    /**
+     * Gets report if status is _DONE_
+     * Deletes request if status is _CANCELLED_
+     *
+     * @param array $request
+     * @return bool
+     */
+    public function checkIfDone($request)
     {
-        $done = false;
-
-        foreach ($list as $item) {
-            if ($item['ReportProcessingStatus'] == '_DONE_') {
-                $oneItemIsDone = $this->getReport($item['GeneratedReportId']);
-                $done = $done ?: $oneItemIsDone;
-            }
+        if ($request['ReportProcessingStatus'] == '_CANCELLED_') {
+            AmazonRequestQueue::where('request_id', $this->requestId)->delete();
+            return false;
         }
 
-        return $done;
+        if ($request['ReportProcessingStatus'] == '_DONE_') {
+            return $this->getReport($request['GeneratedReportId']);
+        }
+
+        return false;
     }
 
+    /**
+     * Delegates saving of report if fetched successfully
+     *
+     * @param $reportId
+     * @return bool
+     */
     public function getReport($reportId)
     {
         $obj = new AmazonReport($this->storeName);
