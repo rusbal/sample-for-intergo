@@ -84,6 +84,13 @@ class Kernel extends ConsoleKernel
          *    (but is there a need when it's only run on the background by cronjob?)
          *    poke-amazon code is similar to ProcessAmazonQueue.  process-queue is only a job dispatcher.
          * 2. poke-amazon does not process empty request_id, process-queue does.
+         * Difference in purpose:
+         * - poke-amazon is designed for manual run on the command line for existing requests.
+         *    It was initially used for debugging.
+         * - process-queue is designed to handle all requests
+         *    (even ones not successfully initiated, ie., empty request_id)
+         *    (** empty request_id was caused by unsuccessful initial request
+         *        because of not supplying mws_auth_token. So this will not happen anymore.)
          */
         $schedule->command('skubright:process-queue')
                  ->everyMinute();
