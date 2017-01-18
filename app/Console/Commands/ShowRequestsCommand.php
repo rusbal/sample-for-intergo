@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\AmazonRequestHistory;
 use App\AmazonRequestQueue;
 use App\User;
 use Illuminate\Console\Command;
@@ -41,11 +42,52 @@ class ShowRequestsCommand extends Command
     {
         $rows = AmazonRequestQueue::withoutGlobalScopes()->get();
 
+        if ($rows->count() > 0) {
+            $this->showRequest($rows);
+        } else {
+            $this->info("-- No request to show --\n");
+            $this->showLatestHistory();
+        }
+    }
+
+    /**
+     * Private
+     */
+
+    private function showLatestHistory()
+    {
+        $rows = AmazonRequestHistory::where('created_at', '>=', \Carbon\Carbon::now()->subHour())->get();
+
         if ($rows->count() == 0) {
-            $this->info('-- No request to show --');
+            $this->info("-- No request in the previous hour --");
             return;
+        } else {
+            $this->info("-- Successful requests in the previous hour --");
         }
 
+        $this->info(
+            str_pad('STORE', 7) .
+            str_pad('NAME', 30) .
+            str_pad('REQUEST ID', 15) .
+            str_pad('CLASS', 20) .
+            str_pad('TYPE', 30) .
+            str_pad('CREATED', 15)
+        );
+
+        foreach ($rows as $row) {
+            $this->info(
+                str_pad($row->store_name,7) .
+                str_pad($row->user->name, 30) .
+                str_pad($row->request_id, 15) .
+                str_pad($row->class, 20) .
+                str_pad($row->type, 30) .
+                str_pad($row->created_at->diffForHumans(), 15)
+            );
+        }
+    }
+
+    private function showRequest($rows)
+    {
         $this->info(
             str_pad('STORE', 7) .
             str_pad('NAME', 30) .
