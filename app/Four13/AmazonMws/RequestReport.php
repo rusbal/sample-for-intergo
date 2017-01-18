@@ -181,6 +181,14 @@ class RequestReport
         return $path;
     }
 
+    /**
+     * Delete queue and write it to request history table when status is:
+     *   _DONE_
+     *   _DONE_NO_DATA_
+     *   _CANCELLED_
+     *
+     * @param string $status
+     */
     private function moveQueueToHistory($status)
     {
         $queue = AmazonRequestQueue::where('request_id', $this->requestId);
