@@ -56,7 +56,7 @@ export default{
             axios.patch(
                 Laravel.route('', listing.id),
                 { will_monitor: listing.will_monitor ? 1 : 0 }
-            ).then((response) => console.log(response));
+            );
         }
     },
     computed: {
