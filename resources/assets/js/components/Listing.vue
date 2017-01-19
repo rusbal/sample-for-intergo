@@ -1,6 +1,3 @@
-<style scoped>
-</style>
-
 <template>
     <div v-show="isLoaded">
         <div class="table-responsive" v-show="withContent">
@@ -22,7 +19,7 @@
                     <td><a :href="amazonListingUrl(listing)" target="_blank">{{ listing.asin }}</a></td>
                     <td>{{ listing.item_name }}</td>
                     <td class="text-right">{{ listing.quantity_available }}</td>
-                    <td class="text-center"><input type="checkbox" v-model="listing.will_monitor"></td>
+                    <td class="text-center"><input @change="setWillMonitor(listing)" type="checkbox" v-model="listing.will_monitor"></td>
                 </tr>
                 </tbody>
             </table>
@@ -54,6 +51,12 @@ export default{
     methods: {
         amazonListingUrl(listing) {
             return "https://www.amazon.com/gp/offer-listing/" + listing.asin
+        },
+        setWillMonitor(listing) {
+            axios.patch(
+                Laravel.route('', listing.id),
+                { will_monitor: listing.will_monitor ? 1 : 0 }
+            ).then((response) => console.log(response));
         }
     },
     computed: {
@@ -72,7 +75,7 @@ export default{
     },
     mounted() {
         Laravel.http
-            .get('listing')
+            .get('method.listing')
             .then((response) => {
                 this.isLoaded = true
                 this.listings = response.data

@@ -1,19 +1,19 @@
 Laravel.routes = {
 
-    /**
-     * Define routes here
-     */
-    routes: {
-        listing: 'listing'
-    },
-
     basepath: '/api/aml/',
 
-    get(path) {
-        return this.basepath + path;
+    get(path, id) {
+        let url = this.basepath + path
+
+        if (id) {
+            url += (url.endsWith('/') ? '' : '/') + id
+        }
+
+        return url
     }
 };
 
-Laravel.route = (path) => {
-    return Laravel.routes.get(path);
+Laravel.route = (path, id = null) => {
+    path = path.replace(/\./, '/')
+    return Laravel.routes.get(path, id)
 };

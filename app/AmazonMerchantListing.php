@@ -2,7 +2,6 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
 
 class AmazonMerchantListing extends Model
 {
@@ -34,7 +33,8 @@ class AmazonMerchantListing extends Model
         'bid_for_featured_placement',
         'add_delete',
         'pending_quantity',
-        'fulfillment_channel'
+        'fulfillment_channel',
+        'will_monitor',
     ];
 
     /**

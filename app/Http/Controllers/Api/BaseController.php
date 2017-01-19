@@ -20,7 +20,7 @@ class BaseController extends Controller
         $this->request = $request;
     }
 
-    public function index($method = null)
+    public function method($method = null)
     {
         if (method_exists($this, $method)) {
             return $this->call(function() use ($method) {
@@ -54,5 +54,23 @@ class BaseController extends Controller
         $this->requiredParamName = $name;
 
         throw new ApiException;
+    }
+
+    protected function success($message = null)
+    {
+        return $this->status(true, $message);
+    }
+
+    protected function failure($message = null)
+    {
+        return $this->status(false, $message);
+    }
+
+    protected function status($isSuccess = false, $message)
+    {
+        return [
+            'success' => $isSuccess,
+            'message' => $message,
+        ];
     }
 }

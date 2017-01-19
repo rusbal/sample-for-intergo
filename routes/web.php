@@ -23,3 +23,5 @@ Route::get('/home', 'HomeController@index');
 Route::resource('/my/settings', 'UserSettingsController');
 Route::resource('/my/dashboard', 'DashboardController');
 
+Route::resource('/my/user', 'RayUserController');
+Route::resource('/ray/listing', 'Api\ListingController');
