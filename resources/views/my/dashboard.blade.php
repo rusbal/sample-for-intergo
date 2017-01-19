@@ -14,42 +14,25 @@
                             <div class="alert alert-{{ session('message_style') }}">{{ session('message') }}</div>
                         @endif
 
-                        @if (count($listing))
-                            <div class="table-responsive">
-                                <h3 class="pull-left">Amazon Inventory</h3>
-                                <div class="pull-right">Total: {!! count($listing) !!}</div>
-                                <table class="table table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>Seller SKU</th>
-                                            <th>ASIN</th>
-                                            <th>Item Name</th>
-                                            <th>Quantity</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    @foreach ($listing as $item)
-                                        <tr>
-                                            <td>{{ $item['seller_sku'] }}</td>
-                                            <td>
-                                                <a href="{{ amazonOfferLink($item['asin1']) }}" target="_blank">{{ $item['asin1'] }}</a>
-                                            </td>
-                                            <td>{{ $item['item_name'] }}</td>
-                                            <td>{!! $item['quantity_available'] !!}</td>
-                                        </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        @else
-                            @if (issetAmazonMwsForUser())
-                                <!-- Autoload the page after 10 seconds -->
-                                <script>setTimeout(function(){ window.location.reload(1); }, 10000);</script>
-                                <div class="alert alert-default }}">We are currently requesting your listing from Amazon using <strong>{{ link_to_route('settings.index', 'your keys') }}</strong>.</div>
-                            @else
-                                <div class="alert alert-warning }}">Amazon keys not set or set incorrectly.  {{ link_to_route('settings.index', 'Enter you Amazon keys here') }}.</div>
-                            @endif
+                        <listing head="Amazon Inventory">
+                            <template slot="amazon-requesting">
+                                We are currently requesting your listing from Amazon using <strong>{{ link_to_route('settings.index', 'your keys') }}</strong>.
+                            </template>
+                            <template slot="amazon-mws-link">
+                                {{ link_to_route('settings.index', 'Click here to enter your Amazon keys.') }}
+                            </template>
+                        </listing>
+
+                        @if (issetAmazonMwsForUser() && false)
+                            <!-- Autoload the page after 10 seconds -->
+                            <script>setTimeout(function(){ window.location.reload(1); }, 10000);</script>
+                            <div class="alert alert-default }}">We are currently requesting your listing from Amazon using <strong>{{ link_to_route('settings.index', 'your keys') }}</strong>.</div>
                         @endif
+
+                        @if (false)
+                            <div class="alert alert-warning">Amazon keys not set or set incorrectly.  {{ link_to_route('settings.index', 'Enter you Amazon keys here') }}.</div>
+                        @endif
+
                     </div>
                 </div>
             </div>

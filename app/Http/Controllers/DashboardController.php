@@ -18,8 +18,9 @@ class DashboardController extends Controller
             $user->amazonMws->requestListing();
         }
 
-        $listing = Auth::user()->amazonMerchantListing;
+//        $listing = Auth::user()->amazonMerchantListing;
+//        return view('my.dashboard', compact('listing'));
 
-        return view('my.dashboard', compact('listing'));
+        return view('my.dashboard');
     }
 }

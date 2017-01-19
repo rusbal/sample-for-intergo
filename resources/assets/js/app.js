@@ -8,12 +8,19 @@
 require('./bootstrap');
 
 /**
+ * Helper classes
+ */
+require('./helpers/http');
+require('./helpers/params');
+require('./helpers/routes');
+
+/**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('example', require('./components/Example.vue'));
+Vue.component('listing', require('./components/Listing.vue'));
 
 const app = new Vue({
     el: '#app'

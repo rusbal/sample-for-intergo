@@ -10,6 +10,10 @@ function amazonOfferLink($asin) {
 }
 
 function issetAmazonMwsForUser($user = null) {
+    if (! Auth::check()) {
+        return false;
+    }
+
     $user = $user ?: Auth::user();
     return $user->amazonMws()->count() > 0;
 }
@@ -17,6 +21,7 @@ function issetAmazonMwsForUser($user = null) {
 function javascriptVariables() {
     return json_encode([
         'csrfToken' => csrf_token(),
-        'user_id' => Auth::id(),
+        'userId' => Auth::id(),
+        'issetAmazonMws' => issetAmazonMwsForUser(),
     ], JSON_PRETTY_PRINT);
 }
