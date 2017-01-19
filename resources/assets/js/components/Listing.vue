@@ -1,5 +1,28 @@
+<style scoped>
+h4.alert-title {
+    margin-top: 0;
+    padding-top: 0;
+    font-weight: bold;
+}
+.alert-icon-float-left {
+    font-size:32px;
+    float:left;
+    margin-right:5px;
+}
+</style>
+
 <template>
     <div v-show="isLoaded">
+        <alert v-show="popAlert"
+               :duration="2000"
+               placement="top-right"
+               :type="alertType"
+               width="300px">
+            <span class="icon-ok-circled alert-icon-float-left"></span>
+            <h4 class="alert-title" v-text="alertTitle"></h4>
+            <p v-text="alertMessage"></p>
+        </alert>
+
         <div class="table-responsive" v-show="withContent">
             <h3 class="pull-left">{{ head }}</h3>
             <div class="pull-right">Total: {{ totalRows }}</div>
@@ -35,17 +58,22 @@
                 <slot name="amazon-mws-link"></slot>
             </div>
         </div>
-
     </div>
 </template>
 
 <script>
+import { alert } from 'vue-strap'
 export default{
     props: ['head'],
     data(){
         return{
             isLoaded: false,
-            listings: []
+            listings: [],
+            popAlert: false,
+            alertType: '',
+            timeout: null,
+            alertTitle: null,
+            alertMessage: null
         }
     },
     methods: {
@@ -56,7 +84,25 @@ export default{
             axios.patch(
                 Laravel.route('', listing.id),
                 { will_monitor: listing.will_monitor ? 1 : 0 }
-            );
+            ).then((response) => this.showAlert(listing));
+        },
+        showAlert(listing) {
+            if (listing.will_monitor) {
+                this.alertType = 'success'
+                this.alertTitle = 'Selected'
+            } else {
+                this.alertType = 'danger'
+                this.alertTitle = 'Unselected'
+            }
+            this.alertMessage = listing.item_name
+
+            this.popAlert = true
+
+            clearTimeout(this.timeout)
+            this.timeout = setTimeout(
+                function(){ this.popAlert = false }.bind(this),
+                2000
+            )
         }
     },
     computed: {
@@ -80,6 +126,9 @@ export default{
                 this.isLoaded = true
                 this.listings = response.data
             });
+    },
+    components: {
+        alert
     }
 }
 </script>
