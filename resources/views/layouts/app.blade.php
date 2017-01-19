@@ -12,13 +12,10 @@
 
     <!-- Styles -->
     <link href="{!! elixir('css/app.css') !!}" rel="stylesheet">
-    <script src="{!! elixir('js/all.js') !!}"></script>
 
     <!-- Scripts -->
     <script>
-        window.Laravel = <?php echo json_encode([
-            'csrfToken' => csrf_token(),
-        ]); ?>
+window.Laravel = {!! javascriptVariables() !!};
     </script>
 </head>
 <body>
@@ -28,6 +25,6 @@
     </div>
 
     <!-- Scripts -->
-    {{--<script src="/js/app.js"></script>--}}
+    <script src="{!! elixir('js/all.js') !!}"></script>
 </body>
 </html>
