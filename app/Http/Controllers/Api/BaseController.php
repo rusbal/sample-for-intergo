@@ -45,10 +45,10 @@ class BaseController extends Controller
         return $this->response->errorUnprocessable($message);
     }
 
-    protected function requireParam(Request $request, $name)
+    protected function requireParam($name)
     {
-        if ($request->has($name)) {
-            return $request->input($name);
+        if ($this->request->has($name)) {
+            return $this->request->input($name);
         }
 
         $this->requiredParamName = $name;

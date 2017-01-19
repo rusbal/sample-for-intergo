@@ -7,12 +7,34 @@ use App\Transformer\AmazonMerchantListingTransformer as AMLTransformer;
 
 class AmlController extends BaseController
 {
+    protected $userId;
+
     public function listing()
     {
-        $userId = $this->requireParam($this->request, 'user');
+        $this->userId = $this->requireParam('user');
 
-        $listings = AmazonMerchantListing::where('user_id', $userId)->paginate(1);
+        $limit = $this->request->input('limit');
 
-        return $this->response->withPaginator($listings, new AMLTransformer());
+        if ($limit) {
+            return $this->listingPaged($limit);
+        }
+
+        return $this->listingAll();
+    }
+
+    /**
+     * Private
+     */
+
+    private function listingAll()
+    {
+        $listings = AmazonMerchantListing::where('user_id', $this->userId)->get();
+        return $this->response->withCollection($listings, new AMLTransformer);
+    }
+
+    private function listingPaged($limit)
+    {
+        $listings = AmazonMerchantListing::where('user_id', $this->userId)->paginate($limit);
+        return $this->response->withPaginator($listings, new AMLTransformer);
     }
 }
