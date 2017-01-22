@@ -3,10 +3,10 @@
 namespace App;
 
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model as EloquentModel;
 
-class AmazonRequestHistory extends Model
+class AmazonRequestHistory extends EloquentModel
 {
     protected $fillable = [
         'user_id', 'store_name', 'class', 'type', 'request_id', 'response', 'status'

@@ -1,5 +1,4 @@
 <form class="form-horizontal" role="form" method="POST">
-    <fieldset>
         {{ csrf_field() }}
 
         <div class="form-group{{ $errors->has('merchant_id') ? ' has-error' : '' }}">
@@ -53,5 +52,4 @@
                 <button type="submit" class="btn btn-primary form-control"> UPDATE </button>
             </div>
         </div>
-    </fieldset>
 </form>

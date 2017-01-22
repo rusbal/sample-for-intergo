@@ -1,5 +1,4 @@
 <?php
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -10,6 +9,9 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+// Enable showing of SQL
+DB::enableQueryLog();
 
 Route::get('/', function () {
     return view('welcome');
@@ -25,3 +27,6 @@ Route::resource('/my/dashboard', 'DashboardController');
 
 Route::resource('/my/user', 'RayUserController');
 Route::resource('/ray/listing', 'Api\ListingController');
+
+Route::get('/ray/vue', 'Api\ListingController@vue');
+Route::get('/ray/data', 'Api\ListingController@data');

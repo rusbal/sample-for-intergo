@@ -3,12 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\AmazonMerchantListing;
-use App\Transformer\AmazonMerchantListingTransformer as AMLTransformer;
 
 class AmlController extends BaseController
 {
-    protected $userId;
-
     public function update($listingId)
     {
         $affectedRows = $this->updateOrFail($listingId);
@@ -21,7 +18,7 @@ class AmlController extends BaseController
 
         $fields = AmazonMerchantListing::fillableFields();
 
-        $filteredData = array_filter($inputData, function($key) use ($fields) {
+        $filteredData = array_filter($inputData, function ($key) use ($fields) {
             return in_array($key, $fields);
         }, ARRAY_FILTER_USE_KEY);
 
@@ -39,28 +36,32 @@ class AmlController extends BaseController
     {
         $this->userId = $this->requireParam('user');
 
-        $limit = $this->request->input('limit');
+        $columns = [
+            'id',
+            'seller_sku',
+            'asin1',
+            'item_name',
+            'quantity_available',
+            'will_monitor',
 
-        if ($limit) {
-            return $this->listingPaged($limit);
-        }
+            // Detail Row
+            'price',
+            'product_id',
+            'fulfillment_channel',
+            'condition_type',
+            'warehouse_condition_code',
+        ];
 
-        return $this->listingAll();
-    }
+        $condition = [
+            ['user_id', $this->requireParam('user')]
+        ];
 
-    /**
-     * Private
-     */
-
-    private function listingAll()
-    {
-        $listings = AmazonMerchantListing::where('user_id', $this->userId)->get();
-        return $this->response->withCollection($listings, new AMLTransformer);
-    }
-
-    private function listingPaged($limit)
-    {
-        $listings = AmazonMerchantListing::where('user_id', $this->userId)->paginate($limit);
-        return $this->response->withPaginator($listings, new AMLTransformer);
+        return AmazonMerchantListing::selectSortAndFilter(
+            $columns,
+            $condition,
+            $this->request->input('sort'),
+            $this->request->input('filter')
+        )->paginate($this->request->input('per_page'));
     }
 }
+

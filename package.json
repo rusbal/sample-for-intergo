@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "axios": "^0.15.3",
-    "vue-strap": "^1.1.36"
+    "vue-events": "vue-2.x",
+    "vuetable-2": "^1.1.1"
   }
 }

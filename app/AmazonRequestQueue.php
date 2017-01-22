@@ -2,10 +2,10 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model as EloquentModel;
 
-class AmazonRequestQueue extends Model
+class AmazonRequestQueue extends EloquentModel
 {
     protected $fillable = [
         'store_name', 'class', 'type', 'request_id', 'response'

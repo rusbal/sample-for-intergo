@@ -3,12 +3,12 @@
 namespace App;
 
 use Four13\AmazonMws\RequestReport;
-use Illuminate\Database\Eloquent\Model;
 use Zaffar\AmazonMws\AmazonInventoryList;
 use Four13\AmazonMws\ToDb\MerchantListing;
 use Four13\AmazonMws\ToDb\MerchantSkuQuantity;
+use Illuminate\Database\Eloquent\Model as EloquentModel;
 
-class AmazonMws extends Model
+class AmazonMws extends EloquentModel
 {
     use ObjectTrait;
 

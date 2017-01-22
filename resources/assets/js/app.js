@@ -20,7 +20,7 @@ require('./helpers/routes');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('listing', require('./components/Listing.vue'));
+Vue.component('my-vuetable', require('./components/MyVuetable.vue'));
 
 const app = new Vue({
     el: '#app'

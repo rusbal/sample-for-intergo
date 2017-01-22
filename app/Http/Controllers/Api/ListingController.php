@@ -13,9 +13,15 @@ class ListingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function data()
     {
-        //
+        $users = \App\User::all()->toArray();
+        return [ 'data' => $users ];
+    }
+
+    public function vue()
+    {
+        return view('vue');
     }
 
     /**

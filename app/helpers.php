@@ -15,7 +15,16 @@ function issetAmazonMwsForUser($user = null) {
     }
 
     $user = $user ?: Auth::user();
-    return $user->amazonMws()->count() > 0;
+    return $user->amazonMws()->exists();
+}
+
+function noListingForUser($user = null) {
+    if (! Auth::check()) {
+        return false;
+    }
+
+    $user = $user ?: Auth::user();
+    return ! $user->amazonMerchantListing()->exists();
 }
 
 function javascriptVariables() {

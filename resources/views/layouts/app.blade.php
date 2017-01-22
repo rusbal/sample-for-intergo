@@ -11,7 +11,9 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Styles -->
-    <link href="{!! elixir('css/app.css') !!}" rel="stylesheet">
+    {{--<link href="{!! elixir('css/app.css') !!}" rel="stylesheet">--}}
+    <link href="/css/app.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.7/semantic.min.css" media="screen" title="no title" charset="utf-8">
 
     <!-- Scripts -->
     <script>
@@ -25,6 +27,8 @@ window.Laravel = {!! javascriptVariables() !!};
     </div>
 
     <!-- Scripts -->
-    <script src="{!! elixir('js/all.js') !!}"></script>
+    {{--<script src="{!! elixir('js/all.js') !!}"></script>--}}
+    <script src="/js/app.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.7/semantic.min.js" charset="utf-8"></script>
 </body>
 </html>

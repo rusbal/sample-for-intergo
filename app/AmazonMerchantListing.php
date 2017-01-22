@@ -5,6 +5,16 @@ namespace App;
 
 class AmazonMerchantListing extends Model
 {
+    const DEFAULT_ORDER = [
+        ['open_date', 'desc']
+    ];
+
+    const SEARCH_COLUMNS = [
+        'seller_sku' => '= int',
+        'asin1'      => 'like',
+        'item_name'  => 'like'
+    ];
+
     protected $fillable = [
         'user_id',
         'item_name',

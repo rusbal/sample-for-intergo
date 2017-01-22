@@ -7,8 +7,6 @@ Laravel.params = {
         user: Laravel.userId
     },
 
-    basepath: '/api/aml/',
-
     get(path) {
         if (path === null) {
             return { params: this.common }

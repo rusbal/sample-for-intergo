@@ -1,5 +1,65 @@
 @charset "UTF-8";
 @import url(https://fonts.googleapis.com/css?family=Raleway:300,400,600);
+.widget {
+  background: #fff none repeat scroll 0 0;
+  border-radius: 4px;
+  box-shadow: 0 0 15px 5px rgba(0, 0, 0, 0.1);
+  color: #a0a0a0;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 800px;
+  margin-bottom: 15px;
+}
+
+.widget-left-container {
+  border-right: 1px solid #e1e1e1;
+  float: left;
+  padding: 30px;
+  position: relative;
+  width: 60%;
+}
+
+@media only screen and (max-width: 768px) {
+  .widget-left-container {
+    border-right: medium none;
+    width: 100%;
+  }
+}
+
+.widget-right-container {
+  border-left: 1px solid #e1e1e1;
+  float: left;
+  margin-left: -1px;
+  padding: 30px;
+  width: 40%;
+}
+
+@media only screen and (max-width: 768px) {
+  .widget-right-container {
+    border-left: medium none;
+    margin-left: 0;
+    width: 100%;
+  }
+}
+
+/**
+ * MARGINS
+ */
+.m-t-40 {
+  margin-top: 40px;
+}
+
+ol.li-m-b-10 li {
+  margin: 0 0 10px 0;
+}
+
+/**
+ * FONT SIZE
+ */
+.font-em-05 {
+  font-size: 1.05em;
+}
+
 /*!
  * Bootstrap v3.3.7 (http://getbootstrap.com)
  * Copyright 2011-2016 Twitter, Inc.
@@ -7686,66 +7746,6 @@ button.close {
   .hidden-print {
     display: none !important;
   }
-}
-
-.widget {
-  background: #fff none repeat scroll 0 0;
-  border-radius: 4px;
-  box-shadow: 0 0 15px 5px rgba(0, 0, 0, 0.1);
-  color: #a0a0a0;
-  margin-left: auto;
-  margin-right: auto;
-  max-width: 800px;
-  margin-bottom: 15px;
-}
-
-.widget-left-container {
-  border-right: 1px solid #e1e1e1;
-  float: left;
-  padding: 30px;
-  position: relative;
-  width: 60%;
-}
-
-@media only screen and (max-width: 768px) {
-  .widget-left-container {
-    border-right: medium none;
-    width: 100%;
-  }
-}
-
-.widget-right-container {
-  border-left: 1px solid #e1e1e1;
-  float: left;
-  margin-left: -1px;
-  padding: 30px;
-  width: 40%;
-}
-
-@media only screen and (max-width: 768px) {
-  .widget-right-container {
-    border-left: medium none;
-    margin-left: 0;
-    width: 100%;
-  }
-}
-
-/**
- * MARGINS
- */
-.m-t-40 {
-  margin-top: 40px;
-}
-
-ol.li-m-b-10 li {
-  margin: 0 0 10px 0;
-}
-
-/**
- * FONT SIZE
- */
-.font-em-05 {
-  font-size: 1.05em;
 }
 
 /*# sourceMappingURL=app.css.map */
