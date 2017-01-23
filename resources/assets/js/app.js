@@ -21,6 +21,7 @@ require('./helpers/routes');
  */
 
 Vue.component('my-vuetable', require('./components/MyVuetable.vue'));
+Vue.component('subscription-plan', require('./components/SubscriptionPlan.vue'));
 
 const app = new Vue({
     el: '#app'

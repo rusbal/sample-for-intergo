@@ -34,3 +34,18 @@ function javascriptVariables() {
         'issetAmazonMws' => issetAmazonMwsForUser(),
     ], JSON_PRETTY_PRINT);
 }
+
+function subscriptionPlan($user = null)
+{
+    if (!Auth::check()) {
+        return null;
+    }
+
+    $user = $user ?: Auth::user();
+
+    if ($subs = $user->getSubscription()) {
+        return $subs->stripe_plan;
+    }
+
+    return null;
+}

@@ -2,12 +2,20 @@
 
 namespace App;
 
+use Laravel\Cashier\Billable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
+    use Billable;
     use Notifiable;
+
+    protected $dates = [
+        'created_at',
+        'updated_at',
+        'trial_ends_at',
+    ];
 
     /**
      * The attributes that are mass assignable.
@@ -101,8 +109,43 @@ class User extends Authenticatable
         return (bool) self::where('email', $email)->count();
     }
 
+    /**
+     * @param $email
+     * @return bool
+     */
     public static function isEmailVerified($email)
     {
         return (bool) self::where(['email' => $email, 'verified' => 1])->count();
+    }
+
+    /**
+     * Checkes if user is subscribed using Laravel Cashier
+     *
+     * @param string $subscription
+     * @return bool
+     */
+    public function isSubscribed($subscription = 'main')
+    {
+        return $this->subscribed($subscription);
+    }
+
+    /**
+     * Returns main subscription
+     *
+     * @param string $subscription
+     * @return \Laravel\Cashier\Subscription|null
+     */
+    public function getSubscription($subscription = 'main')
+    {
+        return $this->subscription($subscription);
+    }
+
+    public function cancelSubscription($subscription = 'main', $immediate = false)
+    {
+        if ($immediate) {
+            return $this->subscription($subscription)->cancelNow();
+        }
+
+        return $this->subscription($subscription)->cancel();
     }
 }

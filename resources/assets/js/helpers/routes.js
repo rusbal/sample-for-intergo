@@ -10,10 +10,26 @@ Laravel.routes = {
         }
 
         return url
+    },
+
+    controller(path, id) {
+        let parts = path.split('@')
+        let url = '/' + parts[0]
+
+        if (id) {
+            url += (url.endsWith('/') ? '' : '/') + id
+        }
+
+        return url
     }
 };
 
 Laravel.route = (path, id = null) => {
     path = path.replace(/\./, '/')
-    return Laravel.routes.get(path, id)
+
+    if (path.includes('@')) {
+        return Laravel.routes.controller(path, id)
+    } else {
+        return Laravel.routes.get(path, id)
+    }
 };

@@ -171,6 +171,7 @@ return [
         Collective\Html\HtmlServiceProvider::class,
         Anhskohbo\NoCaptcha\NoCaptchaServiceProvider::class,
         EllipseSynergie\ApiResponse\Laravel\ResponseServiceProvider::class,
+        Laravel\Cashier\CashierServiceProvider::class,
 
         //
 

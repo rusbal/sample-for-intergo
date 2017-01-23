@@ -45,7 +45,7 @@
             ? (hold_monitor ? 0 : 1)
             : hold_monitor
 
-        ).catch((reponse) => data.will_monitor = hold_monitor);
+        ).catch((response) => data.will_monitor = hold_monitor);
 
       }
     }

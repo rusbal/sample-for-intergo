@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Traits\Ajax;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use EllipseSynergie\ApiResponse\Laravel\Response;
 
 class BaseController extends Controller
 {
+    use Ajax;
+
     protected $response;
     protected $request;
     protected $requiredParamName;
@@ -54,23 +57,5 @@ class BaseController extends Controller
         $this->requiredParamName = $name;
 
         throw new ApiException;
-    }
-
-    protected function success($message = null)
-    {
-        return $this->status(true, $message);
-    }
-
-    protected function failure($message = null)
-    {
-        return $this->status(false, $message);
-    }
-
-    protected function status($isSuccess = false, $message)
-    {
-        return [
-            'success' => $isSuccess,
-            'message' => $message,
-        ];
     }
 }
