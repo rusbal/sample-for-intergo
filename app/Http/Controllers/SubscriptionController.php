@@ -26,7 +26,7 @@ class SubscriptionController extends Controller
             return redirect()->action('SubscriptionController@show', ['id' => Auth::id()]);
         }
 
-        return redirect()->action('SubscriptionController@create');
+        return view('my.plans');
     }
 
     /**
@@ -36,11 +36,21 @@ class SubscriptionController extends Controller
      */
     public function create()
     {
-        return view('my.plans');
+        $plan = session('stripe_plan');
+        $amount = session('stripe_amount');
+
+        if ($plan && ! is_null($amount)) {
+            /**
+             * Stripe Credit Card entry and payment
+             */
+            return view('my.stripe', compact('plan', 'amount'));
+        }
+
+        throw new Exception('Invalid call to SubscriptionController@create.  missing plan, amount.');
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created resource in storage via AJAX.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -49,15 +59,60 @@ class SubscriptionController extends Controller
     {
         $user = Auth::user();
 
-        $plan = $request->get('plan');
+        if ($request->ajax()) {
+            return $this->storeAjax($request, $user);
+        } else {
+            $this->successStripeCallback($request, $user);
+            return redirect()->action('SubscriptionController@show', ['id' => $user->id]);
+        }
+    }
+
+    /**
+     * Private
+     */
+
+    private function successStripeCallback($request, $user)
+    {
+        $plan = session('stripe_plan');
         $token = $request->get('stripeToken');
 
+        $this->subscriptionNew($user, $plan, $token);
+
+        $request->session()->forget('stripe_plan');
+        $request->session()->forget('stripe_amount');
+
+        session()->flash('message', 'You have successfully subscribed with plan: ' . strtoupper($plan));
+    }
+
+    private function storeAjax($request, $user)
+    {
+        if ($token = $request->get('stripeToken')) {
+
+            $plan = $request->get('plan');
+
+            $this->subscriptionNew($user, $plan, $token);
+            return $this->success('successfully subscribed', ['redirect' => false]);
+
+        } else {
+            /**
+             */
+            session(['stripe_plan' => $request->get('plan')]);
+            session(['stripe_amount' => $request->get('amount')]);
+
+            /**
+             * Redirect from front-end to SubscriptionController@create
+             * to show Stripe credit card entry form.
+             */
+            return $this->success('credit card entry', ['redirect' => true]);
+        }
+    }
+
+    private function subscriptionNew($user, $plan, $token)
+    {
         $user->newSubscription('main', $plan)->create($token, [
             'description' => $user->name,
             'email' => $user->email,
         ]);
-
-        return $this->success();
     }
 
     /**

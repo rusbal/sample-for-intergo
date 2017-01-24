@@ -21,13 +21,25 @@ window.Laravel = {!! javascriptVariables() !!};
     </script>
 </head>
 <body>
+
     <div id="app">
         @include('layouts._nav')
         @yield('content')
     </div>
 
     <!-- Scripts -->
-    <script src="{!! elixir('js/app.js') !!}"></script>
+    @if (Route::current()->getName() === 'subscription.create')
+        <!--
+        Do not load js/app.js
+        Stripe Credit Card form doesn't work otherwise.
+        -->
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    @else
+        <script src="{!! elixir('js/app.js') !!}"></script>
+    @endif
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.7/semantic.min.js" charset="utf-8"></script>
+
+    @yield('script')
 </body>
 </html>

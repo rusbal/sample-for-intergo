@@ -60,6 +60,11 @@ ol.li-m-b-10 li {
   font-size: 1.05em;
 }
 
+.full-width {
+  width: 100%;
+  height: auto;
+}
+
 /**
  * SUBSCRIPTION PLANS
  * http://bootsnipp.com/snippets/8dEW

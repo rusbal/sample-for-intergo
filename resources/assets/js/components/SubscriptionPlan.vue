@@ -5,6 +5,7 @@
             <div v-if="success === true" class="alert alert-success dismissible">{{ message }}</div>
             <div v-else-if="success === false" class="alert alert-danger dismissible">{{ message }}</div>
             <div v-else-if="success === null" class="alert alert-warning dismissible">Processing, please wait...</div>
+            <div v-else-if="initMessage" class="alert alert-success dismissible">{{ initMessage }}</div>
         </div>
 
         <div class="col-xs-12 col-md-3">
@@ -23,7 +24,7 @@
                     </table>
                 </div>
                 <div class="panel-footer">
-                    <button @click="clicked('free')" type="button" class="btn form-control">{{ button('free') }}</button>
+                    <button @click="clicked('free', 0)" type="button" class="btn form-control">{{ button('free') }}</button>
                 </div>
             </div>
         </div>
@@ -44,7 +45,7 @@
                     </table>
                 </div>
                 <div class="panel-footer">
-                    <button @click="clicked('silver')" type="button" class="btn form-control">{{ button('silver') }}</button>
+                    <button @click="clicked('silver', 10)" type="button" class="btn form-control">{{ button('silver') }}</button>
                 </div>
             </div>
         </div>
@@ -70,7 +71,7 @@
                     </table>
                 </div>
                 <div class="panel-footer">
-                    <button @click="clicked('gold')" type="button" class="btn form-control">{{ button('gold') }}</button>
+                    <button @click="clicked('gold', 50)" type="button" class="btn form-control">{{ button('gold') }}</button>
                 </div>
             </div>
         </div>
@@ -91,7 +92,7 @@
                     </table>
                 </div>
                 <div class="panel-footer">
-                    <button @click="clicked('platinum')" type="button" class="btn form-control">{{ button('platinum') }}</button>
+                    <button @click="clicked('platinum', 100)" type="button" class="btn form-control">{{ button('platinum') }}</button>
                 </div>
             </div>
         </div>
@@ -100,7 +101,7 @@
 
 <script>
 export default {
-    props: ['plan'],
+    props: ['plan', 'initMessage'],
     data() {
         return {
             currentPlan: null,
@@ -115,29 +116,34 @@ export default {
         button(plan) {
             return this.currentPlan === plan ? '*** CURRENT PLAN ***' : 'SELECT'
         },
-        clicked(plan) {
+        clicked(plan, amount) {
             if (this.currentPlan === plan) {
                 return
             }
 
             if (! this.currentPlan) {
-                this.createPlan(plan)
+                this.createPlan(plan, amount)
             } else {
                 this.updatePlan(plan)
             }
         },
-        createPlan(plan) {
+        createPlan(plan, amount) {
             this.success = null
             this.message = null
 
             axios.post(
-              Laravel.route('my.subscription@create'),
-              { plan: plan }
+              Laravel.route('my.subscription@store'),
+              { plan: plan, amount: amount }
 
             ).then((response) => {
-                this.currentPlan = plan
-                this.success = true
-                this.message = `Your subscription plan was successfully set to "${plan.toUpperCase()}"`
+                if (response.data.redirect) {
+                    window.location = '/my/subscription/create'
+
+                } else {
+                    this.currentPlan = plan
+                    this.success = true
+                    this.message = `Your subscription plan was successfully set to "${plan.toUpperCase()}"`
+                }
 
             }).catch((response) => {
                 this.success = false
