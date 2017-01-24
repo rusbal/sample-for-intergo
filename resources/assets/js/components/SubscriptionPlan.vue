@@ -110,7 +110,7 @@ export default {
         }
     },
     mounted() {
-        this.currentPlan = this.plan
+        this.currentPlan = this.plan ? this.plan : 'free'
     },
     methods: {
         button(plan) {
@@ -124,7 +124,7 @@ export default {
             if (! this.currentPlan) {
                 this.createPlan(plan, amount)
             } else {
-                this.updatePlan(plan)
+                this.updatePlan(plan, amount)
             }
         },
         createPlan(plan, amount) {
@@ -136,13 +136,19 @@ export default {
               { plan: plan, amount: amount }
 
             ).then((response) => {
-                if (response.data.redirect) {
+
+                // Logging
+                if (! response.data.success) {
+                    console.log(response.data.message);
+                }
+
+                if (response.data.redirect || ! response.data.success) {
                     window.location = '/my/subscription/create'
 
                 } else {
                     this.currentPlan = plan
                     this.success = true
-                    this.message = `Your subscription plan was successfully set to "${plan.toUpperCase()}"`
+                    this.message = this.successMessage(plan)
                 }
 
             }).catch((response) => {
@@ -150,7 +156,7 @@ export default {
                 this.message = "Failure.  Please try again later."
             });
         },
-        updatePlan(plan) {
+        updatePlan(plan, amount) {
             this.success = null
             this.message = null
 
@@ -159,14 +165,28 @@ export default {
               { plan: plan }
 
             ).then((response) => {
-                this.currentPlan = plan
-                this.success = true
-                this.message = `Your subscription plan was successfully set to "${plan.toUpperCase()}"`
+
+                // Logging
+                if (! response.data.success) {
+                    console.log(response.data.message);
+                }
+
+                if (response.data.redirect || ! response.data.success) {
+                    this.createPlan(plan, amount)
+
+                } else {
+                    this.currentPlan = plan
+                    this.success = true
+                    this.message = this.successMessage(plan)
+                }
 
             }).catch((response) => {
                 this.success = false
                 this.message = "Failure.  Please try again later."
             });
+        },
+        successMessage(plan) {
+            return `Your subscription plan was successfully set to "${plan.toUpperCase()}"`
         }
     },
     computed: {

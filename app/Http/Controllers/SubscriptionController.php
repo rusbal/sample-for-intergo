@@ -45,8 +45,9 @@ class SubscriptionController extends Controller
              */
             return view('my.stripe', compact('plan', 'amount'));
         }
+        dd($plan, $amount);
 
-        throw new Exception('Invalid call to SubscriptionController@create.  missing plan, amount.');
+        throw new \Exception('Invalid call to SubscriptionController@create.  missing plan, amount.');
     }
 
     /**
@@ -145,13 +146,22 @@ class SubscriptionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $user = Auth::user();
+        if ($request->ajax()) {
 
-        $plan = $request->get('plan');
+            if ($request->get('stripeToken')) {
+                $user = Auth::user();
 
-        $user->subscription('main')->swap($plan);
+                $plan = $request->get('plan');
+                $user->subscription('main')->swap($plan);
 
-        return $this->success();
+                return $this->success();
+            }
+
+            return $this->failure('Error: Invalid call to SubscriptionController@update.  Missing Stripe token.');
+
+        } else {
+            throw new \Exception('Invalid non-AJAX call to SubscriptionController@update.');
+        }
     }
 
     /**
