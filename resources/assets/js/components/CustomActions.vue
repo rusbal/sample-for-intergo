@@ -44,7 +44,7 @@
         ).then((response) => {
             if (response.data.success) {
                 data.will_monitor = hold_monitor ? 0 : 1
-                this.$events.fire('hide-message')
+                this.$events.fire('success-monitor-update', response.data.monitoredListingCount)
             } else {
                 data.will_monitor = hold_monitor
                 this.$events.fire('plan-allocation-used-up', response.data.message)

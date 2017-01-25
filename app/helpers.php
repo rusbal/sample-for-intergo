@@ -27,6 +27,15 @@ function noListingForUser($user = null) {
     return ! $user->amazonMerchantListing()->exists();
 }
 
+function monitoredListingCount($user = null) {
+    if (! Auth::check()) {
+        return 0;
+    }
+
+    $user = $user ?: Auth::user();
+    return $user->monitoredListingCount();
+}
+
 function javascriptVariables() {
     $user = Auth::user();
     $subscriptionPlan = $user ? subscriptionPlan($user) : null;

@@ -6,7 +6,7 @@
         <div class="row">
             <div class="col-md-12">
 
-                <my-vuetable></my-vuetable>
+                <my-vuetable monitored-listing="{{ monitoredListingCount() }}"></my-vuetable>
 
                 @if (noListingForUser())
                     @if (issetAmazonMwsForUser())

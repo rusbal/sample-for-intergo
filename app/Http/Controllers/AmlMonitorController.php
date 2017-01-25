@@ -6,6 +6,7 @@ use App\Http\Traits\Ajax;
 use Illuminate\Http\Request;
 use App\AmazonMerchantListing;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class AmlMonitorController extends Controller
 {
@@ -46,10 +47,17 @@ class AmlMonitorController extends Controller
         $listing->will_monitor = $willMonitor;
         $listing->save();
 
-        if (true) {
-            return $this->success("will_monitor set to $willMonitor");
-        } else {
-            return $this->failure("will_monitor not set");
-        }
+        /**
+         * NOTE: Using DB here because we do not want cached count.
+         */
+        $newCount = DB::select(
+            'SELECT COUNT(*) AS count FROM amazon_merchant_listings WHERE user_id = ? AND will_monitor = 1',
+            [Auth::id()]
+        )[0]->count;
+
+        return $this->success(
+            "will_monitor set to $willMonitor",
+            ['monitoredListingCount' => $newCount]
+        );
     }
 }

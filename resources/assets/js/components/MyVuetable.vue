@@ -24,7 +24,12 @@ tr.vuetable-detail-row {
       <div class="m-t-10"><a href="/my/subscription" class="text-left">Click here to upgrade your plan.</a></div>
     </div>
 
-    <filter-bar></filter-bar>
+    <div class="clearfix">
+        <div class="pull-left">
+            <filter-bar></filter-bar>
+        </div>
+        <div class="pull-right m-t-20">Monitoring {{ monitoredListingCount }} items</div>
+    </div>
 
     <div class="vuetable-pagination ui basic segment grid">
       <vuetable-pagination-info ref="paginationInfoTop"></vuetable-pagination-info>
@@ -78,13 +83,18 @@ export default {
     VuetablePaginationInfo,
     Fields
   },
+  props: ['monitoredListing'],
   data () {
     return {
+      monitoredListingCount: 0,
       fields: Fields.Listing,
       moreParams: {},
       message: null,
       messageType: null
     }
+  },
+  mounted() {
+    this.monitoredListingCount = this.monitoredListing
   },
   computed: {
     apiUrl() {
@@ -121,10 +131,13 @@ export default {
     'plan-allocation-used-up' (message) {
       this.message = message
       this.messageType = 'alert-warning'
+      window.scrollTo(0, 0)
     },
-    'hide-message' () {
+    'success-monitor-update' (monitoredCount) {
       this.message = null
       this.messageType = null
+
+      this.monitoredListingCount = monitoredCount
     }
   }
 }
