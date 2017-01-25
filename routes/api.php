@@ -36,3 +36,7 @@ Route::get('/user', function (Request $request) {
 */
 Route::get('aml/method/{method}', 'Api\AmlController@method');
 Route::resource('aml', 'Api\AmlController');
+
+Route::get('/stripe/plans', function(){
+    return \Four13\Stripe\Plan::_getPlans();
+});

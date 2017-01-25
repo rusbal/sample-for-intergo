@@ -63,6 +63,9 @@ class SubscriptionController extends Controller
         if ($request->ajax()) {
             return $this->storeAjax($request, $user);
         } else {
+            /**
+             * Step 2 (New, Update)
+             */
             $this->successStripeCallback($request, $user);
             return redirect()->action('SubscriptionController@show', ['id' => $user->id]);
         }
@@ -89,6 +92,8 @@ class SubscriptionController extends Controller
     {
         if ($token = $request->get('stripeToken')) {
 
+            throw new \Exception('It errored here.  Check this out...');
+
             $plan = $request->get('plan');
 
             $this->subscriptionNew($user, $plan, $token);
@@ -96,6 +101,9 @@ class SubscriptionController extends Controller
 
         } else {
             /**
+             * STEP 1 (New)
+             *
+             * Save values to session then allow the front-end to redirect.
              */
             session(['stripe_plan' => $request->get('plan')]);
             session(['stripe_amount' => $request->get('amount')]);
@@ -143,21 +151,20 @@ class SubscriptionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
     public function update(Request $request, $id)
     {
         if ($request->ajax()) {
+            $plan = $request->get('plan');
 
-            if ($request->get('stripeToken')) {
+            if ($plan) {
                 $user = Auth::user();
-
-                $plan = $request->get('plan');
                 $user->subscription('main')->swap($plan);
-
                 return $this->success();
             }
 
-            return $this->failure('Error: Invalid call to SubscriptionController@update.  Missing Stripe token.');
+            throw new \Exception('Error: Invalid call to SubscriptionController@update.  Missing plan.');
 
         } else {
             throw new \Exception('Invalid non-AJAX call to SubscriptionController@update.');

@@ -18,6 +18,7 @@
   "dependencies": {
     "axios": "^0.15.3",
     "vue-events": "vue-2.x",
+    "vue-spinner": "^1.0.2",
     "vuetable-2": "^1.1.1"
   }
 }

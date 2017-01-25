@@ -73,3 +73,4 @@ Route::get('/stripe/status', function(){
 
     return 'User is ' . ($user->subscribed('main') ? ' ' : 'not ') . 'subscribed';
 });
+

@@ -28,11 +28,19 @@ function noListingForUser($user = null) {
 }
 
 function javascriptVariables() {
-    return json_encode([
-        'csrfToken' => csrf_token(),
-        'userId' => Auth::id(),
-        'issetAmazonMws' => issetAmazonMwsForUser(),
-    ], JSON_PRETTY_PRINT);
+    $user = Auth::user();
+    $subscriptionPlan = $user ? subscriptionPlan($user) : null;
+
+    $data = [
+        'csrfToken'        => csrf_token(),
+        'userId'           => $user ? $user->id : null,
+        'subscriptionPlan' => $subscriptionPlan,
+        'isSubscribed'     => $subscriptionPlan ? true : false,
+        'isNotSubscribed'  => $subscriptionPlan ? false : true,
+        'issetAmazonMws'   => $user ? issetAmazonMwsForUser($user) : false,
+    ];
+
+    return json_encode($data, JSON_PRETTY_PRINT);
 }
 
 function subscriptionPlan($user = null)
@@ -41,6 +49,9 @@ function subscriptionPlan($user = null)
         return null;
     }
 
+    /**
+     * @var $user App\User
+     */
     $user = $user ?: Auth::user();
 
     if ($subs = $user->getSubscription()) {
