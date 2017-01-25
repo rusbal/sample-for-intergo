@@ -10,10 +10,19 @@
 tr.vuetable-detail-row {
   background: rgba(0, 0, 0, 0.05);
 }
+.bold-notice {
+  font-weight: bold;
+  font-size: 1.1em;
+}
 </style>
 
 <template>
   <div class="ui">
+
+    <div v-show="message" class="alert text-left dismissible bold-notice" :class="messageType">
+      {{ message }}
+      <div class="m-t-10"><a href="/my/subscription" class="text-left">Click here to upgrade your plan.</a></div>
+    </div>
 
     <filter-bar></filter-bar>
 
@@ -72,7 +81,9 @@ export default {
   data () {
     return {
       fields: Fields.Listing,
-      moreParams: {}
+      moreParams: {},
+      message: null,
+      messageType: null
     }
   },
   computed: {
@@ -106,6 +117,14 @@ export default {
     'filter-reset' () {
       this.moreParams = {}
       Vue.nextTick( () => this.$refs.vuetable.refresh())
+    },
+    'plan-allocation-used-up' (message) {
+      this.message = message
+      this.messageType = 'alert-warning'
+    },
+    'hide-message' () {
+      this.message = null
+      this.messageType = null
     }
   }
 }

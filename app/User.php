@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Four13\Plans\Plan;
 use Laravel\Cashier\Billable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -16,6 +17,8 @@ class User extends Authenticatable
         'updated_at',
         'trial_ends_at',
     ];
+
+    const DEFAULT_PLAN = 'free';
 
     /**
      * The attributes that are mass assignable.
@@ -147,5 +150,40 @@ class User extends Authenticatable
         }
 
         return $this->subscription($subscription)->cancel();
+    }
+
+    public function currentPlan()
+    {
+        if ($this->isSubscribed()) {
+            return $this->getSubscription()->stripe_plan;
+        } else {
+            return self::DEFAULT_PLAN;
+        }
+    }
+
+    public function isPlanAllocationUsedUp()
+    {
+        $plan = $this->currentPlan();
+        $used = $this->monitoredListingCount();
+
+        return Plan::isAllocationUsedUp($plan, $used);
+    }
+
+    public function planStats()
+    {
+        $plan = $this->currentPlan();
+        $used = $this->monitoredListingCount();
+        $isUsedUp = Plan::isAllocationUsedUp($plan, $used);
+
+        return [
+            'plan' => $plan,
+            'monitorCount' => $used,
+            'isUsedUp' => $isUsedUp,
+        ];
+    }
+
+    public function monitoredListingCount()
+    {
+        return $this->amazonMerchantListing->where('will_monitor', 1)->count();
     }
 }
