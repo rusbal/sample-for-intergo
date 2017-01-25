@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Traits\Ajax;
+use App\User;
+use Four13\Plans\Plan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -155,30 +157,43 @@ class SubscriptionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if ($request->ajax()) {
-            $plan = $request->get('plan');
-
-            if ($plan) {
-                $user = Auth::user();
-                $user->subscription('main')->swap($plan);
-                return $this->success();
-            }
-
-            throw new \Exception('Error: Invalid call to SubscriptionController@update.  Missing plan.');
-
-        } else {
+        if (! $request->ajax()) {
             throw new \Exception('Invalid non-AJAX call to SubscriptionController@update.');
         }
+
+        $plan = $request->get('plan');
+
+        if ($plan) {
+            return $this->updateSubscription($plan);
+        }
+
+        throw new \Exception('Error: Invalid call to SubscriptionController@update.  Missing plan.');
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * Private
      */
-    public function destroy($id)
+
+    private function updateSubscription($plan)
     {
-        //
+        $user = Auth::user();
+
+        $stats = $user->planStats();
+
+        if (Plan::canSwapPlan($stats, $plan)) {
+            $user->subscription('main')->swap($plan);
+            return $this->success();
+
+        } else {
+            return $this->failedSwapAllocation($stats, $plan);
+        }
+    }
+
+    private function failedSwapAllocation($stats, $plan)
+    {
+        $newAllocation = Plan::getAllocationFor($plan);
+        $difference = $stats->monitorCount - $newAllocation;
+
+        return $this->failure("Cannot switch to plan: " . strtoupper($plan) . ".  Please unselect $difference items from your monitored items first then try again.");
     }
 }

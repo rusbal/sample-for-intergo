@@ -139,8 +139,12 @@ export default {
                 { plan: plan }
 
             ).then((response) => {
-                this.currentPlan = plan
-                this.successMessage(`Your subscription plan was successfully set to "${plan.toUpperCase()}"`)
+                if (response.data.success) {
+                    this.currentPlan = plan
+                    this.successMessage(`Your subscription plan was successfully set to "${plan.toUpperCase()}"`)
+                } else {
+                    this.errorMessage(response.data.message)
+                }
 
             }).catch((response) => {
                 this.errorMessage("Failure.  Please try again later.")

@@ -39,8 +39,9 @@ class AmlMonitorController extends Controller
     {
         if ($willMonitor === 1) {
             $stats = Auth::user()->planStats();
-            if ($stats['isUsedUp']) {
-                return $this->failure("Plan allocation already used up!  [" . strtoupper($stats['plan']) . ": {$stats['monitorCount']}]");
+
+            if ($stats->isUsedUp) {
+                return $this->failure("Plan allocation already used up!  [" . strtoupper($stats->plan) . ": {$stats->monitorCount}]");
             }
         }
 

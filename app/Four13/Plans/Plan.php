@@ -21,4 +21,16 @@ class Plan
     {
         return self::$allocation[$plan] > $count;
     }
+
+    public static function canSwapPlan($stats, $plan)
+    {
+        $newPlanAllocation = self::$allocation[$plan];
+
+        return $newPlanAllocation >= $stats->monitorCount;
+    }
+
+    public static function getAllocationFor($plan)
+    {
+        return self::$allocation[$plan];
+    }
 }

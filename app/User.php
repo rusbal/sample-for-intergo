@@ -175,7 +175,7 @@ class User extends Authenticatable
         $used = $this->monitoredListingCount();
         $isUsedUp = Plan::isAllocationUsedUp($plan, $used);
 
-        return [
+        return (object) [
             'plan' => $plan,
             'monitorCount' => $used,
             'isUsedUp' => $isUsedUp,
