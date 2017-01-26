@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Traits\Ajax;
-use App\User;
 use Four13\Plans\Plan;
+use App\Http\Traits\Ajax;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,6 +14,11 @@ class SubscriptionController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+
+        $this->middleware(function ($request, $next) {
+            $this->user = Auth::user();
+            return $next($request);
+        });
     }
 
     /**
@@ -24,8 +28,8 @@ class SubscriptionController extends Controller
      */
     public function index()
     {
-        if (Auth::user()->isSubscribed()) {
-            return redirect()->action('SubscriptionController@show', ['id' => Auth::id()]);
+        if ($this->user->isSubscribed()) {
+            return redirect()->action('SubscriptionController@show', ['id' => $this->user->id]);
         }
 
         return view('my.plans');
@@ -33,8 +37,6 @@ class SubscriptionController extends Controller
 
     /**
      * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function create()
     {
@@ -60,16 +62,14 @@ class SubscriptionController extends Controller
      */
     public function store(Request $request)
     {
-        $user = Auth::user();
-
         if ($request->ajax()) {
-            return $this->storeAjax($request, $user);
+            return $this->storeAjax($request);
         } else {
             /**
              * Step 2 (New, Update)
              */
-            $this->successStripeCallback($request, $user);
-            return redirect()->action('SubscriptionController@show', ['id' => $user->id]);
+            $this->successStripeCallback($request);
+            return redirect()->action('SubscriptionController@show', ['id' => $this->user->id]);
         }
     }
 
@@ -77,12 +77,12 @@ class SubscriptionController extends Controller
      * Private
      */
 
-    private function successStripeCallback($request, $user)
+    private function successStripeCallback($request)
     {
         $plan = session('stripe_plan');
         $token = $request->get('stripeToken');
 
-        $this->subscriptionNew($user, $plan, $token);
+        $this->subscriptionNew($plan, $token);
 
         $request->session()->forget('stripe_plan');
         $request->session()->forget('stripe_amount');
@@ -90,7 +90,7 @@ class SubscriptionController extends Controller
         session()->flash('message', 'You have successfully subscribed with plan: ' . strtoupper($plan));
     }
 
-    private function storeAjax($request, $user)
+    private function storeAjax($request)
     {
         if ($token = $request->get('stripeToken')) {
 
@@ -98,7 +98,7 @@ class SubscriptionController extends Controller
 
             $plan = $request->get('plan');
 
-            $this->subscriptionNew($user, $plan, $token);
+            $this->subscriptionNew($plan, $token);
             return $this->success('successfully subscribed', ['redirect' => false]);
 
         } else {
@@ -118,11 +118,11 @@ class SubscriptionController extends Controller
         }
     }
 
-    private function subscriptionNew($user, $plan, $token)
+    private function subscriptionNew($plan, $token)
     {
-        $user->newSubscription('main', $plan)->create($token, [
-            'description' => $user->name,
-            'email' => $user->email,
+        $this->user->newSubscription('main', $plan)->create($token, [
+            'description' => $this->user->name,
+            'email' => $this->user->email,
         ]);
     }
 
@@ -176,12 +176,10 @@ class SubscriptionController extends Controller
 
     private function updateSubscription($plan)
     {
-        $user = Auth::user();
-
-        $stats = $user->planStats();
+        $stats = $this->user->planStats();
 
         if (Plan::canSwapPlan($stats, $plan)) {
-            $user->subscription('main')->swap($plan);
+            $this->user->subscription('main')->swap($plan);
             return $this->success();
 
         } else {
