@@ -13,6 +13,7 @@ require('./bootstrap');
 require('./helpers/http');
 require('./helpers/params');
 require('./helpers/routes');
+require('./globals');
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

@@ -32,7 +32,7 @@
                     </div>
                     <table class="table">
                         <tr>
-                            <td v-html="nl2br(plan.description)"></td>
+                            <td v-html="window.nl2br(plan.description)"></td>
                         </tr>
                     </table>
                 </div>
@@ -58,6 +58,7 @@ export default {
     props: ['plan', 'initMessage'],
     data() {
         return {
+            window: window,
             mostPopular: 'gold',
             arePlansLoading: true,
             stripePlans: [],
@@ -94,9 +95,6 @@ export default {
         },
         button(plan) {
             return this.currentPlan === plan ? '*** CURRENT PLAN ***' : 'SELECT'
-        },
-        nl2br(str) {
-            return str.replace(/(?:\r\n|\r|\n)/g, '<br>')
         },
         submit(plan, amount) {
             if (this.currentPlan === plan) {
@@ -158,12 +156,6 @@ export default {
             this.success = false
             this.message = message
         },
-    },
-    computed: {
-        isFree()     { return this.currentPlan === 'free' },
-        isSilver()   { return this.currentPlan === 'silver' },
-        isGold()     { return this.currentPlan === 'gold' },
-        isPlatinum() { return this.currentPlan === 'platinum' }
     }
 }
 </script>
