@@ -4,6 +4,34 @@ namespace App\Http\Controllers\Api;
 
 use App\AmazonMerchantListing;
 
+/**
+ * THIS CODE IS NO LONGER USED.
+ * There is no need for the complexity of creating an API for now.
+ */
+
+/*
+|--------------------------------------------------------------------------
+| Special API Routes
+|--------------------------------------------------------------------------
+|
+| Here aml/{param} is mapped to Api.delete\AmlController@index where execution is
+| delegated to the value of param.
+|
+| Callable methods:
+|   Routes              Methods
+|   ===============     =========
+|   aml/listing/        @listing
+|   ...
+|   including all public methods inside AmlController
+|
+| Route::get('aml/method/{method}', 'Api.delete\AmlController@method');
+| Route::resource('aml', 'Api.delete\AmlController');
+ */
+
+/**
+ * Class AmlController
+ * @package App\Http\Controllers\Api.delete
+ */
 class AmlController extends BaseController
 {
     public function update($listingId)

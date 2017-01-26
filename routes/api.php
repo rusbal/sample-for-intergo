@@ -16,27 +16,3 @@ use Illuminate\Http\Request;
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:api');
-
-
-/*
-|--------------------------------------------------------------------------
-| Special API Routes
-|--------------------------------------------------------------------------
-|
-| Here aml/{param} is mapped to Api\AmlController@index where execution is
-| delegated to the value of param.
-|
-| Callable methods:
-|   Routes              Methods
-|   ===============     =========
-|   aml/listing/        @listing
-|   ...
-|   including all public methods inside AmlController
-|
-*/
-//Route::get('aml/method/{method}', 'Api\AmlController@method');
-//Route::resource('aml', 'Api\AmlController');
-
-//Route::get('/stripe/plans', function(){
-//    return \Four13\Stripe\Plan::_getPlans();
-//});
