@@ -20,6 +20,11 @@ class RequestReport
     private $requestId;
 
     /**
+     * @var string _GET_MERCHANT_LISTINGS_DATA_|_GET_AFN_INVENTORY_DATA_
+     */
+    private $type;
+
+    /**
      * @var ToDb
      */
     private $toDb;
@@ -71,7 +76,7 @@ class RequestReport
 
     public static function process(ToDb $toDb, $item)
     {
-        return self::poke($toDb, $item['store_name'], $item['request_id']);
+        return self::poke($toDb, $item);
     }
 
     /**
@@ -82,9 +87,14 @@ class RequestReport
      * @param $requestId
      * @return bool
      */
-    public static function poke($toDb, $storeName, $requestId)
+    public static function poke($toDb, $item)
     {
+        $storeName = $item['store_name'];
+        $requestId = $item['request_id'];
+        $type      = $item['type'];
+
         $instance = new static($storeName, $requestId, $toDb);
+        $instance->setRequestType($type);
 
         $obj = new AmazonReportRequestList($storeName);
         $obj->setRequestIds($requestId);
@@ -120,9 +130,10 @@ class RequestReport
         }
 
         if ($status == '_DONE_') {
+
             if ($this->getReport($request['GeneratedReportId'])) {
-                $this->moveQueueToHistory($status);
-                $this->notifyUser();
+                $this->successfulRequestRoutine();
+
                 return true;
             }
 
@@ -135,6 +146,16 @@ class RequestReport
          */
         $this->moveQueueToHistory($status);
         return false;
+    }
+
+    private function successfulRequestRoutine()
+    {
+        if ($this->type === '_GET_MERCHANT_LISTINGS_DATA_') {
+            $this->setAsValidAmazonMwsSetting();
+            $this->notifyUser();
+        }
+
+        $this->moveQueueToHistory('_DONE_');
     }
 
     /**
@@ -161,6 +182,11 @@ class RequestReport
     /**
      * Private
      */
+
+    private function setRequestType($type)
+    {
+        $this->type = $type;
+    }
 
     private function filename($extension = '.txt')
     {
@@ -211,5 +237,12 @@ class RequestReport
     {
         $user = Auth::user();
         $user->notify(new AmazonListingWasLoaded($user));
+    }
+
+    private function setAsValidAmazonMwsSetting()
+    {
+        $user = Auth::user();
+        $user->amazonMws->valid = true;
+        $user->amazonMws->save();
     }
 }

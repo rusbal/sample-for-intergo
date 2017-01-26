@@ -29,8 +29,12 @@ class AmazonMws extends EloquentModel
     ];
 
     public static $rules = [
-        'merchant_id' => 'required|size:14',
+        'merchant_id' => 'required|unique:amazon_mws|size:14',
         'mws_auth_token' => 'required',
+    ];
+
+    public static $messages = [
+        'merchant_id.unique' => 'The merchant id is already in use, please contact support if this is in error.'
     ];
 
     /**

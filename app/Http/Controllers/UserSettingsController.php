@@ -19,7 +19,7 @@ class UserSettingsController extends Controller
 
     public function store(Request $request)
     {
-        $this->validate($request, AmazonMws::$rules);
+        $this->validate($request, AmazonMws::$rules, AmazonMws::$messages);
 
         if (Auth::user()->amazonMws->isNull()) {
             $this->createAmazonMws($request);

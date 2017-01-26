@@ -16,9 +16,10 @@ class CreateAmazonMwsTable extends Migration
         Schema::create('amazon_mws', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->indexed()->unsigned();
-            $table->string('merchant_id');
+            $table->string('merchant_id')->unique();
             $table->string('marketplace_id');
             $table->string('mws_auth_token');
+            $table->boolean('valid')->default(false);
             $table->timestamps();
         });
     }
