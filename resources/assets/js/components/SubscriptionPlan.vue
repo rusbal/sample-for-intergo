@@ -4,7 +4,7 @@
         font-weight: bold;
     }
     table.stats {
-        margin: 0 auto 20px;
+        margin: 20px auto;
 
         td:first-child {
             font-weight: bold;
@@ -12,6 +12,7 @@
         td:nth-child(2) {
             padding-left: 20px;
             color: darkgreen;
+            text-align: right;
         }
     }
 </style>
@@ -52,27 +53,27 @@
                         {{ button(planKey) }}
                     </button>
                 </div>
-            </div>
 
-            <!-- Current Plan Stats -->
-            <table v-show="userPlanStats.plan === planKey" class="stats">
-                <tr>
-                    <td>Allocation:</td>
-                    <td>
-                        {{ userPlanStats.allocation >= 1000000 ? 'Unlimited' : userPlanStats.allocation }}
-                    </td>
-                </tr>
-                <tr>
-                    <td>Monitored:</td>
-                    <td>{{ userPlanStats.monitorCount }}</td>
-                </tr>
-                <tr>
-                    <td>Remaining:</td>
-                    <td>
-                        {{ userPlanStats.allocation >= 1000000 ? 'Unlimited' : userPlanStats.allocation - userPlanStats.monitorCount }}
-                    </td>
-                </tr>
-            </table>
+                <!-- Current Plan Stats -->
+                <table v-show="userPlanStats.plan === planKey" class="stats">
+                    <tr>
+                        <td>Allocation:</td>
+                        <td>
+                            {{ userPlanStats.allocation >= 1000000 ? 'Unlimited' : userPlanStats.allocation }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Monitored:</td>
+                        <td>{{ userPlanStats.monitorCount }}</td>
+                    </tr>
+                    <tr>
+                        <td>Remaining:</td>
+                        <td>
+                            {{ userPlanStats.allocation >= 1000000 ? 'Unlimited' : userPlanStats.allocation - userPlanStats.monitorCount }}
+                        </td>
+                    </tr>
+                </table>
+            </div>
         </div>
 
     </div>
