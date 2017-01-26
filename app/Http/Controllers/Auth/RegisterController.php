@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Mail\UserSignedUp;
 use App\User;
 use App\Mail\AppMailer;
 use Illuminate\Http\Request;
+use App\Notifications\UserSignedUp;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -57,7 +56,7 @@ class RegisterController extends Controller
         $user = $this->create($request->all());
         event(new Registered($user));
 
-        Mail::to($user->email)->queue(new UserSignedUp($user));
+        $user->notify(new UserSignedUp($user));
 
         flash('Please confirm your email address.');
 
@@ -93,7 +92,7 @@ class RegisterController extends Controller
             'password' => 'required|min:6|confirmed',
         ];
 
-        if (config('app.name') == 'SKU Bright Dev') {
+        if (config('app.name') == 'SKU Bright Vue') {
             /**
              * 'SKU Bright Dev' means local development server
              *

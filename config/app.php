@@ -1,7 +1,5 @@
 <?php
 
-use PhpParser\ErrorHandler\Collecting;
-
 return [
 
     /*
