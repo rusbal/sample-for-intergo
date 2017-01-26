@@ -8,9 +8,10 @@ use App\AmazonRequestQueue;
 use App\AmazonRequestHistory;
 use Four13\AmazonMws\ToDb\ToDb;
 use Zaffar\AmazonMws\AmazonReport;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Zaffar\AmazonMws\AmazonReportRequest;
-use Four13\AmazonMws\ToDb\MerchantListing;
+use App\Notifications\AmazonListingWasLoaded;
 use Zaffar\AmazonMws\AmazonReportRequestList;
 
 class RequestReport
@@ -121,6 +122,7 @@ class RequestReport
         if ($status == '_DONE_') {
             if ($this->getReport($request['GeneratedReportId'])) {
                 $this->moveQueueToHistory($status);
+                $this->notifyUser();
                 return true;
             }
 
@@ -203,5 +205,11 @@ class RequestReport
         AmazonRequestHistory::logHistory($data);
 
         $queue->delete();
+    }
+
+    private function notifyUser()
+    {
+        $user = Auth::user();
+        $user->notify(new AmazonListingWasLoaded($user));
     }
 }
