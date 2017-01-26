@@ -135,14 +135,11 @@ export default {
   },
   events: {
     'filter-set' (filterText) {
-      this.moreParams = {
-        'filter': filterText
-      }
+      this.moreParams.filter = filterText
       Vue.nextTick( () => this.$refs.vuetable.refresh())
     },
     'filter-reset' () {
-      this.moreParams = {}
-      this.monitoredOnly = false
+      delete this.moreParams.filter
       Vue.nextTick( () => this.$refs.vuetable.refresh())
     },
     'plan-allocation-used-up' (message) {
