@@ -3,7 +3,7 @@
         color: green;
         font-weight: bold;
     }
-    table.status {
+    table.stats {
         margin: 0 auto 20px;
 
         td:first-child {
@@ -53,7 +53,9 @@
                     </button>
                 </div>
             </div>
-            <table v-show="userPlanStats.plan === planKey" class="status">
+
+            <!-- Current Plan Stats -->
+            <table v-show="userPlanStats.plan === planKey" class="stats">
                 <tr>
                     <td>Allocation:</td>
                     <td>
@@ -122,7 +124,9 @@ export default {
         },
         buttonClass(plan) {
             let selected = plan === this.currentPlan ? '-selected' : ''
-            return 'btn' + selected
+            let disabled = this.success === null ? ' disabled' : ''
+
+            return 'btn' + selected + disabled
         },
         button(plan) {
             return this.currentPlan === plan ? '*** CURRENT PLAN ***' : 'SELECT'
