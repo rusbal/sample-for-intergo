@@ -17,6 +17,8 @@ class CreateAmazonListingRankHistoriesTable extends Migration
             $table->increments('id');
             $table->string('asin')->default('');
             $table->integer('sales_rank')->nullable()->unsigned();
+            $table->integer('maximum_offer_quantity')->nullable()->unsigned();
+            $table->decimal('minimum_advertized_price', 9, 2)->nullable()->unsigned();
             $table->timestamps();
         });
     }
