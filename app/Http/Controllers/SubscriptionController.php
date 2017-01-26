@@ -63,10 +63,11 @@ class SubscriptionController extends Controller
     public function store(Request $request)
     {
         if ($request->ajax()) {
-            return $this->storeAjax($request);
+            return $this->storeSessionRedirect($request);
+
         } else {
             /**
-             * Step 2 (New, Update)
+             * Step 2 New
              */
             $this->successStripeCallback($request);
             return redirect()->action('SubscriptionController@show', ['id' => $this->user->id]);
@@ -77,6 +78,11 @@ class SubscriptionController extends Controller
      * Private
      */
 
+    /**
+     * New Credit card registration to Stripe callback
+     *
+     * @param $request
+     */
     private function successStripeCallback($request)
     {
         $plan = session('stripe_plan');
@@ -90,32 +96,21 @@ class SubscriptionController extends Controller
         session()->flash('message', 'You have successfully subscribed with plan: ' . strtoupper($plan));
     }
 
-    private function storeAjax($request)
+    private function storeSessionRedirect($request)
     {
-        if ($token = $request->get('stripeToken')) {
+        /**
+         * STEP 1 (New)
+         *
+         * Save values to session then allow the front-end to redirect.
+         */
+        session(['stripe_plan' => $request->get('plan')]);
+        session(['stripe_amount' => $request->get('amount')]);
 
-            throw new \Exception('It errored here.  Check this out...');
-
-            $plan = $request->get('plan');
-
-            $this->subscriptionNew($plan, $token);
-            return $this->success('successfully subscribed', ['redirect' => false]);
-
-        } else {
-            /**
-             * STEP 1 (New)
-             *
-             * Save values to session then allow the front-end to redirect.
-             */
-            session(['stripe_plan' => $request->get('plan')]);
-            session(['stripe_amount' => $request->get('amount')]);
-
-            /**
-             * Redirect from front-end to SubscriptionController@create
-             * to show Stripe credit card entry form.
-             */
-            return $this->success('credit card entry', ['redirect' => true]);
-        }
+        /**
+         * Redirect from front-end to SubscriptionController@create
+         * to show Stripe credit card entry form.
+         */
+        return $this->success('credit card entry', ['redirect' => true]);
     }
 
     private function subscriptionNew($plan, $token)
@@ -148,7 +143,7 @@ class SubscriptionController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Ajax: Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -179,8 +174,12 @@ class SubscriptionController extends Controller
         $stats = $this->user->planStats();
 
         if (Plan::canSwapPlan($stats, $plan)) {
+
             $this->user->subscription('main')->swap($plan);
-            return $this->success();
+
+            return $this->success("Subscription updated to '$plan'.", [
+                'userPlanStats' => $this->user->planStats()
+            ]);
 
         } else {
             return $this->failedSwapAllocation($stats, $plan);

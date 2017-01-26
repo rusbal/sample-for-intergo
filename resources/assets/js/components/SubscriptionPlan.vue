@@ -1,7 +1,18 @@
-<style scoped>
+<style lang="sass" scoped>
     .btn-selected {
         color: green;
         font-weight: bold;
+    }
+    table.status {
+        margin: 0 auto 20px;
+
+        td:first-child {
+            font-weight: bold;
+        }
+        td:nth-child(2) {
+            padding-left: 20px;
+            color: darkgreen;
+        }
     }
 </style>
 <template>
@@ -42,6 +53,24 @@
                     </button>
                 </div>
             </div>
+            <table v-show="userPlanStats.plan === planKey" class="status">
+                <tr>
+                    <td>Allocation:</td>
+                    <td>
+                        {{ userPlanStats.allocation >= 1000000 ? 'Unlimited' : userPlanStats.allocation }}
+                    </td>
+                </tr>
+                <tr>
+                    <td>Monitored:</td>
+                    <td>{{ userPlanStats.monitorCount }}</td>
+                </tr>
+                <tr>
+                    <td>Remaining:</td>
+                    <td>
+                        {{ userPlanStats.allocation >= 1000000 ? 'Unlimited' : userPlanStats.allocation - userPlanStats.monitorCount }}
+                    </td>
+                </tr>
+            </table>
         </div>
 
     </div>
@@ -61,14 +90,16 @@ export default {
             window: window,
             mostPopular: 'gold',
             arePlansLoading: true,
+            userPlanStats: {},
             stripePlans: [],
             currentPlan: null,
             message: null,
-            success: 0
+            success: 0,
         }
     },
     mounted() {
         this.currentPlan = this.plan ? this.plan : 'free'
+        this.userPlanStats = window.Laravel.userPlanStats
 
         /**
          * Load the plans from Stripe
@@ -139,6 +170,7 @@ export default {
             ).then((response) => {
                 if (response.data.success) {
                     this.currentPlan = plan
+                    this.userPlanStats = response.data.userPlanStats
                     this.successMessage(`Your subscription plan was successfully set to "${plan.toUpperCase()}"`)
                 } else {
                     this.errorMessage(response.data.message)

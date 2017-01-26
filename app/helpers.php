@@ -47,6 +47,7 @@ function javascriptVariables() {
         'isSubscribed'     => $subscriptionPlan ? true : false,
         'isNotSubscribed'  => $subscriptionPlan ? false : true,
         'issetAmazonMws'   => $user ? issetAmazonMwsForUser($user) : false,
+        'userPlanStats'    => userPlanStats($user),
     ];
 
     return json_encode($data, JSON_PRETTY_PRINT);
@@ -68,4 +69,18 @@ function subscriptionPlan($user = null)
     }
 
     return null;
+}
+
+function userPlanStats($user = null)
+{
+    if (!Auth::check()) {
+        return null;
+    }
+
+    /**
+     * @var $user App\User
+     */
+    $user = $user ?: Auth::user();
+
+    return $user->planStats();
 }

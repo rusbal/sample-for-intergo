@@ -176,9 +176,10 @@ class User extends Authenticatable
         $isUsedUp = Plan::isAllocationUsedUp($plan, $used);
 
         return (object) [
-            'plan' => $plan,
+            'plan'         => $plan,
             'monitorCount' => $used,
-            'isUsedUp' => $isUsedUp,
+            'isUsedUp'     => $isUsedUp,
+            'allocation'   => Plan::getAllocationFor($plan),
         ];
     }
 
