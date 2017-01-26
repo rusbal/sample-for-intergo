@@ -142,6 +142,7 @@ export default {
     },
     'filter-reset' () {
       this.moreParams = {}
+      this.monitoredOnly = false
       Vue.nextTick( () => this.$refs.vuetable.refresh())
     },
     'plan-allocation-used-up' (message) {
