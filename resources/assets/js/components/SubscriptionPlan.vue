@@ -73,7 +73,7 @@ export default {
          * Load the plans from Stripe
          */
         axios
-            .get('/api/stripe/plans')
+            .get('/ajax/stripe/plans')
             .then((response) => {
                 this.arePlansLoading = false
                 this.stripePlans = response.data

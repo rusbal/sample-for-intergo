@@ -1,7 +1,5 @@
 <?php
 
-use App\User;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -34,3 +32,4 @@ Route::resource('/my/subscription', 'SubscriptionController');
  */
 Route::patch('/ajax/aml/monitor/{listing}', 'AmlMonitorController@update');
 Route::get('/ajax/aml/listing', 'AmazonListingController@index');
+Route::get('/ajax/stripe/plans', 'StripeController@getPlans');
