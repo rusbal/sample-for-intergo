@@ -28,7 +28,14 @@ tr.vuetable-detail-row {
         <div class="pull-left">
             <filter-bar></filter-bar>
         </div>
-        <div class="pull-right m-t-20">Monitoring {{ monitoredListingCount }} items</div>
+        <div class="pull-right m-t-20">
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" @change="viewMonitoredOnly" v-model="monitoredOnly">
+                    <span class="darkgreen"> {{ monitoredListingCount }} monitored items </span>
+                </label>
+            </div>
+        </div>
     </div>
 
     <div class="vuetable-pagination ui basic segment grid">
@@ -90,7 +97,8 @@ export default {
       fields: Fields.Listing,
       moreParams: {},
       message: null,
-      messageType: null
+      messageType: null,
+      monitoredOnly: false
     }
   },
   mounted() {
@@ -102,6 +110,14 @@ export default {
     }
   },
   methods: {
+    viewMonitoredOnly() {
+        if (this.monitoredOnly) {
+            this.moreParams.monitor = 1
+        } else {
+            delete this.moreParams.monitor
+        }
+        Vue.nextTick( () => this.$refs.vuetable.refresh())
+    },
     onPaginationData (paginationData) {
       this.$refs.paginationTop.setPaginationData(paginationData)
       this.$refs.paginationInfoTop.setPaginationData(paginationData)

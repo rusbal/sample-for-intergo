@@ -12,7 +12,7 @@ class AmazonMerchantListing extends Model
     const SEARCH_COLUMNS = [
         'seller_sku' => '= int',
         'asin1'      => 'like',
-        'item_name'  => 'like'
+        'item_name'  => 'like',
     ];
 
     protected $fillable = [

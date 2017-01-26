@@ -56,6 +56,10 @@ class AmlController extends BaseController
             ['user_id', $this->requireParam('user')]
         ];
 
+        if ($monitor = $this->request->input('monitor')) {
+            $condition[] = ['will_monitor', $monitor];
+        }
+
         return AmazonMerchantListing::selectSortAndFilter(
             $columns,
             $condition,
