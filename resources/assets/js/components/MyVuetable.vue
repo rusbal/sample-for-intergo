@@ -106,7 +106,8 @@ export default {
   },
   computed: {
     apiUrl() {
-      return `/api/aml/method/listing?user=${Laravel.userId}`
+      //return `/api/aml/method/listing?user=${Laravel.userId}`
+      return '/ajax/aml/listing'
     }
   },
   methods: {

@@ -33,3 +33,4 @@ Route::resource('/my/subscription', 'SubscriptionController');
  * Ajax
  */
 Route::patch('/ajax/aml/monitor/{listing}', 'AmlMonitorController@update');
+Route::get('/ajax/aml/listing', 'AmazonListingController@index');

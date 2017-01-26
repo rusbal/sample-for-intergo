@@ -34,8 +34,8 @@ Route::get('/user', function (Request $request) {
 |   including all public methods inside AmlController
 |
 */
-Route::get('aml/method/{method}', 'Api\AmlController@method');
-Route::resource('aml', 'Api\AmlController');
+//Route::get('aml/method/{method}', 'Api\AmlController@method');
+//Route::resource('aml', 'Api\AmlController');
 
 Route::get('/stripe/plans', function(){
     return \Four13\Stripe\Plan::_getPlans();
