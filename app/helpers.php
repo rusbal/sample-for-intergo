@@ -71,6 +71,20 @@ function subscriptionPlan($user = null)
     return null;
 }
 
+function isUserSubscribed($user = null)
+{
+    if (!Auth::check()) {
+        return null;
+    }
+
+    /**
+     * @var $user App\User
+     */
+    $user = $user ?: Auth::user();
+
+    return $user->isSubscribed();
+}
+
 function userPlanStats($user = null)
 {
     if (!Auth::check()) {

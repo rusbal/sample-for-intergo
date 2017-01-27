@@ -40,7 +40,11 @@
                             <li> <a href="{{ url('/my/dashboard') }}"> Dashboard </a> </li>
                             <li> <a href="{{ url('/my/settings') }}"> Settings </a> </li>
                             <li> <a href="{{ url('/my/subscription') }}"> Subscription </a> </li>
-                            <li> <a href="{{ url('/my/invoices') }}"> Invoices </a> </li>
+
+                            @if (isUserSubscribed())
+                                <li> <a href="{{ url('/my/invoices') }}"> Invoices </a> </li>
+                            @endif
+
                             <li role="separator" class="divider"></li>
                             <li>
                                 <a href="{{ url('/logout') }}"
