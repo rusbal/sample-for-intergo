@@ -26,6 +26,7 @@ Route::get('/home', 'HomeController@index');
 Route::resource('/my/dashboard', 'DashboardController');
 Route::resource('/my/settings', 'UserSettingsController');
 Route::resource('/my/subscription', 'SubscriptionController');
+Route::get('/my/invoices', 'MyInvoiceController@index');
 
 /**
  * Ajax
@@ -33,3 +34,5 @@ Route::resource('/my/subscription', 'SubscriptionController');
 Route::patch('/ajax/aml/monitor/{listing}', 'AmlMonitorController@update');
 Route::get('/ajax/aml/listing', 'AmazonListingController@index');
 Route::get('/ajax/stripe/plans', 'StripeController@getPlans');
+Route::get('/ajax/stripe/invoices', 'StripeChargesController@index');
+

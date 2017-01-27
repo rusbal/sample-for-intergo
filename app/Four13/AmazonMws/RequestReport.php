@@ -6,6 +6,7 @@ namespace Four13\AmazonMws;
 use App\AmazonMws;
 use App\AmazonRequestQueue;
 use App\AmazonRequestHistory;
+use App\User;
 use Four13\AmazonMws\ToDb\ToDb;
 use Zaffar\AmazonMws\AmazonReport;
 use Illuminate\Support\Facades\Auth;

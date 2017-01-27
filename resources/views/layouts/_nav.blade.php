@@ -38,8 +38,9 @@
 
                         <ul class="dropdown-menu" role="menu">
                             <li> <a href="{{ url('/my/dashboard') }}"> Dashboard </a> </li>
-                            <li> <a href="{{ url('/my/subscription') }}"> Subscription </a> </li>
                             <li> <a href="{{ url('/my/settings') }}"> Settings </a> </li>
+                            <li> <a href="{{ url('/my/subscription') }}"> Subscription </a> </li>
+                            <li> <a href="{{ url('/my/invoices') }}"> Invoices </a> </li>
                             <li role="separator" class="divider"></li>
                             <li>
                                 <a href="{{ url('/logout') }}"
