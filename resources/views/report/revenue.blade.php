@@ -12,7 +12,7 @@
     <tr>
         <td>
             <h1 style="color: #87d9bf; text-align: center; margin: 0 0 10px; font-size: 1.5em;">DAILY REVENUE:</h1>
-            <div class="total-amount">${{ $reportData['summary']->total_amount ?: 0 }}</div>
+            <div class="total-amount">${{ number_format($reportData['summary']->total_amount ?: 0, 2) }}</div>
         </td>
     </tr>
     <tr>
