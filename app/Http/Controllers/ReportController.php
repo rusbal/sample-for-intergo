@@ -31,8 +31,7 @@ class ReportController extends Controller
          *   'rows' =>
          *      (object) ['item' => 'Nike Zoom Rival S 8 Mens', 'asin' => 'B01A9UQY1Y', 'quantity' => 1, 'amount' => 59.97],
          */
-        $today = new Carbon();
-        $reportData = DailyRevenue::fetch($this->user, $today, 1);
+        $reportData = DailyRevenue::fetch($this->user, Carbon::yesterday(), 1);
 
         return view('report.daily-report', compact('reportData', 'reportTitle'));
     }

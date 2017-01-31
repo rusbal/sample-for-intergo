@@ -4,6 +4,7 @@ namespace Four13\Reports;
 
 
 use App\User;
+use Carbon\Carbon;
 use App\NullObject;
 use Illuminate\Support\Facades\DB;
 
@@ -23,7 +24,7 @@ class DailyRevenue
             ON ml.asin1 = oid.asin
 
         WHERE od.merchant_id = ?
-        AND DATE(od.purchase_date) = DATE_SUB(CURDATE(), INTERVAL 1 DAY)
+        AND (od.purchase_date BETWEEN ? AND ADDDATE(?, ?))
 
         ORDER BY oid.order_item_price DESC
 SQL;
@@ -37,24 +38,28 @@ SQL;
             ON oid.amazon_order_id = od.amazon_order_id
 
         WHERE od.merchant_id = ?
-        AND DATE(od.purchase_date) = DATE_SUB(CURDATE(), INTERVAL 1 DAY)
+        AND (od.purchase_date BETWEEN ? AND ADDDATE(?, ?))
 SQL;
 
     const NAME = 'dailyrevenue';
 
     protected $user;
-    protected $startDate;
     protected $nDays;
+    protected $startDate;
 
     public function __construct($user, $startDate, $nDays)
     {
         $this->user = $user;
-        $this->startDate = $startDate;
         $this->nDays = $nDays;
+        $this->startDate = $startDate->format('Y-m-d');
     }
 
     /**
+     * Returns report data either by generation or returning from cache.
+     *
      * @param User $user
+     * @param Carbon $startDate
+     * @param integer $nDays
      * @return array
      *   'summary' =>
      *      (object) ['total_amount' => 1983.45']
@@ -98,10 +103,21 @@ SQL;
         $merchantId = $this->user->amazonMws->merchant_id;
 
         if ($merchantId) {
-            if ($summaryRows = DB::select(self::SUMMARY, [$merchantId])) {
+
+            $queryParams = [
+                $merchantId,
+                $this->startDate,
+                $this->startDate,
+                $this->nDays
+            ];
+
+            $summaryRows = DB::select(self::SUMMARY, $queryParams);
+
+            if ($summaryRows) {
                 $summary = $summaryRows[0];
             }
-            $rows = DB::select(self::SQL, [$merchantId]);
+
+            $rows = DB::select(self::SQL, $queryParams);
         }
 
         return [

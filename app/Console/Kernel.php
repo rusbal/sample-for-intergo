@@ -25,6 +25,8 @@ class Kernel extends ConsoleKernel
         Commands\ShowRequestsCommand::class,
         Commands\ShowInvalidSkuCommand::class,
         Commands\ShowInventoryFetchCommand::class,
+
+        Commands\DailyReportCommand::class,
     ];
 
     /**
@@ -94,6 +96,9 @@ class Kernel extends ConsoleKernel
          */
         $schedule->command('skubright:process-queue')
                  ->everyMinute();
+
+        $schedule->command('skubright:report-revenue-daily')
+                 ->dailyAt('00:01');
     }
 
     /**
