@@ -6,7 +6,6 @@ namespace Four13\AmazonMws;
 use App\AmazonMws;
 use App\AmazonRequestQueue;
 use App\AmazonRequestHistory;
-use App\User;
 use Four13\AmazonMws\ToDb\ToDb;
 use Zaffar\AmazonMws\AmazonReport;
 use Illuminate\Support\Facades\Auth;
@@ -21,9 +20,9 @@ class RequestReport
     private $requestId;
 
     /**
-     * @var string _GET_MERCHANT_LISTINGS_DATA_|_GET_AFN_INVENTORY_DATA_
+     * @var string report|report-update
      */
-    private $type;
+    private $class;
 
     /**
      * @var ToDb
@@ -92,10 +91,10 @@ class RequestReport
     {
         $storeName = $item['store_name'];
         $requestId = $item['request_id'];
-        $type      = $item['type'];
+        $class     = $item['class'];
 
         $instance = new static($storeName, $requestId, $toDb);
-        $instance->setRequestType($type);
+        $instance->setRequestClass($class);
 
         $obj = new AmazonReportRequestList($storeName);
         $obj->setRequestIds($requestId);
@@ -151,7 +150,11 @@ class RequestReport
 
     private function successfulRequestRoutine()
     {
-        if ($this->type === '_GET_MERCHANT_LISTINGS_DATA_') {
+        if ($this->class === 'report') {
+            /**
+             * Goes here only for the first fetch of data.
+             * `class: report-update` is for subsequent updates.
+             */
             $this->setAsValidAmazonMwsSetting();
             $this->notifyUser();
         }
@@ -184,9 +187,9 @@ class RequestReport
      * Private
      */
 
-    private function setRequestType($type)
+    private function setRequestClass($class)
     {
-        $this->type = $type;
+        $this->class = $class;
     }
 
     private function filename($extension = '.txt')
