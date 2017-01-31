@@ -21,6 +21,8 @@ class ReportController extends Controller
 
     public function dailyRevenue()
     {
+        $reportTitle = 'Daily Revenue [' . date('n/d/y', time() - 86400) . ']';
+
         /**
          * @var $reportData array
          *   'summary' =>
@@ -30,6 +32,6 @@ class ReportController extends Controller
          */
         $reportData = DailyRevenue::fetch($this->user);
 
-        return view('report.daily-report', compact('reportData'));
+        return view('report.daily-report', compact('reportData', 'reportTitle'));
     }
 }

@@ -3,6 +3,7 @@
 namespace Four13\Reports;
 
 
+use App\User;
 use App\NullObject;
 use Illuminate\Support\Facades\DB;
 
@@ -39,7 +40,14 @@ SQL;
         AND DATE(od.purchase_date) = DATE_SUB(CURDATE(), INTERVAL 1 DAY)
 SQL;
 
-
+    /**
+     * @param User $user
+     * @return array
+     *   'summary' =>
+     *      (object) ['total_amount' => 1983.45']
+     *   'rows' =>
+     *      (object) ['item' => 'Nike Zoom Rival S 8 Mens', 'asin' => 'B01A9UQY1Y', 'quantity' => 1, 'amount' => 59.97],
+     */
     public static function fetch($user)
     {
         $rows = [];
