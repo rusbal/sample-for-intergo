@@ -46,6 +46,9 @@
                             @endif
 
                             <li role="separator" class="divider"></li>
+                            <li> <a href="{{ url('/my/reports/daily-revenue') }}"> Yesterday's Revenue </a> </li>
+
+                            <li role="separator" class="divider"></li>
                             <li>
                                 <a href="{{ url('/logout') }}"
                                    onclick="event.preventDefault();

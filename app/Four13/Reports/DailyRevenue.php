@@ -25,6 +25,20 @@ class DailyRevenue
         ORDER BY oid.order_item_price DESC
 SQL;
 
+    const SUMMARY = <<<SQL
+        SELECT
+            SUM(oid.order_item_price) AS total_amount
+
+        FROM amazon_order_details AS od
+        JOIN amazon_order_item_details AS oid
+            ON oid.amazon_order_id = od.amazon_order_id
+
+        WHERE 
+            od.merchant_id = ?
+            DATE(od.purchase_date) = DATE_SUB(CURDATE(), INTERVAL 1 DAY)
+SQL;
+
+
     public static function fetch($user)
     {
         $merchantId = $user->amazonMws->merchant_id;
@@ -33,6 +47,9 @@ SQL;
             return [];
         }
 
-        return DB::select(self::SQL, [$merchantId]);
+        return [
+            'rows'    => DB::select(self::SQL, [$merchantId]),
+            'summary' => DB::select(self::SUMMARY, [$merchantId])->first(),
+        ];
     }
 }

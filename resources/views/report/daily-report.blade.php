@@ -13,7 +13,7 @@
     <tr>
         <td>
             <h1 style="color: #87d9bf; text-align: center; margin: 0 0 10px; font-size: 1.5em;">DAILY REVENUE:</h1>
-            <h2 style="text-align: center; padding: 25px; background: #f0f9f7; font-size: 2.5em; width: 250px; border: 1px solid #e7f0ee; margin: 0 auto; border-radius: 5px;">$568.00</h2>
+            <h2 style="text-align: center; padding: 25px; background: #f0f9f7; font-size: 2.5em; width: 250px; border: 1px solid #e7f0ee; margin: 0 auto; border-radius: 5px;">{{ $reportData['summary']->total_amount }}</h2>
         </td>
     </tr>
     <tr>
@@ -28,7 +28,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($rows as $i => $row)
+                    @foreach ($reportData['rows'] as $i => $row)
                         <tr style="background-color: {{ $i % 2 == 0 ? '#ffffff': '#f0f9f7' }};">
                             <td style="border: 1px solid #e7f0ee; padding: 0.5rem 0.5rem 0.5rem 1.5rem;">{{ $row->item ?: '&mdash;' }}</td>
                             <td style="border: 1px solid #e7f0ee; padding: 0.5rem 0.5rem 0.5rem 1.5rem;">{{ $row->asin }}</td>
