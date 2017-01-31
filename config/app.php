@@ -14,6 +14,11 @@ return [
 
     'name' => env('APP_NAME', 'Laravel'),
 
+    // Support
+    'support_email' => env('APP_SUPPORT_EMAIL', 'support@skubright.com'),
+    'address_line_1' => env('ADDRESS_LINE_1', '3091 Wheeler Street N.'),
+    'address_line_2' => env('ADDRESS_LINE_2', 'Roseville, MN 55113 &middot; USA'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment

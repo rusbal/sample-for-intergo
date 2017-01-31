@@ -29,6 +29,11 @@ Route::resource('/my/subscription', 'SubscriptionController');
 Route::get('/my/invoices', 'MyInvoiceController@index');
 
 /**
+ * Reports
+ */
+Route::get('/my/reports/daily-revenue', 'ReportController@dailyRevenue');
+
+/**
  * Ajax
  */
 Route::patch('/ajax/aml/monitor/{listing}', 'AmlMonitorController@update');
