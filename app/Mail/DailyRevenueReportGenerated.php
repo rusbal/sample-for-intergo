@@ -12,15 +12,17 @@ class DailyRevenueReportGenerated extends Mailable
     use Queueable, SerializesModels;
 
     public $reportData;
+    public $reportTitle;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($reportData)
+    public function __construct($reportData, $reportTitle)
     {
         $this->reportData = $reportData;
+        $this->reportTitle = $reportTitle;
     }
 
     /**

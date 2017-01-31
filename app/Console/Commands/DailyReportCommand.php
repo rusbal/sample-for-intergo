@@ -53,9 +53,10 @@ class DailyReportCommand extends Command
                 continue;
             }
 
+            $reportTitle = 'Daily Revenue [' . date('n/d/y', time() - 86400) . ']';
             $reportData = DailyRevenue::fetch($user, Carbon::yesterday(), 1);
 
-            Mail::to($user)->send(new DailyRevenueReportGenerated($reportData));
+            Mail::to($user)->send(new DailyRevenueReportGenerated($reportData, $reportTitle));
             $this->info("*** Daily revenue report email sent: {$user->name}");
         }
     }
