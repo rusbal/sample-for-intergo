@@ -52,7 +52,7 @@ class DailyReportCommand extends Command
                 continue;
             }
 
-            $reportData = DailyRevenue::fetch($this->user, Carbon::yesterday(), 1);
+            $reportData = DailyRevenue::fetch($user, Carbon::yesterday(), 1);
 
             Mail::to($user)->send(new DailyRevenueReportGenerated($reportData));
             $this->info("*** Daily revenue report email sent: {$user->name}");
