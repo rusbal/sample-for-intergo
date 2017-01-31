@@ -32,6 +32,8 @@ class DailyRevenueReportGenerated extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.daily-report');
+        return $this
+            ->subject("[" . config('app.name') . "] {$this->reportTitle}")
+            ->view('emails.daily-report');
     }
 }
