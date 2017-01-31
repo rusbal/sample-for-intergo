@@ -249,6 +249,19 @@ ol.li-m-b-10 {
   color: #7d7e7f;
   font-family: "Avenir",Helvetica,Arial,sans-serif;
 
+  h1 {
+    color: #87d9bf;
+    text-align: center;
+    margin: 0 0 10px;
+    font-size: 1.5em;
+    text-transform: uppercase;
+
+    .date {
+      color: darken(#87d9bf, 30%);
+      font-weight: bold;
+    }
+  }
+
   input {
     color: #333 !important;
   }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use Four13\Date;
 use Four13\Reports\DailyRevenue;
 use Illuminate\Support\Facades\Auth;
 
@@ -20,9 +21,44 @@ class ReportController extends Controller
         });
     }
 
+    /**
+     * Returns a view report of revenue for the previous day
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function dailyRevenue()
     {
-        $reportTitle = 'Daily Revenue [' . date('n/d/y', time() - 86400) . ']';
+        return $this->reportViewFor(1, Carbon::yesterday());
+    }
+
+    /**
+     * Returns a view report of revenue for custom dates
+     *
+     * @param string $startYmd '2017-01-31'
+     * @param string $endYmd   '2017-01-31'
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function customDateRevenue($startYmd, $endYmd)
+    {
+        $defaultTimestamp = time() - 86400;
+        list($startDate, $endDate, $nDays) = Date::failsafeDateScope($startYmd, $endYmd, $defaultTimestamp);
+
+        return $this->reportViewFor($nDays, $startDate, $endDate);
+    }
+
+    /**
+     * Private
+     */
+
+    /**
+     * @param integer $nDays
+     * @param Carbon $startDate
+     * @param Carbon|null $endDate
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    private function reportViewFor($nDays, $startDate, $endDate = null)
+    {
+        $reportTitle = $this->reportTitle($startDate, $endDate);
 
         /**
          * @var $reportData array
@@ -31,30 +67,13 @@ class ReportController extends Controller
          *   'rows' =>
          *      (object) ['item' => 'Nike Zoom Rival S 8 Mens', 'asin' => 'B01A9UQY1Y', 'quantity' => 1, 'amount' => 59.97],
          */
-        $reportData = DailyRevenue::fetch($this->user, Carbon::yesterday(), 1);
-
-        $startYmd = Carbon::yesterday()->format('Y-m-d');
-        $endYmd   = $startYmd;
-
-        return view('report.revenue', compact('reportData', 'reportTitle', 'startYmd', 'endYmd'));
-    }
-
-    public function customDateRevenue($startYmd, $endYmd)
-    {
-        list($startDate, $endDate, $nDays) = $this->failsafeDateScope($startYmd, $endYmd);
-
-        $reportTitle = $this->reportTitle($startDate, $endDate);
         $reportData = DailyRevenue::fetch($this->user, $startDate, $nDays);
 
         $startYmd = $startDate->format('Y-m-d');
-        $endYmd   = $endDate->format('Y-m-d');
+        $endYmd   = $endDate ? $endDate->format('Y-m-d') : $startYmd;
 
         return view('report.revenue', compact('reportData', 'reportTitle', 'startYmd', 'endYmd'));
     }
-
-    /**
-     * Private
-     */
 
     /**
      * @param Carbon $startDate
@@ -63,64 +82,29 @@ class ReportController extends Controller
      */
     private function reportTitle($startDate, $endDate = null)
     {
-        $dateScope = $startDate->format('n/d/y');
+        if ($endDate && $endDate != $startDate) {
+            $isSameYear  = $startDate->format('Y') === $endDate->format('Y');
+            $isSameMonth = $startDate->format('M') === $endDate->format('M');
 
-        if ($endDate) {
-            $dateScope .= ' to ' . $endDate->format('n/d/y');
+            if ($isSameYear) {
+                if ($isSameMonth) {
+                    $start = $startDate->format('M j');
+                    $end   = $endDate->format('j, Y');
+
+                    return "Revenue <span class='date'>$start-$end</span>";
+
+                } else {
+                    $start = $startDate->format('M d');
+                    $end   = $endDate->format('M j, Y');
+                }
+            } else {
+                $start = $startDate->format('M j, Y');
+                $end   = $endDate->format('M j, Y');
+            }
+
+            return "Revenue <span class='date'>$start - $end</span>";
         }
 
-        return "Revenue [$dateScope]";
-    }
-
-    private function failsafeDateScope($startYmd, $endYmd)
-    {
-        $defaultTimestamp = time() - 86400;
-
-        $startDate = $this->failsafeDate($startYmd, $defaultTimestamp);
-        $endDate   = $this->failsafeDate($endYmd, $defaultTimestamp);
-
-        if ($startDate > $endDate) {
-            /**
-             * End date is earlier, not good, let's fix it.
-             */
-            $holdDate = $endDate;
-            $endDate = $startDate;
-            $startDate = $holdDate;
-        }
-
-        $nDays = $endDate->diffInDays($startDate);
-
-        /**
-         * Same start and end date means 1 day.  Let's adjust.
-         */
-        $nDays += 1;
-
-        return [$startDate, $endDate, $nDays];
-    }
-
-    /**
-     * Returns default date if parameter is invalid date string
-     *
-     * @param string $date
-     * @param integer $timestamp Default date
-     * @return Carbon
-     */
-    private function failsafeDate($date, $timestamp)
-    {
-        try {
-            $validDate = Carbon::parse($date);
-
-        } catch (\Exception $exception) {
-            $validDate = Carbon::createFromTimestamp($timestamp);
-        }
-
-        /**
-         * Do not allow future date for report generation
-         */
-        if ($validDate->isFuture()) {
-            $validDate = Carbon::now();
-        }
-
-        return $validDate;
+        return "Daily Revenue on <span class='date'>" . $startDate->format('M j, Y') . "</span>";
     }
 }
