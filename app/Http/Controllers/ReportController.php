@@ -21,21 +21,13 @@ class ReportController extends Controller
 
     public function dailyRevenue()
     {
-//        $rows = [
-//            (object) ['item' => null, 'asin' => 'AFD3DSF899SF', 'quantity' => 1, 'amount' => 10.59],
-//            (object) ['item' => 'Name of item 1', 'asin' => 'BGD3DSF899SF', 'quantity' => 2, 'amount' => 110.00],
-//            (object) ['item' => 'Name of item 2', 'asin' => 'CRF3DSF899SF', 'quantity' => 3, 'amount' => 9.99],
-//            (object) ['item' => 'Name of item 3', 'asin' => 'GEF3DSF899SF', 'quantity' => 4, 'amount' => 11.19],
-//            (object) ['item' => 'Name of item 4', 'asin' => '8EF3DSF899SF', 'quantity' => 5, 'amount' => 2.29],
-//            (object) ['item' => 'Name of item 5', 'asin' => 'MEF3DSF899SF', 'quantity' => 6, 'amount' => 80.00],
-//            (object) ['item' => 'Name of item 6', 'asin' => 'IEF3DSF899SF', 'quantity' => 7, 'amount' => 99.50],
-//            (object) ['item' => 'Name of item 7', 'asin' => 'OEF3DSF899SF', 'quantity' => 8, 'amount' => 100.30],
-//            (object) ['item' => 'Name of item 8', 'asin' => 'PEF3DSF899SF', 'quantity' => 9, 'amount' => 1.82],
-//            (object) ['item' => 'Name of item 9', 'asin' => 'WEF3DSF899SF', 'quantity' => 10, 'amount' => 2.90],
-//            (object) ['item' => 'Name of item 10', 'asin' => 'QEF3DSF899SF', 'quantity' => 11, 'amount' => 50.23],
-//            (object) ['item' => 'Name of item 11', 'asin' => 'VEF3DSF899SF', 'quantity' => 12, 'amount' => 18.80],
-//        ];
-
+        /**
+         * @var $reportData array
+         *   'summary' =>
+         *      (object) ['total_amount' => 1983.45']
+         *   'rows' =>
+         *      (object) ['item' => 'Nike Zoom Rival S 8 Mens', 'asin' => 'B01A9UQY1Y', 'quantity' => 1, 'amount' => 59.97],
+         */
         $reportData = DailyRevenue::fetch($this->user);
 
         return view('report.daily-report', compact('reportData'));

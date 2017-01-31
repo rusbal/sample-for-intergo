@@ -42,20 +42,20 @@ SQL;
 
     public static function fetch($user)
     {
+        $rows = [];
+        $summary = NullObject::create();
+
         $merchantId = $user->amazonMws->merchant_id;
 
-        if (! $merchantId) {
-            return [];
-        }
-
-        if ($summaryRows = DB::select(self::SUMMARY, [$merchantId])) {
-            $summary = $summaryRows[0];
-        } else {
-            $summary = NullObject::create();
+        if ($merchantId) {
+            if ($summaryRows = DB::select(self::SUMMARY, [$merchantId])) {
+                $summary = $summaryRows[0];
+            }
+            $rows = DB::select(self::SQL, [$merchantId]);
         }
 
         return [
-            'rows'    => DB::select(self::SQL, [$merchantId]),
+            'rows'    => $rows,
             'summary' => $summary,
         ];
     }
