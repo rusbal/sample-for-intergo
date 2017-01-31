@@ -27,6 +27,7 @@ class Kernel extends ConsoleKernel
         Commands\ShowInventoryFetchCommand::class,
 
         Commands\DailyReportCommand::class,
+        Commands\ReportCacheClearCommand::class,
     ];
 
     /**
