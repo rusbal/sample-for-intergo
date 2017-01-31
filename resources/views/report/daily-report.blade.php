@@ -2,9 +2,6 @@
 
 @section('top')
     <tr>
-        <td style="text-align:left; padding: 20px;">
-            <a style="text-decoration: none; color: white;" href="{{ url('/my/reports/daily-revenue') }}">VIEW IN BROWSER</a>
-        </td>
         <td style="text-align:right; padding: 20px;">{{ date('n/d/y', time() - 86400) }}</td>
     </tr>
 @endsection

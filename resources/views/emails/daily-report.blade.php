@@ -1,4 +1,4 @@
-@extends('layouts.report')
+@extends('emails.layouts.report')
 
 @section('top')
     <tr>
