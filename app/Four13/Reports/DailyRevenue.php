@@ -18,13 +18,21 @@ class DailyRevenue
         LEFT JOIN amazon_merchant_listings AS ml
             ON ml.asin1 = oid.asin
 
-        WHERE DATE(od.purchase_date) = DATE_SUB(CURDATE(), INTERVAL 1 DAY)
+        WHERE 
+            od.merchant_id = ?
+            DATE(od.purchase_date) = DATE_SUB(CURDATE(), INTERVAL 1 DAY)
 
         ORDER BY oid.order_item_price DESC
 SQL;
 
-    public static function fetch()
+    public static function fetch($user)
     {
-        return DB::select(self::SQL);
+        $merchantId = $user->amazonMws->merchant_id;
+
+        if (! $merchantId) {
+            return [];
+        }
+
+        return DB::select(self::SQL, [$merchantId]);
     }
 }

@@ -35,8 +35,8 @@ class ReportController extends Controller
 //            (object) ['item' => 'Name of item 10', 'asin' => 'QEF3DSF899SF', 'quantity' => 11, 'amount' => 50.23],
 //            (object) ['item' => 'Name of item 11', 'asin' => 'VEF3DSF899SF', 'quantity' => 12, 'amount' => 18.80],
 //        ];
-        
-        $rows = DailyRevenue::fetch();
+
+        $rows = DailyRevenue::fetch($this->user);
 
         return view('report.daily-report', compact('rows'));
     }
