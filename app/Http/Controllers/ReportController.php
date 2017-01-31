@@ -33,6 +33,88 @@ class ReportController extends Controller
          */
         $reportData = DailyRevenue::fetch($this->user, Carbon::yesterday(), 1);
 
-        return view('report.daily-report', compact('reportData', 'reportTitle'));
+        $startYmd = Carbon::yesterday()->format('Y-m-d');
+        $endYmd   = $startYmd;
+
+        return view('report.revenue', compact('reportData', 'reportTitle', 'startYmd', 'endYmd'));
+    }
+
+    public function customDateRevenue($startYmd, $endYmd)
+    {
+        list($startDate, $endDate, $nDays) = $this->failsafeDateScope($startYmd, $endYmd);
+
+        $reportTitle = $this->reportTitle($startDate, $endDate);
+        $reportData = DailyRevenue::fetch($this->user, $startDate, $nDays);
+
+        $startYmd = $startDate->format('Y-m-d');
+        $endYmd   = $endDate->format('Y-m-d');
+
+        return view('report.revenue', compact('reportData', 'reportTitle', 'startYmd', 'endYmd'));
+    }
+
+    /**
+     * Private
+     */
+
+    /**
+     * @param Carbon $startDate
+     * @param Carbon|null $endDate
+     * @return string
+     */
+    private function reportTitle($startDate, $endDate = null)
+    {
+        $dateScope = $startDate->format('n/d/y');
+
+        if ($endDate) {
+            $dateScope .= ' to ' . $endDate->format('n/d/y');
+        }
+
+        return "Revenue [$dateScope]";
+    }
+
+    private function failsafeDateScope($startYmd, $endYmd)
+    {
+        $defaultTimestamp = time() - 86400;
+
+        $startDate = $this->failsafeDate($startYmd, $defaultTimestamp);
+        $endDate   = $this->failsafeDate($endYmd, $defaultTimestamp);
+
+        if ($startDate > $endDate) {
+            /**
+             * End date is earlier, not good, let's fix it.
+             */
+            $holdDate = $endDate;
+            $endDate = $startDate;
+            $startDate = $holdDate;
+        }
+
+        $nDays = $endDate->diffInDays($startDate);
+
+        /**
+         * Same start and end date means 1 day.  Let's adjust.
+         */
+        $nDays += 1;
+
+        return [$startDate, $endDate, $nDays];
+    }
+
+    /**
+     * Returns default date if parameter is invalid date string
+     *
+     * @param string $date
+     * @param integer $timestamp Default date
+     * @return Carbon
+     */
+    private function failsafeDate($date, $timestamp)
+    {
+        try {
+            $validDate = Carbon::parse($date);
+
+        } catch (\Exception $exception) {
+            $startYmd = date('Y-m-d', $timestamp);
+            $validDate = Carbon::parse($startYmd);
+        }
+
+        return $validDate;
     }
 }

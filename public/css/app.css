@@ -61,6 +61,13 @@
   margin-top: 40px;
 }
 
+/**
+ * PADDING
+ */
+.p-tb-20 {
+  padding: 20px 0;
+}
+
 ol.li-m-b-10 li {
   margin: 0 0 10px 0;
 }
@@ -247,6 +254,46 @@ ol.li-m-b-10 li {
  */
 .darkgreen {
   color: darkgreen;
+}
+
+/**
+ * REPORT: Revenue
+ */
+.report {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  background-color: #87d9bf;
+  color: #7d7e7f;
+  font-family: "Avenir",Helvetica,Arial,sans-serif;
+}
+
+.report input {
+  color: #333 !important;
+}
+
+.report .content {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #87d9bf;
+}
+
+.report table thead th {
+  text-align: center;
+}
+
+.report .total-amount {
+  margin: 0;
+  text-align: center;
+  padding: 18px;
+  font-weight: bold;
+  background: #f0f9f7;
+  font-size: 2.5em;
+  width: 250px;
+  border: 1px solid #e7f0ee;
+  margin: 0 auto;
+  border-radius: 5px;
 }
 
 /*!

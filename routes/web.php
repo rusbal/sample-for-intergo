@@ -32,6 +32,7 @@ Route::get('/my/invoices', 'MyInvoiceController@index');
  * Reports
  */
 Route::get('/my/reports/daily-revenue', 'ReportController@dailyRevenue');
+Route::get('/my/reports/revenue/{startDate}/{endDate}', 'ReportController@customDateRevenue');
 
 /**
  * Ajax

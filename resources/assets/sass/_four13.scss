@@ -1,3 +1,4 @@
+
 .widget {
   background: #fff none repeat scroll 0 0;
   border-radius: 4px;
@@ -52,6 +53,13 @@
 }
 .m-t-40 {
   margin-top: 40px;
+}
+
+/**
+ * PADDING
+ */
+.p-tb-20 {
+  padding: 20px 0;
 }
 
 ol.li-m-b-10 {
@@ -228,4 +236,48 @@ ol.li-m-b-10 {
  */
 .darkgreen {
   color: darkgreen;
+}
+
+/**
+ * REPORT: Revenue
+ */
+.report {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  background-color: #87d9bf;
+  color: #7d7e7f;
+  font-family: "Avenir",Helvetica,Arial,sans-serif;
+
+  input {
+    color: #333 !important;
+  }
+
+  .content {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #87d9bf;
+  }
+
+  table {
+    thead {
+      th {
+        text-align: center;
+      }
+    }
+  }
+
+  .total-amount {
+    margin: 0;
+    text-align: center;
+    padding: 18px;
+    font-weight: bold;
+    background: #f0f9f7;
+    font-size: 2.5em;
+    width: 250px;
+    border: 1px solid #e7f0ee;
+    margin: 0 auto;
+    border-radius: 5px;
+  }
 }

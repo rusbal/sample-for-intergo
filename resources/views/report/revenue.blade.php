@@ -2,7 +2,9 @@
 
 @section('top')
     <tr>
-        <td style="text-align:right; padding: 20px;">{{ date('n/d/y', time() - 86400) }}</td>
+        <td class="text-right p-tb-20">
+            <label>Inclusive Dates: <input type="text" id="daterange" name="daterange"></label>
+        </td>
     </tr>
 @endsection
 
@@ -10,7 +12,7 @@
     <tr>
         <td>
             <h1 style="color: #87d9bf; text-align: center; margin: 0 0 10px; font-size: 1.5em;">DAILY REVENUE:</h1>
-            <h2 style="text-align: center; padding: 25px; background: #f0f9f7; font-size: 2.5em; width: 250px; border: 1px solid #e7f0ee; margin: 0 auto; border-radius: 5px;">${{ $reportData['summary']->total_amount ?: 0 }}</h2>
+            <div class="total-amount">${{ $reportData['summary']->total_amount ?: 0 }}</div>
         </td>
     </tr>
     <tr>
@@ -56,3 +58,26 @@
     </tr>
 @endsection
 
+@section('bottom')
+    <script type="text/javascript">
+        $(function() {
+            $('input[name="daterange"]').daterangepicker(
+                {
+                    locale: {
+                        format: 'YYYY-MM-DD'
+                    },
+                    startDate: '{{ $startYmd }}',
+                    endDate: '{{ $endYmd }}'
+                },
+                function(start, end, label) {
+                    let url = '/my/reports/revenue/'
+                        + start.format('YYYY-MM-DD')
+                        + '/'
+                        + end.format('YYYY-MM-DD')
+
+                    window.location = url
+                }
+            );
+        });
+    </script>
+@endsection

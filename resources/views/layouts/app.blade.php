@@ -12,7 +12,6 @@
 
     <!-- Styles -->
     <link href="{!! elixir('css/app.css') !!}" rel="stylesheet">
-    <link href="/css/app.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.7/semantic.min.css" media="screen" title="no title" charset="utf-8">
 
     <!-- Scripts -->
