@@ -20,7 +20,7 @@ class CreateReportCachesTable extends Migration
             // Example: 20170214.1.dailyrevenue.1
             $table->string('date_days_report_user_id')->unique();
 
-            $table->string('data');
+            $table->text('data');
 
             // Contains separate entities of the concatenated contents of column: dates_report_user_id
             $table->date('start_date');
