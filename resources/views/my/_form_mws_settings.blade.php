@@ -6,8 +6,8 @@
 
             <div class="col-md-12">
                 <input id="merchant_id" type="text" class="form-control" name="merchant_id"
-                       value="{{ old('merchant_id', $row->merchant_id) }}" placeholder="Exactly 14 characters"
-                       pattern=".{14}" required autofocus>
+                       value="{{ old('merchant_id', $row->merchant_id) }}" placeholder="13 to 14 characters"
+                       pattern=".{13,14}" required autofocus>
 
                 @if ($errors->has('merchant_id'))
                     <span class="help-block">
