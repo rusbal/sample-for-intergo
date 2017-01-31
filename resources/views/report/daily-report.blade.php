@@ -31,7 +31,11 @@
                     @foreach ($reportData['rows'] as $i => $row)
                         <tr style="background-color: {{ $i % 2 == 0 ? '#ffffff': '#f0f9f7' }};">
                             <td style="border: 1px solid #e7f0ee; padding: 0.5rem 0.5rem 0.5rem 1.5rem;">{{ $row->item ?: '&mdash;' }}</td>
-                            <td style="border: 1px solid #e7f0ee; padding: 0.5rem 0.5rem 0.5rem 1.5rem;">{{ $row->asin }}</td>
+                            <td style="border: 1px solid #e7f0ee; padding: 0.5rem 0.5rem 0.5rem 1.5rem;">
+                                <a href="https://amzn.com/{{ $row->asin }}">
+                                    {{ $row->asin }}
+                                </a>
+                            </td>
                             <td style="text-align: center; border: 1px solid #e7f0ee; padding: 0.5rem;">{{ $row->quantity }}</td>
                             <td style="text-align: center; border: 1px solid #e7f0ee; padding: 0.5rem;">
                                 ${{ number_format($row->amount, 2) }}
