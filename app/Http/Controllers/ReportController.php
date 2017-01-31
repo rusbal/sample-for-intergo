@@ -111,8 +111,14 @@ class ReportController extends Controller
             $validDate = Carbon::parse($date);
 
         } catch (\Exception $exception) {
-            $startYmd = date('Y-m-d', $timestamp);
-            $validDate = Carbon::parse($startYmd);
+            $validDate = Carbon::createFromTimestamp($timestamp);
+        }
+
+        /**
+         * Do not allow future date for report generation
+         */
+        if ($validDate->isFuture()) {
+            $validDate = Carbon::now();
         }
 
         return $validDate;
