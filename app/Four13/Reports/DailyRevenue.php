@@ -3,6 +3,7 @@
 namespace Four13\Reports;
 
 
+use App\NullObject;
 use Illuminate\Support\Facades\DB;
 
 class DailyRevenue
@@ -47,9 +48,15 @@ SQL;
             return [];
         }
 
+        if ($summaryRows = DB::select(self::SUMMARY, [$merchantId])) {
+            $summary = $summaryRows[0];
+        } else {
+            $summary = NullObject::create();
+        }
+
         return [
             'rows'    => DB::select(self::SQL, [$merchantId]),
-            'summary' => DB::select(self::SUMMARY, [$merchantId])->first(),
+            'summary' => $summary,
         ];
     }
 }

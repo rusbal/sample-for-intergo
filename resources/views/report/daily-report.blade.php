@@ -13,7 +13,7 @@
     <tr>
         <td>
             <h1 style="color: #87d9bf; text-align: center; margin: 0 0 10px; font-size: 1.5em;">DAILY REVENUE:</h1>
-            <h2 style="text-align: center; padding: 25px; background: #f0f9f7; font-size: 2.5em; width: 250px; border: 1px solid #e7f0ee; margin: 0 auto; border-radius: 5px;">{{ $reportData['summary']->total_amount }}</h2>
+            <h2 style="text-align: center; padding: 25px; background: #f0f9f7; font-size: 2.5em; width: 250px; border: 1px solid #e7f0ee; margin: 0 auto; border-radius: 5px;">${{ $reportData['summary']->total_amount ?: 0 }}</h2>
         </td>
     </tr>
     <tr>
