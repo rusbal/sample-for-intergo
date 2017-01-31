@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Four13\Reports\DailyRevenue;
 use Illuminate\Support\Facades\Mail;
