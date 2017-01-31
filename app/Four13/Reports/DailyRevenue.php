@@ -40,6 +40,19 @@ SQL;
         AND DATE(od.purchase_date) = DATE_SUB(CURDATE(), INTERVAL 1 DAY)
 SQL;
 
+    const NAME = 'dailyrevenue';
+
+    protected $user;
+    protected $startDate;
+    protected $nDays;
+
+    public function __construct($user, $startDate, $nDays)
+    {
+        $this->user = $user;
+        $this->startDate = $startDate;
+        $this->nDays = $nDays;
+    }
+
     /**
      * @param User $user
      * @return array
@@ -48,12 +61,41 @@ SQL;
      *   'rows' =>
      *      (object) ['item' => 'Nike Zoom Rival S 8 Mens', 'asin' => 'B01A9UQY1Y', 'quantity' => 1, 'amount' => 59.97],
      */
-    public static function fetch($user)
+    public static function fetch($user, $startDate, $nDays = 1)
+    {
+        $cache = new Cache($user, self::NAME, $startDate, $nDays);
+
+        /**
+         * Return cached report if already generated
+         */
+        if ($report = $cache->retrieve()) {
+            return $report;
+        }
+
+        /**
+         * Generate report
+         */
+        $self = new static($user, $startDate, $nDays);
+        $report = $self->generate();
+
+        /**
+         * Save report to cache
+         */
+        $cache->save($report);
+
+        return $report;
+    }
+
+    /**
+     * Private
+     */
+
+    private function generate()
     {
         $rows = [];
         $summary = NullObject::create();
 
-        $merchantId = $user->amazonMws->merchant_id;
+        $merchantId = $this->user->amazonMws->merchant_id;
 
         if ($merchantId) {
             if ($summaryRows = DB::select(self::SUMMARY, [$merchantId])) {

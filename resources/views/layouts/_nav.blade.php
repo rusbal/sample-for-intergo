@@ -46,7 +46,7 @@
                             @endif
 
                             <li role="separator" class="divider"></li>
-                            <li> <a href="{{ url('/my/reports/daily-revenue') }}"> Yesterday's Revenue </a> </li>
+                            <li> <a href="{{ url('/my/reports/daily-revenue') }}"> Revenue Reports </a> </li>
 
                             <li role="separator" class="divider"></li>
                             <li>
