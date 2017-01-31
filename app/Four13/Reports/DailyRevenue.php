@@ -3,6 +3,8 @@
 namespace Four13\Reports;
 
 
+use Illuminate\Support\Facades\DB;
+
 class DailyRevenue
 {
     const SQL = <<<SQL
