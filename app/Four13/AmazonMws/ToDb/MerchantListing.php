@@ -45,13 +45,25 @@ class MerchantListing extends ToDb
         DB::transaction(function () {
             $countInserted = 0;
             $countUpdated = 0;
+            $countInvalid = 0;
+
+            $GET_MERCHANT_LISTINGS_ALL_DATA = 28;
 
             foreach ($this->rows as $row) {
                 if (!$this->isValid($row)) {
                     continue;
                 }
 
-                if ($this->reportClass == 'report-update') {
+                if (count($row) != $GET_MERCHANT_LISTINGS_ALL_DATA) {
+                    $countInvalid += 1;
+                    continue;
+                }
+
+//                if ($this->reportClass == 'report-update') {
+
+                $listingId = $row[2];
+
+                if (AmazonMerchantListing::where('listing_id', $listingId)->exists()) {
                     $countUpdated += $this->updateRow($row);
                 } else {
                     $countInserted += $this->insertRow($row);
@@ -60,6 +72,7 @@ class MerchantListing extends ToDb
 
             Log::info(__CLASS__ . '@saveToDb' . " inserted: $countInserted");
             Log::info(__CLASS__ . '@saveToDb' . " updated: $countUpdated");
+            Log::info(__CLASS__ . '@saveToDb' . " invalid: $countInvalid");
         });
     }
 
@@ -84,7 +97,7 @@ class MerchantListing extends ToDb
             'item_name' => $row[0],
             'item_description' => $row[1],
             'seller_sku'  => (int) $row[3],
-            'price'  => $row[4],
+            'price'  => (float) $row[4],
             'quantity'  => (int) $row[5],
             'open_date'  => $openDate,
             'image_url'  => $row[7],
@@ -120,13 +133,23 @@ class MerchantListing extends ToDb
     {
         $openDate = (new \DateTime($row[6]))->format( 'Y-m-d H:i:s' );
 
+
+        /*
+        | Before listing was requested from Amazon using _GET_MERCHANT_LISTINGS_DATA_
+        | Because of blank item names on Revenue reports, it was changed to _GET_MERCHANT_LISTINGS_ALL_DATA_.
+        |
+        | field: 28      merchant-shipping-group        ***NOT SAVED ON DB
+        |
+        | merchant-shipping-group is not saved on table: amazon_merchant_listing
+        */
+
         $row = AmazonMerchantListing::create([
             'user_id' => $this->user->id,
             'item_name' => $row[0],
             'item_description' => $row[1],
             'listing_id'  => $row[2],
             'seller_sku'  => (int) $row[3],
-            'price'  => $row[4],
+            'price'  => (float) $row[4],
             'quantity'  => (int) $row[5],
             'open_date'  => $openDate,
             'image_url'  => $row[7],
