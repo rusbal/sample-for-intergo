@@ -83,8 +83,7 @@ class RequestReport
      * Follows up Amazon on the previous request with request_id.
      *
      * @param $toDb
-     * @param $storeName
-     * @param $requestId
+     * @param $item
      * @return bool
      */
     public static function poke($toDb, $item)
@@ -175,8 +174,8 @@ class RequestReport
         $report = $obj->fetchReport();
 
         if ($report) {
-            $this->toDb->saveToDb($report);
             $obj->saveReport($this->filename());
+            $this->toDb->saveToDb($report);
             return true;
         }
 
