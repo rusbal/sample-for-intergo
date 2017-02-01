@@ -19,12 +19,12 @@ class AmazonMws extends EloquentModel
     ];
 
     const REPORT_REQUEST_TYPES = [
-        '_GET_MERCHANT_LISTINGS_DATA_',
+        '_GET_MERCHANT_LISTINGS_ALL_DATA_',
         '_GET_AFN_INVENTORY_DATA_',
     ];
 
     const REPORT_DATA_HANDLERS = [
-        '_GET_MERCHANT_LISTINGS_DATA_' => MerchantListing::class,
+        '_GET_MERCHANT_LISTINGS_ALL_DATA_' => MerchantListing::class,
         '_GET_AFN_INVENTORY_DATA_' => MerchantSkuQuantity::class,
     ];
 
@@ -120,7 +120,7 @@ class AmazonMws extends EloquentModel
     {
         return RequestReport::queue(
             $this->storeName(),
-            '_GET_MERCHANT_LISTINGS_DATA_'
+            '_GET_MERCHANT_LISTINGS_ALL_DATA_'
         );
     }
 

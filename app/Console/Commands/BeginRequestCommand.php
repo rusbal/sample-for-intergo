@@ -101,10 +101,10 @@ class BeginRequestCommand extends Command
 
         /**
          * Merchant listing data must exist before calling _GET_AFN_INVENTORY_DATA_.
-         * Thus, we remove _GET_AFN_INVENTORY_DATA_ if _GET_MERCHANT_LISTINGS_DATA_
+         * Thus, we remove _GET_AFN_INVENTORY_DATA_ if _GET_MERCHANT_LISTINGS_ALL_DATA_
          * is not in history.
          */
-        if (! in_array('_GET_MERCHANT_LISTINGS_DATA_', $onHistory)) {
+        if (! in_array('_GET_MERCHANT_LISTINGS_ALL_DATA_', $onHistory)) {
             $reports = array_diff($reports, ['_GET_AFN_INVENTORY_DATA_']);
         }
 
