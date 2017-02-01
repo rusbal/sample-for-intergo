@@ -54,7 +54,7 @@ class DailyReportCommand extends Command
             }
 
             $reportTitle = 'Daily Revenue [' . date('n/d/y', time() - 86400) . ']';
-            $reportData = DailyRevenue::fetch($user, Carbon::yesterday(), 1);
+            $reportData = DailyRevenue::fetch($user, Carbon::yesterday(), 1, true);
 
             Mail::to($user)->send(new DailyRevenueReportGenerated($reportData, $reportTitle));
             $this->info("*** Daily revenue report email sent: {$user->name}");

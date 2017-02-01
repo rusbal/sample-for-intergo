@@ -45,6 +45,11 @@ class Cache
         return unserialize($report->data);
     }
 
+    public function invalidate()
+    {
+        return ReportCache::where('date_days_report_user_id', $this->uniqueId)->delete();
+    }
+
     /**
      * Private
      */

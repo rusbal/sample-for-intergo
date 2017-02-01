@@ -60,20 +60,24 @@ SQL;
      * @param User $user
      * @param Carbon $startDate
      * @param integer $nDays
+     * @param boolean $invalidateCache
      * @return array
      *   'summary' =>
      *      (object) ['total_amount' => 1983.45']
      *   'rows' =>
      *      (object) ['item' => 'Nike Zoom Rival S 8 Mens', 'asin' => 'B01A9UQY1Y', 'quantity' => 1, 'amount' => 59.97],
      */
-    public static function fetch($user, $startDate, $nDays = 1)
+    public static function fetch($user, $startDate, $nDays = 1, $invalidateCache = false)
     {
         $cache = new Cache($user, self::NAME, $startDate, $nDays);
 
-        /**
-         * Return cached report if already generated
-         */
-        if ($report = $cache->retrieve()) {
+        if ($invalidateCache) {
+            $cache->invalidate();
+
+        } elseif ($report = $cache->retrieve()) {
+            /**
+             * Return cached report if already generated
+             */
             return $report;
         }
 
