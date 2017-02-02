@@ -12,11 +12,11 @@ class DailyRevenue
 {
     const SQL = <<<SQL
         SELECT
-            ml.item_name         AS item,
+            ml.item_name               AS item,
             oid.asin,
-            oid.order_quantity   AS quantity,
-            ml.quantity_available,
-            oid.order_item_price AS amount
+            SUM(oid.order_quantity)    AS quantity,
+            MIN(ml.quantity_available) AS quantity_available,
+            SUM(oid.order_item_price)  AS amount
 
         FROM amazon_order_details AS od
         JOIN amazon_order_item_details AS oid
@@ -26,8 +26,10 @@ class DailyRevenue
 
         WHERE od.merchant_id = ?
         AND (od.purchase_date BETWEEN ? AND ADDDATE(?, ?))
+        
+        GROUP BY oid.asin
 
-        ORDER BY oid.order_item_price DESC
+        ORDER BY oid.order_quantity DESC
 SQL;
 
     const SUMMARY = <<<SQL
