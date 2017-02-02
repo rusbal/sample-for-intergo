@@ -93,9 +93,6 @@ class HistoryStatusSummaryCommand extends Command
     private function getRequestTypeLengths($types)
     {
         return array_map('strlen',$types);
-//        return array_map(function($type) {
-//            return count($type);
-//        }, $types);
     }
 
     private function printHeader($reports)
@@ -115,10 +112,19 @@ class HistoryStatusSummaryCommand extends Command
 
             foreach ($reports as $idx => $reportType) {
                 $length = $typeLengths[$idx];
+                
+                if ($idx == 0) {
+                    /**
+                     * First item, remove length of status: 14 + 1 space
+                     */
+                    $length -= 15;
+                }
+
                 $statLine .= $this->getStatusSummaryForReportType($status, $reportType, $userSummary, $length);
             }
 
-            $this->info("$status $statLine");
+            $formattedStatus = str_pad($status, 14);
+            $this->info("$formattedStatus $statLine");
         }
     }
 
@@ -132,6 +138,6 @@ class HistoryStatusSummaryCommand extends Command
             }
         }
 
-        return str_pad($count . ' len:' . $length, $length, ' ', STR_PAD_LEFT);
+        return str_pad($count, $length, ' ', STR_PAD_LEFT);
     }
 }
