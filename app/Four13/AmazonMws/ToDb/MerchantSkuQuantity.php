@@ -18,6 +18,12 @@ class MerchantSkuQuantity extends ToDb
         'seller_sku' => [ 'index' => 0, 'condition' => '>', 'value' => 0 ],
     ];
 
+    private function doesFirstLineContainLabels()
+    {
+        return isset($this->rows[0][0])
+            && $this->rows[0][0] == self::IGNORE_FIRST_LINE_WITH_FIRST_COLUMN;
+    }
+
     public function saveToDb($fileContents)
     {
         $ltsv = new LTSV();

@@ -22,6 +22,12 @@ class MerchantListing extends ToDb
         $this->user = $this->getUser($user);
     }
 
+    private function doesFirstLineContainLabels()
+    {
+        return isset($this->rows[0][0])
+            && $this->rows[0][0] == self::IGNORE_FIRST_LINE_WITH_FIRST_COLUMN;
+    }
+
     private function getUser($user)
     {
         $user = $user ?: Auth::user();
