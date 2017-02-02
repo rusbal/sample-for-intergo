@@ -195,4 +195,13 @@ class User extends Authenticatable
             $this->amazonRequestHistory()->distinct()->select('type')->get()->toArray()
         );
     }
+
+    public function latestHistory($type)
+    {
+        $this->amazonRequestHistory()
+            ->withoutGlobalScopes()
+            ->where('type', $type)
+            ->orderBy('created_at', 'desc')
+            ->first();
+    }
 }
