@@ -96,16 +96,23 @@ class HistoryStatusSummaryCommand extends Command
 
     private function printHeader($reports)
     {
-        $this->info(implode("   ", $reports));
+        $this->info("USER   " . implode("   ", $reports));
     }
 
     private function printUserSummary($userId, $userSummary, $reports, $typeLengths)
     {
-//        $details = '';
-//
-//        str_pad('STORE', 7);
-//
-//        $this->info(implode("   ", $details));
-        $this->info($userId);
+        $details = str_pad($userId, 7);
+        $this->info($details);
+
+        foreach ($userSummary as $type => $row) {
+            $line = str_pad($type, 10);
+
+            foreach ($row as $status => $count) {
+                $line .= str_pad($status, 10);
+                $line .= str_pad($count, 10);
+            }
+
+            $this->info($line);
+        }
     }
 }
