@@ -29,7 +29,8 @@ class DailyRevenue
         
         GROUP BY oid.asin
 
-        ORDER BY oid.order_quantity DESC
+        ORDER BY 3 DESC,
+                 ml.item_name ASC
 SQL;
 
     const SUMMARY = <<<SQL
