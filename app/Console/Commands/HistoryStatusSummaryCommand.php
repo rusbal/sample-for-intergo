@@ -90,6 +90,45 @@ class HistoryStatusSummaryCommand extends Command
         }
     }
 
+    private function printUserSummary($userId, $userSummary, $reports, $typeLengths)
+    {
+        $this->info('');
+        $this->info($userId . '   ' . User::find($userId)->name);
+
+        $statuses = ['_DONE_', '_CANCELLED_'];
+
+        foreach ($statuses as $status) {
+            $this->printStatus($reports, $typeLengths, $status, $userSummary);
+        }
+    }
+
+    private function printStatus($reports, $typeLengths, $status, $userSummary)
+    {
+        $statValues = '';
+
+        foreach ($reports as $idx => $reportType) {
+            $length = $typeLengths[$idx];
+
+            if ($idx == 0) {
+                /**
+                 * First item, remove length of status: 15
+                 */
+                $length -= 7 + 15;
+            }
+
+            $statValues .= $this->getStatusSummaryForReportType($status, $reportType, $userSummary, $length);
+
+            if ($idx > 0) {
+                $statValues .= str_repeat(' ', 3);
+            }
+        }
+
+        $leftMargin  = str_repeat(' ', 7);
+        $labelStatus = $leftMargin . str_pad($status, 15);
+
+        $this->info($labelStatus . $statValues);
+    }
+
     private function getRequestTypeLengths($types)
     {
         return array_map('strlen',$types);
@@ -98,39 +137,6 @@ class HistoryStatusSummaryCommand extends Command
     private function printHeader($reports)
     {
         $this->info("USER   " . implode("   ", $reports));
-    }
-
-    private function printUserSummary($userId, $userSummary, $reports, $typeLengths)
-    {
-        $this->info('');
-        $this->info($userId . '   ' . User::find($userId)->name);
-        $col1Space = str_repeat(' ', 7);
-
-        $statuses = ['_DONE_', '_CANCELLED_'];
-
-        foreach ($statuses as $status) {
-            $statLine = '';
-
-            foreach ($reports as $idx => $reportType) {
-                $length = $typeLengths[$idx];
-
-                if ($idx == 0) {
-                    /**
-                     * First item, remove length of status: 15
-                     */
-                    $length -= 15;
-                }
-
-                $statLine .= $this->getStatusSummaryForReportType($status, $reportType, $userSummary, $length);
-
-                if ($idx > 0) {
-                    $statLine .= str_repeat(' ', 6);
-                }
-            }
-
-            $formattedStatus = str_pad($status, 15);
-            $this->info("{$col1Space}{$formattedStatus}{$statLine}");
-        }
     }
 
     private function getStatusSummaryForReportType($status, $reportType, $userSummary, $length)
