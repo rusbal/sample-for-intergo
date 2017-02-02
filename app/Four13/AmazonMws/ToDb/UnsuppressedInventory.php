@@ -3,6 +3,7 @@
 namespace Four13\AmazonMws\ToDb;
 
 
+use App\AmazonMerchantListing;
 use Four13\TextLTSV\LTSV;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -32,6 +33,7 @@ class UnsuppressedInventory extends ToDb
         DB::transaction(function () {
             $countInserted = 0;
             $countUpdated = 0;
+            $countQuantityUpdated = 0;
 
             foreach ($this->rows as $row) {
                 if (!$this->isValid($row)) {
@@ -45,16 +47,37 @@ class UnsuppressedInventory extends ToDb
                 } else {
                     $countInserted += $this->insertRow($row);
                 }
+
+                /**
+                 * Update quantity on listings table
+                 */
+                $afnFulfillableQuantity = (int) $row[10];
+                $countQuantityUpdated += $this->updateListingQuantity($asin, $afnFulfillableQuantity);
             }
 
             Log::info(__CLASS__ . '@saveToDb' . " inserted: $countInserted");
             Log::info(__CLASS__ . '@saveToDb' . " updated: $countUpdated");
+            Log::info(__CLASS__ . '@saveToDb' . " quantity updated: $countQuantityUpdated");
         });
     }
 
     /**
      * Private
      */
+
+    /**
+     * Updates listing quantity
+     *
+     * @param string $asin
+     * @param int $quantity
+     * @return int 1 or 0
+     */
+    private function updateListingQuantity($asin, $quantity)
+    {
+        return (int) AmazonMerchantListing::where('asin1', $asin)->update([
+            'quantity_available' => $quantity,
+        ]);
+    }
 
     /**
      * Updates a row and count of affected rows, basically 1 or 0.
@@ -73,15 +96,15 @@ class UnsuppressedInventory extends ToDb
             'mfn_listing_exists' =>$row[6],
             'mfn_fulfillable_quantity' =>$row[7],
             'afn_listing_exists' =>$row[8],
-            'afn_warehouse_quantity' => (float) $row[9],
-            'afn_fulfillable_quantity' => (float) $row[10],
-            'afn_unsellable_quantity' => (float) $row[11],
-            'afn_reserved_quantity' => (float) $row[12],
-            'afn_total_quantity' => (float) $row[13],
+            'afn_warehouse_quantity' => (int) $row[9],
+            'afn_fulfillable_quantity' => (int) $row[10],
+            'afn_unsellable_quantity' => (int) $row[11],
+            'afn_reserved_quantity' => (int) $row[12],
+            'afn_total_quantity' => (int) $row[13],
             'per_unit_volume' => (float) $row[14],
-            'afn_inbound_working_quantity' => (float) $row[15],
-            'afn_inbound_shipped_quantity' => (float) $row[16],
-            'afn_inbound_receiving_quantity' => (float) $row[17],
+            'afn_inbound_working_quantity' => (int) $row[15],
+            'afn_inbound_shipped_quantity' => (int) $row[16],
+            'afn_inbound_receiving_quantity' => (int) $row[17],
         ]);
     }
 

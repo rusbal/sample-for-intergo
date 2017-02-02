@@ -87,7 +87,17 @@ class MerchantSkuQuantity extends ToDb
             'fulfillment_channel_sku'  => $row[2],
             'condition_type'  => $row[3],
             'warehouse_condition_code'  => $row[4],
-            'quantity_available'  => (int) $row[5],
+
+            /**
+             * This field is no longer updated here.
+             * Instead, it is updated in ToDb/UnsuppressedInventory
+             * where it uses _GET_FBA_MYI_UNSUPPRESSED_INVENTORY_DATA_
+             *
+             * THINKING: Since request to _GET_AFN_INVENTORY_DATA_ was only for the purpose
+             * of getting the quantity, is there still a need for this code?
+             *
+             * 'quantity_available'  => (int) $row[5],
+             */
         ]);
     }
 }
