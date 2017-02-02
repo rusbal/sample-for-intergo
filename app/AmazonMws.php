@@ -6,6 +6,7 @@ use Four13\AmazonMws\RequestReport;
 use Zaffar\AmazonMws\AmazonInventoryList;
 use Four13\AmazonMws\ToDb\MerchantListing;
 use Four13\AmazonMws\ToDb\MerchantSkuQuantity;
+use Four13\AmazonMws\ToDb\UnsuppressedInventory;
 use Illuminate\Database\Eloquent\Model as EloquentModel;
 
 class AmazonMws extends EloquentModel
@@ -21,11 +22,13 @@ class AmazonMws extends EloquentModel
     const REPORT_REQUEST_TYPES = [
         '_GET_MERCHANT_LISTINGS_ALL_DATA_',
         '_GET_AFN_INVENTORY_DATA_',
+        '_GET_FBA_MYI_UNSUPPRESSED_INVENTORY_DATA_',
     ];
 
     const REPORT_DATA_HANDLERS = [
         '_GET_MERCHANT_LISTINGS_ALL_DATA_' => MerchantListing::class,
         '_GET_AFN_INVENTORY_DATA_' => MerchantSkuQuantity::class,
+        '_GET_FBA_MYI_UNSUPPRESSED_INVENTORY_DATA_' => UnsuppressedInventory::class,
     ];
 
     public static $rules = [

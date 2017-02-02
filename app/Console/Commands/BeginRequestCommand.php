@@ -91,24 +91,31 @@ class BeginRequestCommand extends Command
      */
     private function requestableReports($user)
     {
-        $reports = AmazonMws::REPORT_REQUEST_TYPES;
-        $onHistory = [];
+        $onHistory = $this->getRequestHistoryFor($user);
 
-        foreach ($user->amazonRequestHistory as $history) {
-            $this->info("--- User: [{$user->id}] {$user->name} {$history->type} history already exists");
-            $onHistory[] = $history->type;
+        if (empty($onHistory)) {
+            return ['_GET_MERCHANT_LISTINGS_ALL_DATA_'];
         }
 
-        /**
-         * Merchant listing data must exist before calling _GET_AFN_INVENTORY_DATA_.
-         * Thus, we remove _GET_AFN_INVENTORY_DATA_ if _GET_MERCHANT_LISTINGS_ALL_DATA_
-         * is not in history.
-         */
-        if (! in_array('_GET_MERCHANT_LISTINGS_ALL_DATA_', $onHistory)) {
-            $reports = array_diff($reports, ['_GET_AFN_INVENTORY_DATA_']);
-        }
+        return AmazonMws::REPORT_REQUEST_TYPES;
+    }
 
-        // Remove from reports to request
-        return array_diff($reports, $onHistory);
+    /**
+     * Returns distinct request history for user
+     * Example output:
+     *   [
+     *     "_GET_MERCHANT_LISTINGS_ALL_DATA_",
+     *     "_GET_AFN_INVENTORY_DATA_",
+     *   ]
+     *
+     * @param User $user
+     * @return array
+     */
+    private function getRequestHistoryFor($user)
+    {
+        return array_map(
+            function($history){ return $history['type']; },
+            $user->amazonRequestHistory()->distinct()->select('type')->get()->toArray()
+        );
     }
 }
