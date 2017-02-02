@@ -24,6 +24,7 @@
                     <th style="border: 1px solid #e7f0ee; padding: 0.5rem;">Item</th>
                     <th style="border: 1px solid #e7f0ee; padding: 0.5rem;">ASIN</th>
                     <th style="border: 1px solid #e7f0ee; padding: 0.5rem;">Qty</th>
+                    <th style="border: 1px solid #e7f0ee; padding: 0.5rem;">Inventory</th>
                     <th style="border: 1px solid #e7f0ee; padding: 0.5rem;">$</th>
                 </tr>
                 </thead>
@@ -37,6 +38,7 @@
                             </a>
                         </td>
                         <td style="text-align: center; border: 1px solid #e7f0ee; padding: 0.5rem;">{{ $row->quantity }}</td>
+                        <td style="text-align: center; border: 1px solid #e7f0ee; padding: 0.5rem;">{{ $row->quantity_available }}</td>
                         <td style="text-align: center; border: 1px solid #e7f0ee; padding: 0.5rem;">
                             ${{ number_format($row->amount, 2) }}
                         </td>

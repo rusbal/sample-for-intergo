@@ -15,6 +15,7 @@ class DailyRevenue
             ml.item_name         AS item,
             oid.asin,
             oid.order_quantity   AS quantity,
+            ml.quantity_available,
             oid.order_item_price AS amount
 
         FROM amazon_order_details AS od
