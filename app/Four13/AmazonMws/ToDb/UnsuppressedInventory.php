@@ -64,7 +64,7 @@ class UnsuppressedInventory extends ToDb
      */
     private function updateRow($row, $asin)
     {
-        return AmazonMerchantListing::where('asin', $asin)->update([
+        return AmazonUnsuppressedInventory::where('asin', $asin)->update([
             'sku' => (int) $row[0],
             'fnsku' =>$row[1],
             'product_name' =>$row[3],
@@ -93,7 +93,7 @@ class UnsuppressedInventory extends ToDb
      */
     private function insertRow($row)
     {
-        $row = AmazonMerchantListing::create([
+        $row = AmazonUnsuppressedInventory::create([
             'sku' => (int) $row[0],
             'fnsku' =>$row[1],
             'asin' =>$row[2],
