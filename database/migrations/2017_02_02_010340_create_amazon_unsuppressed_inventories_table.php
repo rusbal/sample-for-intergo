@@ -23,7 +23,7 @@ class CreateAmazonUnsuppressedInventoriesTable extends Migration
             $table->string('condition');
             $table->decimal('your_price', 9, 2);
             $table->string('mfn_listing_exists');
-            $table->string('mfn_fulfillable_quantity');
+            $table->integer('mfn_fulfillable_quantity');
             $table->string('afn_listing_exists');
             $table->integer('afn_warehouse_quantity');
             $table->integer('afn_fulfillable_quantity');

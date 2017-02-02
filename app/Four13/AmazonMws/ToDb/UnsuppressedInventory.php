@@ -87,14 +87,17 @@ class UnsuppressedInventory extends ToDb
      */
     private function updateRow($row, $asin)
     {
+        // Truncated error? Hmmm...
+        $productName = substr($row[3], 0, 255);
+
         return AmazonUnsuppressedInventory::where('asin', $asin)->update([
             'sku' => (int) $row[0],
             'fnsku' =>$row[1],
-            'product_name' =>$row[3],
+            'product_name' => $productName,
             'condition' =>$row[4],
             'your_price' => (float) $row[5],
             'mfn_listing_exists' =>$row[6],
-            'mfn_fulfillable_quantity' =>$row[7],
+            'mfn_fulfillable_quantity' => (int) $row[7],
             'afn_listing_exists' =>$row[8],
             'afn_warehouse_quantity' => (int) $row[9],
             'afn_fulfillable_quantity' => (int) $row[10],
@@ -116,25 +119,28 @@ class UnsuppressedInventory extends ToDb
      */
     private function insertRow($row)
     {
+        // Truncated error? Hmmm...
+        $productName = substr($row[3], 0, 255);
+
         $row = AmazonUnsuppressedInventory::create([
             'sku' => (int) $row[0],
             'fnsku' =>$row[1],
             'asin' =>$row[2],
-            'product_name' =>$row[3],
+            'product_name' => $productName,
             'condition' =>$row[4],
             'your_price' => (float) $row[5],
             'mfn_listing_exists' =>$row[6],
-            'mfn_fulfillable_quantity' =>$row[7],
+            'mfn_fulfillable_quantity' => (int) $row[7],
             'afn_listing_exists' =>$row[8],
-            'afn_warehouse_quantity' => (float) $row[9],
-            'afn_fulfillable_quantity' => (float) $row[10],
-            'afn_unsellable_quantity' => (float) $row[11],
-            'afn_reserved_quantity' => (float) $row[12],
-            'afn_total_quantity' => (float) $row[13],
+            'afn_warehouse_quantity' => (int) $row[9],
+            'afn_fulfillable_quantity' => (int) $row[10],
+            'afn_unsellable_quantity' => (int) $row[11],
+            'afn_reserved_quantity' => (int) $row[12],
+            'afn_total_quantity' => (int) $row[13],
             'per_unit_volume' => (float) $row[14],
-            'afn_inbound_working_quantity' => (float) $row[15],
-            'afn_inbound_shipped_quantity' => (float) $row[16],
-            'afn_inbound_receiving_quantity' => (float) $row[17],
+            'afn_inbound_working_quantity' => (int) $row[15],
+            'afn_inbound_shipped_quantity' => (int) $row[16],
+            'afn_inbound_receiving_quantity' => (int) $row[17],
         ]);
 
         return $row ? 1 : 0;
