@@ -104,32 +104,40 @@ class HistoryStatusSummaryCommand extends Command
         $details = str_pad($userId, 7);
         $this->info($details);
 
-//        foreach ($userSummary as $type => $row) {
-//            $line = str_pad($type, 10);
+//        foreach ($reports as $idx => $reportType) {
+//            $len = $typeLengths[$idx];
 //
-//            foreach ($row as $status => $count) {
-//                $line .= str_pad($status, 10);
-//                $line .= str_pad($count, 10);
+//            $line = '';
+//
+//            if (isset($userSummary[$reportType])) {
+//                foreach ($userSummary[$reportType] as $status => $count) {
+//                    $line .= str_pad($status, 20);
+//                    $line .= str_pad($count, 10);
+//                }
 //            }
 //
-//            $this->info($line);
+//            $outline = str_pad($line, $len);
+//
+//            $this->info($outline);
 //        }
 
-        foreach ($reports as $idx => $reportType) {
-            $len = $typeLengths[$idx];
+        $statuses = ['_DONE_', '_CANCELLED_'];
 
-            $line = '';
+        foreach ($statuses as $status) {
+            $statLine = '';
 
-            if (isset($userSummary[$reportType])) {
-                foreach ($userSummary[$reportType] as $status => $count) {
-                    $line .= str_pad($status, 20);
-                    $line .= str_pad($count, 10);
-                }
+            foreach ($reports as $idx => $reportType) {
+                $length = $typeLengths[$idx];
+                $statLine .= $this->getStatusSummaryForReportType($status, $reportType, $userSummary, $length);
             }
 
-            $outline = str_pad($line, $len);
-
-            $this->info($outline);
+            $this->info($statLine);
         }
+    }
+
+    private function getStatusSummaryForReportType($status, $reportType, $userSummary, $length)
+    {
+        $count = $userSummary[$reportType][$status];
+        return str_pad("$status: $count", $length);
     }
 }
