@@ -198,7 +198,7 @@ class User extends Authenticatable
 
     public function latestHistory($type)
     {
-        $this->amazonRequestHistory()
+        return $this->amazonRequestHistory()
             ->withoutGlobalScopes()
             ->where('type', $type)
             ->orderBy('created_at', 'desc')
