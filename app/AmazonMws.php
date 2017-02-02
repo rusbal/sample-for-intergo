@@ -32,7 +32,7 @@ class AmazonMws extends EloquentModel
     ];
 
     public static $rules = [
-        'merchant_id' => 'required|unique:amazon_mws|size:14',
+        'merchant_id' => 'required|unique:amazon_mws|between:13,14',
         'mws_auth_token' => 'required',
     ];
 
