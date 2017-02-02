@@ -98,9 +98,9 @@ class MerchantListing extends ToDb
     {
         $listingId = $row[2];
 
-        $openDate = (new \DateTime($row[6]))->format( 'Y-m-d H:i:s' );
+        $openDate = (new \DateTime($row[6]))->format( 'Y-m-d H:i:s');
 
-        return AmazonMerchantListing::where('listing_id', $listingId)->update([
+        $data = [
             'user_id' => $this->user->id,
             'item_name' => $row[0],
             'item_description' => $row[1],
@@ -128,7 +128,13 @@ class MerchantListing extends ToDb
             'add_delete'  => $row[24],
             'pending_quantity'  => (int) $row[25],
             'fulfillment_channel' => isset($row[26]) ? $row[26] : null,
-        ]);
+        ];
+
+        if (isset($row[26])) {
+            $data['fulfillment_channel'] = $row[26];
+        }
+
+        return AmazonMerchantListing::where('listing_id', $listingId)->update($data);
     }
 
     /**
@@ -157,7 +163,7 @@ class MerchantListing extends ToDb
          * NOTE: Writing it anyway.  Check if set, else, just write the data and ignore.
          */
 
-        $row = AmazonMerchantListing::create([
+        $data = [
             'user_id' => $this->user->id,
             'item_name' => $row[0],
             'item_description' => $row[1],
@@ -185,8 +191,10 @@ class MerchantListing extends ToDb
             'bid_for_featured_placement'  => $row[23],
             'add_delete'  => $row[24],
             'pending_quantity'  => (int) $row[25],
-            'fulfillment_channel' => isset($row[26]) ? $row[26] : null,
-        ]);
+            'fulfillment_channel' => isset($row[26]) ? $row[26] : '--PROGRAMMER-- row 26 not set',
+        ];
+
+        $row = AmazonMerchantListing::create($data);
 
         return $row ? 1 : 0;
     }
