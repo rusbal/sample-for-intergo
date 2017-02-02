@@ -14,7 +14,10 @@ class ShowRequestsCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'skubright:show-requests';
+    protected $signature = 'skubright:show-requests
+                            {--all : Whether to list all requests}
+                            {--active : Whether to list current requests only}
+                            {--history : Whether to list history requests only}';
 
     /**
      * The console command description.
@@ -40,9 +43,38 @@ class ShowRequestsCommand extends Command
      */
     public function handle()
     {
-        $this->showRequest();
-        $this->info('');
-        $this->showLatestHistory();
+        $isAll = $this->option('all');
+        $isActive = $this->option('active');
+        $isHistory = $this->option('history');
+
+        if ($isAll) {
+            $showCurrent = true;
+            $showHistory = true;
+
+        } elseif ($isActive) {
+            $showCurrent = true;
+            $showHistory = false;
+
+        } elseif ($isHistory) {
+            $showCurrent = false;
+            $showHistory = true;
+
+        } else {
+            $showCurrent = true;
+            $showHistory = false;
+        }
+
+        if ($showCurrent) {
+            $this->showRequest();
+        }
+
+        if ($isAll) {
+            $this->info('');
+        }
+
+        if ($showHistory) {
+            $this->showLatestHistory();
+        }
     }
 
     /**
