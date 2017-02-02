@@ -113,14 +113,12 @@ class HistoryStatusSummaryCommand extends Command
                 /**
                  * First item, remove length of status: 15
                  */
-                $length -= 7 + 15;
+                $length -= 0 + 15;
             }
 
             $statValues .= $this->getStatusSummaryForReportType($status, $reportType, $userSummary, $length);
 
-            if ($idx > 0) {
-                $statValues .= str_repeat(' ', 3);
-            }
+            $statValues .= str_repeat(' ', 3);
         }
 
         $leftMargin  = str_repeat(' ', 7);
