@@ -18,7 +18,9 @@ tr.vuetable-detail-row {
 
 <template>
   <div class="ui">
-      <button id="show-modal" @click="showModal = true">Show Modal</button>
+
+      <!--<button id="show-modal" @click="showModal = true">Show Modal</button>-->
+
       <!-- use the modal component, pass in the prop -->
       <modal v-if="showModal" @close="showModal = false">
           <h3 slot="header">ray header</h3>
@@ -143,30 +145,28 @@ export default {
     onCellClicked (data, field, event) {
       console.log('cellClicked: ', field.name)
       this.$refs.vuetable.toggleDetailRow(data.id)
-    }
-  },
-  events: {
-    'open-monitor-form' (data) {
-      console.log('monitorFormOpened')
-      this.$refs.vuetable.toggleDetailRow(data.id)
     },
-    'submit-monitor-form' (data) {
-
+    submitAjax(data) {
       axios.patch(
         '/ajax/aml/monitor/' + data.id,
-        { will_monitor: data.will_monitor ? 0 : 1 }
+        {
+            will_monitor: data.will_monitor ? 0 : 1,
+            minimum_advertized_price: data.minimumAdvertizedPrice,
+            maximum_offer_quantity: data.maximumOfferQuantity
+        }
 
       ).then((response) => {
          console.log(response.data)
           if (response.data.success) {
-              data.will_monitor = data.will_monitor ? 0 : 1
-
               this.message = null
               this.messageType = null
               this.monitoredListingCount = response.data.monitoredListingCount
 
-              console.log('monitorFormCancelled')
-              this.$refs.vuetable.toggleDetailRow(data.id)
+              if (data.will_monitor === 0) {
+                 this.$refs.vuetable.toggleDetailRow(data.id)
+              }
+
+              data.will_monitor = data.will_monitor ? 0 : 1
 
           } else {
               this.message = response.data.message
@@ -177,7 +177,22 @@ export default {
       }).catch((response) => {
           alert('Failed to save your inputs.  Please try again.')
       });
+    }
+  },
+  events: {
+    'open-monitor-form' (data) {
+      if (data.will_monitor === 0) {
+        console.log('monitorFormOpened')
+        this.$refs.vuetable.toggleDetailRow(data.id)
+        return
+      }
 
+      // Submit immediately if user is setting monitoring off.
+      this.submitAjax(data)
+    },
+    'submit-monitor-form' (data) {
+      // Input is validated in DetailRow.vue
+      this.submitAjax(data)
     },
     'cancel-monitor-form' (data) {
       console.log('monitorFormSubmitted')

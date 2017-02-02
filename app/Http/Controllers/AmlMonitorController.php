@@ -27,15 +27,28 @@ class AmlMonitorController extends Controller
         if (is_null($willMonitor)) {
             throw new \Exception('Invalid call to AmlMonitorController@update.  Missing will_monitor');
         }
+        $minimumAdvertizedPrice = $request->get('minimum_advertized_price');
+        $maximumOfferQuantity   = $request->get('maximum_offer_quantity');
 
-        return $this->updateWillMonitor($listing, $willMonitor);
+        if ($willMonitor === 1) {
+            if (! $minimumAdvertizedPrice && ! $maximumOfferQuantity) {
+                throw new \Exception('Invalid call to AmlMonitorController@update.  Both fields empty: minimum_advertized_price, maximum_offer_quantity');
+            }
+        }
+
+        return $this->updateWillMonitor($listing, $willMonitor, $minimumAdvertizedPrice, $maximumOfferQuantity);
     }
 
-    /**
-     * Private
-     */
+    // PRIVATE
 
-    private function updateWillMonitor($listing, $willMonitor)
+    /**
+     * @param AmazonMerchantListing $listing
+     * @param $willMonitor
+     * @param $minimumAdvertizedPrice
+     * @param $maximumOfferQuantity
+     * @return array
+     */
+    private function updateWillMonitor($listing, $willMonitor, $minimumAdvertizedPrice, $maximumOfferQuantity)
     {
         if ($willMonitor === 1) {
             $stats = Auth::user()->planStats();
@@ -43,6 +56,9 @@ class AmlMonitorController extends Controller
             if ($stats->isUsedUp) {
                 return $this->failure("Plan allocation already used up!  [" . strtoupper($stats->plan) . ": {$stats->monitorCount}]");
             }
+
+            $listing->minimum_advertized_price = $minimumAdvertizedPrice;
+            $listing->maximum_offer_quantity   = $maximumOfferQuantity;
         }
 
         $listing->will_monitor = $willMonitor;

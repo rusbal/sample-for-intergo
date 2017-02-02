@@ -16,7 +16,11 @@ class AmazonListingController extends Controller
         'asin1',
         'item_name',
         'quantity_available',
+
+        // Monitoring
         'will_monitor',
+        'minimum_advertized_price',
+        'maximum_offer_quantity',
 
         // Detail Row
         'price',
