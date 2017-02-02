@@ -51,7 +51,7 @@ class ListUsersCommand extends Command
         foreach ($users as $user) {
 
             $mws = $user->amazonMws;
-            $mwsStatus = $mws->valid === 1 ? '*** OK ***' : ($mws->valid === 0 ? 'Not validated' : 'Not set');
+            $mwsStatus = $mws->valid === 1 ? 'OK' : ($mws->valid === 0 ? '--- Not validated' : '--- Not set');
 
             $listing = $user->amazonMerchantListing;
             $listingCount = $listing->count();
