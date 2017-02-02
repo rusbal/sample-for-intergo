@@ -2,7 +2,7 @@
 
 @section('top')
     <tr>
-        <td class="text-right p-tb-20">
+        <td class="text-right">
             <label>Inclusive Dates: <input type="text" id="daterange" name="daterange"></label>
         </td>
     </tr>
