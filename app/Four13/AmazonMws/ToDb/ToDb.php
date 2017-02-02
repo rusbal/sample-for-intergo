@@ -38,4 +38,10 @@ abstract class ToDb
 
         return true;
     }
+
+    public function doesFirstLineContainLabels()
+    {
+        return isset($this->rows[0][0])
+            && $this->rows[0][0] == self::IGNORE_FIRST_LINE_WITH_FIRST_COLUMN;
+    }
 }
