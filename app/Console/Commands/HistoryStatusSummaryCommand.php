@@ -104,6 +104,7 @@ class HistoryStatusSummaryCommand extends Command
     {
         $this->info('-----------------------------------------------------');
         $this->info($userId . '   ' . User::find($userId)->name);
+        $col1Space = str_repeat(' ', 7);
 
         $statuses = ['_DONE_', '_CANCELLED_'];
 
@@ -112,10 +113,10 @@ class HistoryStatusSummaryCommand extends Command
 
             foreach ($reports as $idx => $reportType) {
                 $length = $typeLengths[$idx];
-                
+
                 if ($idx == 0) {
                     /**
-                     * First item, remove length of status: 14 + 1 space
+                     * First item, remove length of status: 15
                      */
                     $length -= 15;
                 }
@@ -123,8 +124,8 @@ class HistoryStatusSummaryCommand extends Command
                 $statLine .= $this->getStatusSummaryForReportType($status, $reportType, $userSummary, $length);
             }
 
-            $formattedStatus = str_pad($status, 14);
-            $this->info("$formattedStatus $statLine");
+            $formattedStatus = str_pad($status, 15);
+            $this->info("{$col1Space}{$formattedStatus}{$statLine}");
         }
     }
 
