@@ -51,23 +51,36 @@ class MerchantListing extends ToDb
         DB::transaction(function () {
             $countInserted = 0;
             $countUpdated = 0;
-            $countInvalid = 0;
+            $count26Cols = 0;
+            $count27Cols = 0;
+            $count28Cols = 0;
 
-            $GET_MERCHANT_LISTINGS_ALL_DATA = 28;
+            /**
+             * NOTE: Column count varies at 26, 27, 28 columns.
+             * Data is written to database all the time.
+             */
 
             foreach ($this->rows as $row) {
                 if (!$this->isValid($row)) {
                     continue;
                 }
 
-                if (count($row) != $GET_MERCHANT_LISTINGS_ALL_DATA) {
-                    $countInvalid += 1;
-                    Log::info(__CLASS__ . '@saveToDb'
-                        . " invalid but writing it anyway: [expected column count of $GET_MERCHANT_LISTINGS_ALL_DATA"
-                        . " but got " . count($row) . "]");
-                }
+                $columnCount = count($row);
 
-//                if ($this->reportClass == 'report-update') {
+                if ($columnCount == 26) {
+                    $count26Cols += 1;
+
+                } elseif ($columnCount == 27) {
+                    $count27Cols += 1;
+
+                } elseif ($columnCount == 28) {
+                    $count28Cols += 1;
+
+                } else {
+                    Log::info(__CLASS__ . '@saveToDb'
+                        . " invalid but writing it anyway: [expected column count of 26, 27, 28"
+                        . " but got " . $columnCount . "]");
+                }
 
                 $listingId = $row[2];
 
@@ -80,7 +93,9 @@ class MerchantListing extends ToDb
 
             Log::info(__CLASS__ . '@saveToDb' . " inserted: $countInserted");
             Log::info(__CLASS__ . '@saveToDb' . " updated: $countUpdated");
-            Log::info(__CLASS__ . '@saveToDb' . " invalid: $countInvalid");
+            Log::info(__CLASS__ . '@saveToDb' . " 26 cols: $count26Cols");
+            Log::info(__CLASS__ . '@saveToDb' . " 27 cols: $count27Cols");
+            Log::info(__CLASS__ . '@saveToDb' . " 28 cols: $count28Cols");
         });
     }
 
