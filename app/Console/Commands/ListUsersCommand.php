@@ -46,6 +46,7 @@ class ListUsersCommand extends Command
             . str_pad('MWS', 20)
             . str_pad('LISTING', 10)
             . str_pad('REQUEST', 10)
+            . str_pad('DESCRIPTION', 40)
         );
 
         foreach ($users as $user) {
@@ -59,12 +60,15 @@ class ListUsersCommand extends Command
             $request = $user->amazonRequestHistory();
             $requestCount = $request->count();
 
+            $requestDesc = implode(', ', $user->getDistinctRequestHistory());
+
             $this->info(
                 str_pad($user->id, 5)
                 . str_pad($user->name, 35)
                 . str_pad($mwsStatus, 20)
                 . str_pad($listingCount, 7, ' ', STR_PAD_LEFT) . '   '
                 . str_pad($requestCount, 7, ' ', STR_PAD_LEFT) . '   '
+                . str_pad($requestDesc, 40)
             );
         }
     }
