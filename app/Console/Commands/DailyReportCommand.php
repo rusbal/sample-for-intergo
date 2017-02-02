@@ -16,7 +16,8 @@ class DailyReportCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'skubright:report-revenue-daily';
+    protected $signature = 'skubright:report-revenue-daily
+                            {user? : The ID of the user}';
 
     /**
      * The console command description.
@@ -42,7 +43,13 @@ class DailyReportCommand extends Command
      */
     public function handle()
     {
-        $users = User::all();
+        $userId = $this->argument('user');
+
+        if ($userId) {
+            $users = User::where('id', $userId)->get();
+        } else {
+            $users = User::all();
+        }
 
         $this->info("Daily Revenue Report");
         $this->info("-------------------------------------------");
