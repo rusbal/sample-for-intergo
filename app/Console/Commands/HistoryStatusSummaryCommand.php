@@ -113,9 +113,10 @@ class HistoryStatusSummaryCommand extends Command
          */
         $user = User::find($userId);
 
-        return array_map(function($reportType) use($user) {
-            return [ $reportType => $user->latestHistory($reportType)->status ];
-        }, AmazonMws::REPORT_REQUEST_TYPES);
+        return array_reduce(AmazonMws::REPORT_REQUEST_TYPES, function ($output, $reportType) use($user) {
+            $output[$reportType] = $user->latestHistory($reportType)->status;
+            return $output;
+        });
     }
 
     private function printStatus($reports, $typeLengths, $status, $userSummary)
