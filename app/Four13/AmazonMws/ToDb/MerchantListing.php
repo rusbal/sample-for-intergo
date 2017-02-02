@@ -127,7 +127,6 @@ class MerchantListing extends ToDb
             'bid_for_featured_placement'  => $row[23],
             'add_delete'  => $row[24],
             'pending_quantity'  => (int) $row[25],
-            'fulfillment_channel' => isset($row[26]) ? $row[26] : null,
         ];
 
         if (isset($row[26])) {
