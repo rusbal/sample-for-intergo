@@ -122,6 +122,10 @@ class HistoryStatusSummaryCommand extends Command
                 }
 
                 $statLine .= $this->getStatusSummaryForReportType($status, $reportType, $userSummary, $length);
+
+                if ($idx > 0) {
+                    $statLine .= str_repeat(' ', 3);
+                }
             }
 
             $formattedStatus = str_pad($status, 15);
