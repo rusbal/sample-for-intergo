@@ -79,22 +79,15 @@ class RequestForUpdatesCommand extends Command
      */
     private function requestableReports($user)
     {
-        $reports = AmazonMws::REPORT_REQUEST_TYPES;
-        $onHistory = [];
+        $onHistory = $user->getDistinctRequestHistory();
 
-        foreach ($user->amazonRequestHistory as $history) {
-            $onHistory[] = $history->type;
+        if (empty($onHistory)) {
+            /**
+             * Nothing to update yet
+             */
+            return [];
         }
 
-        /**
-         * Merchant listing data must exist before calling _GET_AFN_INVENTORY_DATA_.
-         * Thus, we remove _GET_AFN_INVENTORY_DATA_ if _GET_MERCHANT_LISTINGS_ALL_DATA_
-         * is not in history.
-         */
-        if (! in_array('_GET_MERCHANT_LISTINGS_ALL_DATA_', $onHistory)) {
-            $reports = array_diff($reports, ['_GET_AFN_INVENTORY_DATA_']);
-        }
-
-        return $reports;
+        return AmazonMws::REPORT_REQUEST_TYPES;
     }
 }

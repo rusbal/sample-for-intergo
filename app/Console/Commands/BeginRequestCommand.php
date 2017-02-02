@@ -86,12 +86,12 @@ class BeginRequestCommand extends Command
      * Returns an array of requestable reports.
      * These are report types that do not exist on history yet.
      *
-     * @param $user
+     * @param User $user
      * @return array
      */
     private function requestableReports($user)
     {
-        $onHistory = $this->getRequestHistoryFor($user);
+        $onHistory = $user->getDistinctRequestHistory();
 
         if (empty($onHistory)) {
             return ['_GET_MERCHANT_LISTINGS_ALL_DATA_'];
