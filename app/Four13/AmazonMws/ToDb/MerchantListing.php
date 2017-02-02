@@ -125,7 +125,7 @@ class MerchantListing extends ToDb
             'bid_for_featured_placement'  => $row[23],
             'add_delete'  => $row[24],
             'pending_quantity'  => (int) $row[25],
-            'fulfillment_channel' => $row[26],
+            'fulfillment_channel' => isset($row[26]) ? $row[26] : null,
         ]);
     }
 
@@ -148,6 +148,12 @@ class MerchantListing extends ToDb
         |
         | merchant-shipping-group is not saved on table: amazon_merchant_listing
         */
+
+        /**
+         * ErrorException: Undefined offset 26
+         *
+         * NOTE: Writing it anyway.  Check if set, else, just write the data and ignore.
+         */
 
         $row = AmazonMerchantListing::create([
             'user_id' => $this->user->id,
@@ -177,7 +183,7 @@ class MerchantListing extends ToDb
             'bid_for_featured_placement'  => $row[23],
             'add_delete'  => $row[24],
             'pending_quantity'  => (int) $row[25],
-            'fulfillment_channel' => $row[26],
+            'fulfillment_channel' => isset($row[26]) ? $row[26] : null,
         ]);
 
         return $row ? 1 : 0;
