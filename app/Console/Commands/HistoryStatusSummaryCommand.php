@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\AmazonMws;
 use App\AmazonRequestHistory;
+use App\User;
 use Illuminate\Console\Command;
 
 class HistoryStatusSummaryCommand extends Command
@@ -101,8 +102,8 @@ class HistoryStatusSummaryCommand extends Command
 
     private function printUserSummary($userId, $userSummary, $reports, $typeLengths)
     {
-        $details = str_pad($userId, 7);
-        $this->info($details);
+        $this->info('-----------------------------------------------------');
+        $this->info($userId . '   ' . User::find($userId)->name);
 
 //        foreach ($reports as $idx => $reportType) {
 //            $len = $typeLengths[$idx];
