@@ -26,6 +26,7 @@ class Kernel extends ConsoleKernel
         Commands\ShowRequestsCommand::class,
         Commands\ShowInvalidSkuCommand::class,
         Commands\ShowInventoryFetchCommand::class,
+        Commands\HistoryStatusSummaryCommand::class,
 
         Commands\DailyReportCommand::class,
         Commands\ReportCacheClearCommand::class,
