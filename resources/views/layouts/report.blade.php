@@ -7,7 +7,7 @@
     <title>{{ strip_tags($reportTitle) }}</title>
 
     <link href="{!! elixir('css/app.css') !!}" rel="stylesheet">
-    <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/1/jquery.min.js"></script>
+    <script src="{!! elixir('js/app.js') !!}"></script>
 </head>
 
 <?php
@@ -28,6 +28,9 @@ $style = [
 ?>
 
 <body class="report">
+
+@include('layouts._nav')
+
 <table width="100%" cellpadding="0" cellspacing="0">
     <tr>
         <td align="center" style="height: 50px;">
