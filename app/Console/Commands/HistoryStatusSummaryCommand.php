@@ -104,15 +104,30 @@ class HistoryStatusSummaryCommand extends Command
         $details = str_pad($userId, 7);
         $this->info($details);
 
-        foreach ($userSummary as $type => $row) {
-            $line = str_pad($type, 10);
+//        foreach ($userSummary as $type => $row) {
+//            $line = str_pad($type, 10);
+//
+//            foreach ($row as $status => $count) {
+//                $line .= str_pad($status, 10);
+//                $line .= str_pad($count, 10);
+//            }
+//
+//            $this->info($line);
+//        }
 
-            foreach ($row as $status => $count) {
-                $line .= str_pad($status, 10);
+        foreach ($reports as $idx => $reportType) {
+            $len = $typeLengths[$idx];
+
+            $line = '';
+
+            foreach ($userSummary[$reportType] as $status => $count) {
+                $line .= str_pad($status, 20);
                 $line .= str_pad($count, 10);
             }
 
-            $this->info($line);
+            $outline = str_pad($line, $len);
+
+            $this->info($outline);
         }
     }
 }
