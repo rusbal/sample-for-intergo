@@ -18,6 +18,16 @@ tr.vuetable-detail-row {
 
 <template>
   <div class="ui">
+      <button id="show-modal" @click="showModal = true">Show Modal</button>
+      <!-- use the modal component, pass in the prop -->
+      <modal v-if="showModal" @close="showModal = false">
+          <h3 slot="header">ray header</h3>
+          <h3 slot="body">usbal body</h3>
+          <template slot="footer">
+              <button class="modal-primary-button btn btn-primary" @click="$emit('close')"> Monitor </button>
+              <button class="modal-default-button btn btn-default" @click="showModal = false"> Cancel </button>
+          </template>
+      </modal>
 
     <div v-show="message" class="alert text-left dismissible bold-notice" :class="messageType">
       {{ message }}
@@ -49,7 +59,6 @@ tr.vuetable-detail-row {
               :fields="fields"
               :multi-sort="true"
               :per-page="100"
-              @vuetable:cell-clicked="onCellClicked"
               @vuetable:pagination-data="onPaginationData"
               detail-row-component="my-detail-row"
               pagination-path=""
@@ -83,6 +92,8 @@ Vue.component('filter-bar', FilterBar)
 import VueEvents              from 'vue-events'
 Vue.use(VueEvents)
 
+Vue.component('modal', { template: '#modal-template' })
+
 export default {
   components: {
     Vuetable,
@@ -93,6 +104,7 @@ export default {
   props: ['monitoredListing'],
   data () {
     return {
+      showModal: false,
       monitoredListingCount: 0,
       fields: Fields.Listing,
       moreParams: {},
@@ -106,7 +118,6 @@ export default {
   },
   computed: {
     apiUrl() {
-      //return `/api/aml/method/listing?user=${Laravel.userId}`
       return '/ajax/aml/listing'
     }
   },
@@ -135,6 +146,43 @@ export default {
     }
   },
   events: {
+    'open-monitor-form' (data) {
+      console.log('monitorFormOpened')
+      this.$refs.vuetable.toggleDetailRow(data.id)
+    },
+    'submit-monitor-form' (data) {
+
+      axios.patch(
+        '/ajax/aml/monitor/' + data.id,
+        { will_monitor: data.will_monitor ? 0 : 1 }
+
+      ).then((response) => {
+         console.log(response.data)
+          if (response.data.success) {
+              data.will_monitor = data.will_monitor ? 0 : 1
+
+              this.message = null
+              this.messageType = null
+              this.monitoredListingCount = response.data.monitoredListingCount
+
+              console.log('monitorFormCancelled')
+              this.$refs.vuetable.toggleDetailRow(data.id)
+
+          } else {
+              this.message = response.data.message
+              this.messageType = 'alert-warning'
+              window.scrollTo(0, 0)
+          }
+
+      }).catch((response) => {
+          alert('Failed to save your inputs.  Please try again.')
+      });
+
+    },
+    'cancel-monitor-form' (data) {
+      console.log('monitorFormSubmitted')
+      this.$refs.vuetable.toggleDetailRow(data.id)
+    },
     'filter-set' (filterText) {
       this.moreParams.filter = filterText
       Vue.nextTick( () => this.$refs.vuetable.refresh())
@@ -153,6 +201,9 @@ export default {
       this.messageType = null
 
       this.monitoredListingCount = monitoredCount
+    },
+    'close' () {
+      alert('closing popup')
     }
   }
 }

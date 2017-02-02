@@ -34,23 +34,25 @@
     methods: {
       itemAction (action, data, index) {
 
-        let hold_monitor = data.will_monitor
-        data.will_monitor = null
+        this.$events.fire('open-monitor-form', data)
 
-        axios.patch(
-          '/ajax/aml/monitor/' + data.id,
-          { will_monitor: hold_monitor ? 0 : 1 }
-
-        ).then((response) => {
-            if (response.data.success) {
-                data.will_monitor = hold_monitor ? 0 : 1
-                this.$events.fire('success-monitor-update', response.data.monitoredListingCount)
-            } else {
-                data.will_monitor = hold_monitor
-                this.$events.fire('plan-allocation-used-up', response.data.message)
-            }
-
-        }).catch((response) => data.will_monitor = hold_monitor);
+//      let hold_monitor = data.will_monitor
+//      data.will_monitor = null
+//
+//      axios.patch(
+//        '/ajax/aml/monitor/' + data.id,
+//        { will_monitor: hold_monitor ? 0 : 1 }
+//
+//      ).then((response) => {
+//          if (response.data.success) {
+//              data.will_monitor = hold_monitor ? 0 : 1
+//              this.$events.fire('success-monitor-update', response.data.monitoredListingCount)
+//          } else {
+//              data.will_monitor = hold_monitor
+//              this.$events.fire('plan-allocation-used-up', response.data.message)
+//          }
+//
+//      }).catch((response) => data.will_monitor = hold_monitor);
 
       }
     }
