@@ -21,6 +21,7 @@ class Kernel extends ConsoleKernel
         Commands\PauseRequestsCommand::class,
         Commands\UnpauseRequestsCommand::class,
         Commands\DiscardRequestsCommand::class,
+        Commands\RequestListingForUserCommand::class,
 
         Commands\ShowRequestsCommand::class,
         Commands\ShowInvalidSkuCommand::class,
