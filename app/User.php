@@ -187,4 +187,12 @@ class User extends Authenticatable
     {
         return $this->amazonMerchantListing->where('will_monitor', 1)->count();
     }
+
+    public function getDistinctRequestHistory()
+    {
+        return array_map(
+            function($history){ return $history['type']; },
+            $this->amazonRequestHistory()->distinct()->select('type')->get()->toArray()
+        );
+    }
 }
