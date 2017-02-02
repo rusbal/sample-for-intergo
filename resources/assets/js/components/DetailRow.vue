@@ -12,7 +12,7 @@
                 <div class="two fields">
                     <div class="field" :class="{ error: mapInvalid }">
                         <label>Minimum Advertized Price </label>
-                        <input v-model="minimumAdvertizedPrice" placeholder="Minimum Advertized Price" type="text">
+                        <input v-model="minimumAdvertizedPrice" ref="minimumAdvertizedPrice" placeholder="Minimum Advertized Price" type="text">
                     </div>
                     <div class="field" :class="{ error: moqInvalid }">
                         <label>Maximum Number of Sellers</label>
@@ -50,6 +50,7 @@
     mounted() {
         this.minimumAdvertizedPrice = this.rowData.minimum_advertized_price
         this.maximumOfferQuantity   = this.rowData.maximum_offer_quantity
+        this.$refs.minimumAdvertizedPrice.focus()
     },
     methods: {
       onCancel(data) {
@@ -64,6 +65,9 @@
         this.minimumAdvertizedPrice == this.minimumAdvertizedPrice.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '')
         this.maximumOfferQuantity == this.maximumOfferQuantity.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '')
 
+        /**
+         * Validation
+         */
         if (this.minimumAdvertizedPrice == '') {
            this.mapInvalid = true
         } else {
