@@ -80,6 +80,8 @@ class MerchantListing extends ToDb
                     Log::info(__CLASS__ . '@saveToDb'
                         . " invalid but writing it anyway: [expected column count of 26, 27, 28"
                         . " but got " . $columnCount . "]");
+                    
+                    continue;
                 }
 
                 $listingId = $row[2];
