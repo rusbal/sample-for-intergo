@@ -6,8 +6,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>{{ strip_tags($reportTitle) }}</title>
 
+    <script>window.Laravel = [];</script>
     <link href="{!! elixir('css/app.css') !!}" rel="stylesheet">
-    <script src="{!! elixir('js/app.js') !!}"></script>
 </head>
 
 <?php
@@ -74,6 +74,9 @@ $style = [
         </td>
     </tr>
 </table>
+
+<div id="app" ref="no-vue-err-ok"></div>
+<script src="{!! elixir('js/app.js') !!}"></script>
 
 <!-- Include Required Prerequisites -->
 <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
