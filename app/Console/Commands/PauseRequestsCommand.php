@@ -39,5 +39,6 @@ class PauseRequestsCommand extends Command
     public function handle()
     {
         DB::table('amazon_request_queues')->update(['pause' => 1]);
+        $this->call('skubright:show-requests');
     }
 }
