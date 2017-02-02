@@ -92,7 +92,7 @@ class HistoryStatusSummaryCommand extends Command
 
     private function getRequestTypeLengths($types)
     {
-        return array_map('str_len',$types);
+        return array_map('strlen',$types);
 //        return array_map(function($type) {
 //            return count($type);
 //        }, $types);
