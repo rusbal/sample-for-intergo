@@ -48,8 +48,8 @@
         }
     },
     mounted() {
-        this.minimumAdvertizedPrice = this.rowData.minimum_advertized_price
-        this.maximumOfferQuantity   = this.rowData.maximum_offer_quantity
+        this.minimumAdvertizedPrice = this.rowData.minimum_advertized_price.toString()
+        this.maximumOfferQuantity   = this.rowData.maximum_offer_quantity.toString()
         this.$refs.minimumAdvertizedPrice.focus()
     },
     methods: {
