@@ -137,7 +137,14 @@ class HistoryStatusSummaryCommand extends Command
 
     private function getStatusSummaryForReportType($status, $reportType, $userSummary, $length)
     {
-        $count = $userSummary[$reportType][$status];
+        $count = 0;
+
+        if (isset($userSummary[$reportType])) {
+            if (isset($userSummary[$reportType][$status])) {
+                $count = $userSummary[$reportType][$status];
+            }
+        }
+
         return str_pad("$status: $count", $length);
     }
 }
