@@ -97,7 +97,10 @@ class BeginRequestCommand extends Command
             return ['_GET_MERCHANT_LISTINGS_ALL_DATA_'];
         }
 
-        return AmazonMws::REPORT_REQUEST_TYPES;
+        $reports = AmazonMws::REPORT_REQUEST_TYPES;
+
+        // Remove from reports to request
+        return array_diff($reports, $onHistory);
     }
 
     /**

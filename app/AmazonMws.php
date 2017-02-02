@@ -20,9 +20,9 @@ class AmazonMws extends EloquentModel
     ];
 
     const REPORT_REQUEST_TYPES = [
-//        '_GET_MERCHANT_LISTINGS_ALL_DATA_',
-//        '_GET_AFN_INVENTORY_DATA_',
-//        '_GET_FBA_MYI_UNSUPPRESSED_INVENTORY_DATA_',
+        '_GET_MERCHANT_LISTINGS_ALL_DATA_',
+        '_GET_AFN_INVENTORY_DATA_',
+        '_GET_FBA_MYI_UNSUPPRESSED_INVENTORY_DATA_',
     ];
 
     const REPORT_DATA_HANDLERS = [
