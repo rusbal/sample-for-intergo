@@ -2,9 +2,9 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Model as EloquentModel;
 
-class AmazonUnsuppressedInventory extends Model
+class AmazonUnsuppressedInventory extends EloquentModel
 {
     protected $fillable = [
         'sku',
