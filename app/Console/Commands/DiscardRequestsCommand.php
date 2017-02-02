@@ -39,5 +39,6 @@ class DiscardRequestsCommand extends Command
     public function handle()
     {
         AmazonRequestQueue::getQuery()->delete();
+        $this->call('skubright:show-requests');
     }
 }
