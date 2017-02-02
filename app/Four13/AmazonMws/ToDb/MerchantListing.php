@@ -54,6 +54,7 @@ class MerchantListing extends ToDb
             $count26Cols = 0;
             $count27Cols = 0;
             $count28Cols = 0;
+            $countInvalid = 0;
 
             /**
              * NOTE: Column count varies at 26, 27, 28 columns.
@@ -80,8 +81,8 @@ class MerchantListing extends ToDb
                     Log::info(__CLASS__ . '@saveToDb'
                         . " invalid but writing it anyway: [expected column count of 26, 27, 28"
                         . " but got " . $columnCount . "]");
-                    
-                    continue;
+
+                    $countInvalid += 1;
                 }
 
                 $listingId = $row[2];
@@ -98,6 +99,7 @@ class MerchantListing extends ToDb
             Log::info(__CLASS__ . '@saveToDb' . " 26 cols: $count26Cols");
             Log::info(__CLASS__ . '@saveToDb' . " 27 cols: $count27Cols");
             Log::info(__CLASS__ . '@saveToDb' . " 28 cols: $count28Cols");
+            Log::info(__CLASS__ . '@saveToDb' . " invalid: $countInvalid");
         });
     }
 
