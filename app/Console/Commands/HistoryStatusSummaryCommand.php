@@ -9,6 +9,8 @@ use Illuminate\Console\Command;
 
 class HistoryStatusSummaryCommand extends Command
 {
+    protected $userLatestHistory;
+
     /**
      * The name and signature of the console command.
      *
@@ -97,12 +99,36 @@ class HistoryStatusSummaryCommand extends Command
 
         $statuses = ['_DONE_', '_CANCELLED_'];
 
+        $this->userLatestHistory = $this->getLatestHistory($userId);
+
         foreach ($statuses as $status) {
             $this->printStatus($reports, $typeLengths, $status, $userSummary);
         }
     }
 
+    private function getLatestHistory($userId)
+    {
+        /**
+         * @var User $user
+         */
+        $user = User::find($userId);
+
+        return array_map(function($reportType) use($user) {
+            return [ $reportType => $user->latestHistory($reportType)->status ];
+        }, AmazonMws::REPORT_REQUEST_TYPES);
+    }
+
     private function printStatus($reports, $typeLengths, $status, $userSummary)
+    {
+        $leftMargin  = str_repeat(' ', 7);
+        $labelStatus = $leftMargin . str_pad($status, 15);
+
+        $this->info($labelStatus
+            . $this->getStatusValues($reports, $typeLengths, $status, $userSummary)
+        );
+    }
+
+    private function getStatusValues($reports, $typeLengths, $status, $userSummary)
     {
         $statValues = '';
 
@@ -111,9 +137,9 @@ class HistoryStatusSummaryCommand extends Command
 
             if ($idx == 0) {
                 /**
-                 * First item, remove length of status: 15
+                 * First item, decrease by length of label
                  */
-                $length -= 0 + 15;
+                $length -= 15;
             }
 
             $statValues .= $this->getStatusSummaryForReportType($status, $reportType, $userSummary, $length);
@@ -121,20 +147,7 @@ class HistoryStatusSummaryCommand extends Command
             $statValues .= str_repeat(' ', 3);
         }
 
-        $leftMargin  = str_repeat(' ', 7);
-        $labelStatus = $leftMargin . str_pad($status, 15);
-
-        $this->info($labelStatus . $statValues);
-    }
-
-    private function getRequestTypeLengths($types)
-    {
-        return array_map('strlen',$types);
-    }
-
-    private function printHeader($reports)
-    {
-        $this->info("USER   " . implode("   ", $reports));
+        return $statValues;
     }
 
     private function getStatusSummaryForReportType($status, $reportType, $userSummary, $length)
@@ -147,6 +160,18 @@ class HistoryStatusSummaryCommand extends Command
             }
         }
 
+        $count .= $this->userLatestHistory[$reportType] == $status ? '+' : ' ';
+
         return str_pad($count, $length, ' ', STR_PAD_LEFT);
+    }
+
+    private function getRequestTypeLengths($types)
+    {
+        return array_map('strlen',$types);
+    }
+
+    private function printHeader($reports)
+    {
+        $this->info("USER   " . implode("   ", $reports));
     }
 }
