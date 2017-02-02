@@ -44,8 +44,8 @@ class ListUsersCommand extends Command
             str_pad('ID', 5)
             . str_pad('NAME', 35)
             . str_pad('MWS', 20)
-            . str_pad('LISTING', 13)
-            . str_pad('REQUEST', 13)
+            . str_pad('LISTING', 10)
+            . str_pad('REQUEST', 10)
         );
 
         foreach ($users as $user) {
@@ -63,8 +63,8 @@ class ListUsersCommand extends Command
                 str_pad($user->id, 5)
                 . str_pad($user->name, 35)
                 . str_pad($mwsStatus, 20)
-                . str_pad($listingCount, 10, ' ', STR_PAD_LEFT) . '   '
-                . str_pad($requestCount, 10, ' ', STR_PAD_LEFT) . '   '
+                . str_pad($listingCount, 7, ' ', STR_PAD_LEFT) . '   '
+                . str_pad($requestCount, 7, ' ', STR_PAD_LEFT) . '   '
             );
         }
     }
