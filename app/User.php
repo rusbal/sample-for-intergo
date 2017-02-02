@@ -202,6 +202,7 @@ class User extends Authenticatable
             ->withoutGlobalScopes()
             ->where('type', $type)
             ->orderBy('created_at', 'desc')
-            ->first();
+            ->first()
+            ?: NullObject::create();
     }
 }
