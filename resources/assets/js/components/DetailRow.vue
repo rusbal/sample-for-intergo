@@ -62,8 +62,8 @@
          * Trim polyfill
          * https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/String/trim
          */
-        this.minimumAdvertizedPrice == this.minimumAdvertizedPrice.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '')
-        this.maximumOfferQuantity == this.maximumOfferQuantity.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '')
+        this.minimumAdvertizedPrice == this.minimumAdvertizedPrice.toString().replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '')
+        this.maximumOfferQuantity == this.maximumOfferQuantity.toString().replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '')
 
         /**
          * Validation
