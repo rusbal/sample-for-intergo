@@ -29,6 +29,8 @@ class Kernel extends ConsoleKernel
 
         Commands\DailyReportCommand::class,
         Commands\ReportCacheClearCommand::class,
+
+        Commands\ListUsersCommand::class,
     ];
 
     /**
