@@ -6,7 +6,7 @@ use Illuminate\Console\Command;
 use App\Jobs\ProcessAmazonQueue;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
-class QueueProcessorCommand extends Command
+class ProcessQueueCommand extends Command
 {
     use DispatchesJobs;
 

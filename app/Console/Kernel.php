@@ -14,7 +14,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         Commands\PokeAmazonCommand::class,
-        Commands\QueueProcessorCommand::class,
+        Commands\ProcessQueueCommand::class,
         Commands\RequestForUpdatesCommand::class,
 
         Commands\BeginRequestCommand::class,
