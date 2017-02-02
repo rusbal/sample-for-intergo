@@ -62,7 +62,9 @@ class MerchantListing extends ToDb
 
                 if (count($row) != $GET_MERCHANT_LISTINGS_ALL_DATA) {
                     $countInvalid += 1;
-                    continue;
+                    Log::info(__CLASS__ . '@saveToDb'
+                        . " invalid but writing it anyway: [expected column count of $GET_MERCHANT_LISTINGS_ALL_DATA"
+                        . " but got " . count($row) . "]");
                 }
 
 //                if ($this->reportClass == 'report-update') {
