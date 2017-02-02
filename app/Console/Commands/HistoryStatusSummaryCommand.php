@@ -102,7 +102,7 @@ class HistoryStatusSummaryCommand extends Command
 
     private function printUserSummary($userId, $userSummary, $reports, $typeLengths)
     {
-        $this->info('-----------------------------------------------------');
+        $this->info('');
         $this->info($userId . '   ' . User::find($userId)->name);
         $col1Space = str_repeat(' ', 7);
 
@@ -124,7 +124,7 @@ class HistoryStatusSummaryCommand extends Command
                 $statLine .= $this->getStatusSummaryForReportType($status, $reportType, $userSummary, $length);
 
                 if ($idx > 0) {
-                    $statLine .= str_repeat(' ', 3);
+                    $statLine .= str_repeat(' ', 6);
                 }
             }
 
