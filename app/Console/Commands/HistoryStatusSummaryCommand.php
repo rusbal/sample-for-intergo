@@ -120,9 +120,11 @@ class HistoryStatusSummaryCommand extends Command
 
             $line = '';
 
-            foreach ($userSummary[$reportType] as $status => $count) {
-                $line .= str_pad($status, 20);
-                $line .= str_pad($count, 10);
+            if (isset($userSummary[$reportType])) {
+                foreach ($userSummary[$reportType] as $status => $count) {
+                    $line .= str_pad($status, 20);
+                    $line .= str_pad($count, 10);
+                }
             }
 
             $outline = str_pad($line, $len);
