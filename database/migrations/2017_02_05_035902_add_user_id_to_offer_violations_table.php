@@ -14,7 +14,7 @@ class AddUserIdToOfferViolationsTable extends Migration
     public function up()
     {
         Schema::table('amazon_merchant_listing_offer_violations', function (Blueprint $table) {
-            $table->integer('user_id')->unsigned();
+            $table->integer('user_id')->unsigned()->after('id');
 
             $table->index('user_id', 'user_id_index');
         });
