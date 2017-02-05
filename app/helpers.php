@@ -98,3 +98,38 @@ function userPlanStats($user = null)
 
     return $user->planStats();
 }
+
+/**
+ * @param string      $singleDateCaption
+ * @param Carbon      $startDate
+ * @param string|null $datePeriodCaption
+ * @param Carbon|null $endDate
+ * @return string
+ */
+function reportTitle($singleDateCaption, $startDate, $datePeriodCaption = null, $endDate = null)
+{
+    if ($endDate && $endDate != $startDate) {
+        $isSameYear  = $startDate->format('Y') === $endDate->format('Y');
+        $isSameMonth = $startDate->format('M') === $endDate->format('M');
+
+        if ($isSameYear) {
+            if ($isSameMonth) {
+                $start = $startDate->format('M j');
+                $end   = $endDate->format('j, Y');
+
+                return "Revenue <span class='date'>$start-$end</span>";
+
+            } else {
+                $start = $startDate->format('M d');
+                $end   = $endDate->format('M j, Y');
+            }
+        } else {
+            $start = $startDate->format('M j, Y');
+            $end   = $endDate->format('M j, Y');
+        }
+
+        return "$datePeriodCaption <span class='date'>$start - $end</span>";
+    }
+
+    return "$singleDateCaption <span class='date'>" . $startDate->format('M j, Y') . "</span>";
+}

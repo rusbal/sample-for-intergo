@@ -47,6 +47,8 @@
 
                             <li role="separator" class="divider"></li>
                             <li> <a href="{{ url('/my/reports/daily-revenue') }}"> Revenue Reports </a> </li>
+                            <li> <a href="{{ url('/my/reports/offer-violations') }}"> Offer Violations </a> </li>
+                            <li> <a href="{{ url('/my/reports/price-violations') }}"> Price Violations </a> </li>
 
                             <li role="separator" class="divider"></li>
                             <li>
