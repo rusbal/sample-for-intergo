@@ -47,17 +47,17 @@
             </table>
         </td>
     </tr>
-    <tr>
-        <td style="padding-top: 1em;">
-            <hr style="width: 40px; height: 3px; background-color: #87d9bf; border: none;">
-        </td>
-    </tr>
-    <tr>
-        <td style="text-align: center; font-size: 0.8em; padding: 1em 0 4em;">
-            {{ config('app.name') }}. {{ config('app.address_line_1') }}<br>
-            {{ config('app.address_line_2') }}
-        </td>
-    </tr>
+    {{--<tr>--}}
+        {{--<td style="padding-top: 1em;">--}}
+            {{--<hr style="width: 40px; height: 3px; background-color: #87d9bf; border: none;">--}}
+        {{--</td>--}}
+    {{--</tr>--}}
+    {{--<tr>--}}
+        {{--<td style="text-align: center; font-size: 0.8em; padding: 1em 0 4em;">--}}
+            {{--{{ config('app.name') }}. {{ config('app.address_line_1') }}<br>--}}
+            {{--{{ config('app.address_line_2') }}--}}
+        {{--</td>--}}
+    {{--</tr>--}}
 @endsection
 
 @section('bottom')
