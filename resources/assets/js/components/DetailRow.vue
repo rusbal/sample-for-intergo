@@ -49,10 +49,10 @@
         }
     },
     mounted() {
-        if (this.rowData.minimum_advertized_price) {
+        if (this.rowData.minimum_advertized_price !== null) {
             this.minimumAdvertizedPrice = this.rowData.minimum_advertized_price.toString()
         }
-        if (this.rowData.maximum_offer_quantity) {
+        if (this.rowData.maximum_offer_quantity !== null) {
             this.maximumOfferQuantity   = this.rowData.maximum_offer_quantity.toString()
         }
         this.$refs.minimumAdvertizedPrice.focus()
