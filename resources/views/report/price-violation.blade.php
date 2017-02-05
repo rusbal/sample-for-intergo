@@ -12,6 +12,7 @@
     <tr>
         <td>
             <h1>{!! $reportTitle !!}</h1>
+            <p style="text-align: center;">{{ count($reportData['rows']) }} violations</p>
         </td>
     </tr>
     <tr>

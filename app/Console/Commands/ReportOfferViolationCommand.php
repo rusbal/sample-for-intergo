@@ -5,18 +5,18 @@ namespace App\Console\Commands;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
-use Four13\Reports\DailyRevenue;
+use Four13\Reports\OfferViolation;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\DailyRevenueReportGenerated;
+use App\Mail\OfferViolationReportGenerated;
 
-class DailyReportCommand extends Command
+class ReportOfferViolationCommand extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'skubright:report-revenue-daily
+    protected $signature = 'skubright:report-offer-violation
                             {user? : The ID of the user}';
 
     /**
@@ -24,7 +24,7 @@ class DailyReportCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Generates and sends email containing daily revenue';
+    protected $description = 'Generates and sends email containing offer violation';
 
     /**
      * Create a new command instance.
@@ -51,7 +51,7 @@ class DailyReportCommand extends Command
             $users = User::all();
         }
 
-        $this->info("Daily Revenue Report");
+        $this->info("Offer Violation Report");
         $this->info("-------------------------------------------");
 
         foreach ($users as $user) {
@@ -60,11 +60,28 @@ class DailyReportCommand extends Command
                 continue;
             }
 
-            $reportTitle = 'Daily Revenue [' . date('n/d/y', time() - 86400) . ']';
-            $reportData = DailyRevenue::fetch($user, Carbon::yesterday(), 1, true);
+            $today = Carbon::today();
 
-            Mail::to($user)->send(new DailyRevenueReportGenerated($reportData, $reportTitle));
-            $this->info("*** Daily revenue report email sent: {$user->name}");
+            if ($rows = $this->processUser($user, $today)) {
+                OfferViolation::setAsNotified('\App\AmazonMerchantListingOfferViolation', $user->id, $today);
+            }
         }
+    }
+
+    // PRIVATE
+
+    private function processUser($user, $date)
+    {
+        $reportTitle = 'Offer Violation [' . $date->format('n/d/y') . ']';
+        $reportData = OfferViolation::fetchForEmail($user, $date);
+
+        if ($reportData['count'] > 0) {
+            Mail::to($user)->send(new OfferViolationReportGenerated($reportData, $reportTitle));
+            $this->info("*** Offer violation report email sent: {$user->name}");
+        } else {
+            $this->info("    No offer violation for {$user->name}");
+        }
+
+        return $reportData['rows'];
     }
 }

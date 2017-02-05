@@ -28,7 +28,9 @@ class Kernel extends ConsoleKernel
         Commands\ShowInventoryFetchCommand::class,
         Commands\HistoryStatusSummaryCommand::class,
 
-        Commands\DailyReportCommand::class,
+        Commands\ReportRevenueCommand::class,
+        Commands\ReportOfferViolationCommand::class,
+        Commands\ReportPriceViolationCommand::class,
         Commands\ReportCacheClearCommand::class,
 
         Commands\ListUsersCommand::class,
@@ -59,6 +61,12 @@ class Kernel extends ConsoleKernel
          * and inserts it to Table: amazon_request_queues with a class=report-update.
          */
         $schedule->command('skubright:update-data-request')
+                 ->hourly();
+
+        $schedule->command('skubright:report-price-violation')
+                 ->hourly();
+
+        $schedule->command('skubright:report-offer-violation')
                  ->hourly();
 
         /**
