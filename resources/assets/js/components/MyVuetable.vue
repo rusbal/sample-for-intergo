@@ -143,7 +143,6 @@ export default {
       this.$refs.vuetable.changePage(page)
     },
     onCellClicked (data, field, event) {
-      console.log('cellClicked: ', field.name)
       this.$refs.vuetable.toggleDetailRow(data.id)
     },
     warningMessage(message) {
@@ -163,14 +162,11 @@ export default {
         * AJAX: Unmonitor
         */
 
-        console.log('@un-monitor-item')
-
         axios.patch(
            '/ajax/aml/monitor/' + data.id,
            { will_monitor: 0 }
 
         ).then((response) => {
-            console.log(response.data)
             if (response.data.success) {
                 this.clearMessage()
                 this.monitoredListingCount = response.data.monitoredListingCount
@@ -185,7 +181,6 @@ export default {
         });
     },
     'open-monitor-form' (data) {
-        console.log('@open-monitor-form')
         this.$refs.vuetable.toggleDetailRow(data.id)
     },
     'submit-monitor-form' (data) {
@@ -205,13 +200,15 @@ export default {
             }
 
         ).then((response) => {
-            console.log(response.data)
             if (response.data.success) {
                 this.clearMessage()
                 this.monitoredListingCount = response.data.monitoredListingCount
 
                 this.$refs.vuetable.toggleDetailRow(data.id)
+
                 data.will_monitor = 1
+                data.maximum_offer_quantity = data.maximumOfferQuantity
+                data.minimum_advertized_price = data.minimumAdvertizedPrice
 
             } else {
                 this.warningMessage(response.data.message)
@@ -222,7 +219,6 @@ export default {
         });
     },
     'cancel-monitor-form' (data) {
-        console.log('monitorFormSubmitted')
         this.$refs.vuetable.toggleDetailRow(data.id)
     },
     'filter-set' (filterText) {

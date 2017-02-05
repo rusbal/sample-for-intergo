@@ -64,7 +64,6 @@
     },
     methods: {
       onCancel(data) {
-        console.log('my-detail-row: on-cancel')
         this.$events.fire('cancel-monitor-form', data)
       },
       trim(string) {
@@ -105,7 +104,6 @@
         data.minimumAdvertizedPrice = this.mapInvalid ? null : this.minimumAdvertizedPrice
         data.maximumOfferQuantity   = this.moqInvalid ? null : this.maximumOfferQuantity
 
-        console.log('my-detail-row: on-monitor')
         this.$events.fire('submit-monitor-form', data)
       }
     }
