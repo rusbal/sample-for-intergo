@@ -1,15 +1,30 @@
+<style>
+    .custom-actions button.ui.button {
+      padding: 8px 8px;
+    }
+    .custom-actions button.ui.button > i.icon {
+      margin: auto !important;
+    }
+</style>
+
 <template>
     <div class="custom-actions">
 
-        <button v-if="rowData.will_monitor === 1"
-                class="ui green button"
-                @click="itemAction('uncheck-item', rowData, rowIndex)">
-            <i class="checkmark icon"></i>
-        </button>
+        <div v-if="rowData.will_monitor === 1" class="">
+            <button class="ui outline button"
+                @click="openMonitorForm(rowData)">
+                <i class="edit icon"></i>
+            </button>
+
+            <button class="ui green button"
+                    @click="unMonitorItem(rowData)">
+                <i class="checkmark icon"></i>
+            </button>
+        </div>
 
         <button v-else-if="rowData.will_monitor === 0"
                 class="ui button"
-                @click="itemAction('check-item', rowData, rowIndex)">
+                @click="openMonitorForm(rowData)">
             <i class="square outline icon"></i>
         </button>
 
@@ -32,8 +47,10 @@
       }
     },
     methods: {
-      itemAction (action, data, index) {
-
+      unMonitorItem(data) {
+        this.$events.fire('un-monitor-item', data)
+      },
+      openMonitorForm(data) {
         this.$events.fire('open-monitor-form', data)
 
 //      let hold_monitor = data.will_monitor
@@ -58,12 +75,3 @@
     }
   }
 </script>
-
-<style>
-    .custom-actions button.ui.button {
-      padding: 8px 8px;
-    }
-    .custom-actions button.ui.button > i.icon {
-      margin: auto !important;
-    }
-</style>

@@ -19,6 +19,7 @@
                         <input v-model="maximumOfferQuantity" placeholder="Maximum Number of Sellers" type="text">
                     </div>
                 </div>
+                <p v-show="withError">Please enter your monitoring setup.</p>
                 <div class="field row">
                     <button class="ui right floated primary button" @click="onMonitor(rowData)"> Monitor </button>
                     <button class="ui right floated button" @click="onCancel(rowData)"> Cancel </button>
@@ -41,46 +42,62 @@
     },
     data() {
         return {
-            minimumAdvertizedPrice: this.rowData.minimum_advertized_price,
-            maximumOfferQuantity: this.rowData.maximum_offer_quantity,
+            minimumAdvertizedPrice: '',
+            maximumOfferQuantity: '',
             mapInvalid: false,
             moqInvalid: false
         }
     },
     mounted() {
-        this.minimumAdvertizedPrice = this.rowData.minimum_advertized_price.toString()
-        this.maximumOfferQuantity   = this.rowData.maximum_offer_quantity.toString()
+        if (this.rowData.minimum_advertized_price) {
+            this.minimumAdvertizedPrice = this.rowData.minimum_advertized_price.toString()
+        }
+        if (this.rowData.maximum_offer_quantity) {
+            this.maximumOfferQuantity   = this.rowData.maximum_offer_quantity.toString()
+        }
         this.$refs.minimumAdvertizedPrice.focus()
+    },
+    computed: {
+        withError() {
+            return this.mapInvalid && this.moqInvalid
+        }
     },
     methods: {
       onCancel(data) {
         console.log('my-detail-row: on-cancel')
         this.$events.fire('cancel-monitor-form', data)
       },
+      trim(string) {
+         /**
+          * Trim polyfill
+          * https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/String/trim
+          */
+         return string.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '')
+      },
       onMonitor(data) {
-        /**
-         * Trim polyfill
-         * https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/String/trim
-         */
-        this.minimumAdvertizedPrice == this.minimumAdvertizedPrice.toString().replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '')
-        this.maximumOfferQuantity == this.maximumOfferQuantity.toString().replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '')
+        this.minimumAdvertizedPrice == this.trim(this.minimumAdvertizedPrice.toString())
+        this.maximumOfferQuantity == this.trim(this.maximumOfferQuantity.toString())
 
         /**
          * Validation
          */
-        if (this.minimumAdvertizedPrice == '') {
+        if (this.minimumAdvertizedPrice === '') {
            this.mapInvalid = true
         } else {
            this.mapInvalid = isNaN(this.minimumAdvertizedPrice)
         }
 
-        if (this.maximumOfferQuantity == '') {
+        if (this.maximumOfferQuantity === '') {
            this.moqInvalid = true
         } else {
            this.moqInvalid = isNaN(this.maximumOfferQuantity)
         }
 
         if (this.mapInvalid && this.moqInvalid) {
+           /**
+            * Invalid input
+            */
+           this.$refs.minimumAdvertizedPrice.focus()
            return
         }
 

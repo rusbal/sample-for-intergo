@@ -19,21 +19,21 @@ tr.vuetable-detail-row {
 <template>
   <div class="ui">
 
-      <!--<button id="show-modal" @click="showModal = true">Show Modal</button>-->
+    <!--<button id="show-modal" @click="showModal = true">Show Modal</button>-->
 
-      <!-- use the modal component, pass in the prop -->
-      <modal v-if="showModal" @close="showModal = false">
-          <h3 slot="header">ray header</h3>
-          <h3 slot="body">usbal body</h3>
-          <template slot="footer">
-              <button class="modal-primary-button btn btn-primary" @click="$emit('close')"> Monitor </button>
-              <button class="modal-default-button btn btn-default" @click="showModal = false"> Cancel </button>
-          </template>
-      </modal>
+    <!-- use the modal component, pass in the prop -->
+    <!--<modal v-if="showModal" @close="showModal = false">-->
+        <!--<h3 slot="header">ray header</h3>-->
+        <!--<h3 slot="body">usbal body</h3>-->
+        <!--<template slot="footer">-->
+            <!--<button class="modal-primary-button btn btn-primary" @click="$emit('close')"> Monitor </button>-->
+            <!--<button class="modal-default-button btn btn-default" @click="showModal = false"> Cancel </button>-->
+        <!--</template>-->
+    <!--</modal>-->
 
     <div v-show="message" class="alert text-left dismissible bold-notice" :class="messageType">
-      {{ message }}
-      <div class="m-t-10"><a href="/my/subscription" class="text-left">Click here to upgrade your plan.</a></div>
+        {{ message }}
+        <div class="m-t-10"><a href="/my/subscription" class="text-left">Click here to upgrade your plan.</a></div>
     </div>
 
     <div class="clearfix">
@@ -146,79 +146,95 @@ export default {
       console.log('cellClicked: ', field.name)
       this.$refs.vuetable.toggleDetailRow(data.id)
     },
-    submitAjax(data) {
-      axios.patch(
-        '/ajax/aml/monitor/' + data.id,
-        {
-            will_monitor: data.will_monitor ? 0 : 1,
-            minimum_advertized_price: data.minimumAdvertizedPrice,
-            maximum_offer_quantity: data.maximumOfferQuantity
-        }
-
-      ).then((response) => {
-         console.log(response.data)
-          if (response.data.success) {
-              this.message = null
-              this.messageType = null
-              this.monitoredListingCount = response.data.monitoredListingCount
-
-              if (data.will_monitor === 0) {
-                 this.$refs.vuetable.toggleDetailRow(data.id)
-              }
-
-              data.will_monitor = data.will_monitor ? 0 : 1
-
-          } else {
-              this.message = response.data.message
-              this.messageType = 'alert-warning'
-              window.scrollTo(0, 0)
-          }
-
-      }).catch((response) => {
-          alert('Failed to save your inputs.  Please try again.')
-      });
+    warningMessage(message) {
+        this.message = message
+        this.messageType = 'alert-warning'
+        window.scrollTo(0, 0)
+    },
+    clearMessage() {
+        this.message = null
+        this.messageType = null
     }
   },
   events: {
-    'open-monitor-form' (data) {
-      if (data.will_monitor === 0) {
-        console.log('monitorFormOpened')
-        this.$refs.vuetable.toggleDetailRow(data.id)
-        return
-      }
+    'un-monitor-item' (data) {
 
-      // Submit immediately if user is setting monitoring off.
-      this.submitAjax(data)
+       /**
+        * AJAX: Unmonitor
+        */
+
+        console.log('@un-monitor-item')
+
+        axios.patch(
+           '/ajax/aml/monitor/' + data.id,
+           { will_monitor: 0 }
+
+        ).then((response) => {
+            console.log(response.data)
+            if (response.data.success) {
+                this.clearMessage()
+                this.monitoredListingCount = response.data.monitoredListingCount
+                data.will_monitor = 0
+
+            } else {
+                this.warningMessage(response.data.message)
+            }
+
+        }).catch((response) => {
+            alert('Failed to un-monitor this item.  Please try again.')
+        });
+    },
+    'open-monitor-form' (data) {
+        console.log('@open-monitor-form')
+        this.$refs.vuetable.toggleDetailRow(data.id)
     },
     'submit-monitor-form' (data) {
-      // Input is validated in DetailRow.vue
-      this.submitAjax(data)
+
+       /**
+        * AJAX: Monitor and set map, moq
+        *
+        * Note: Input is validated in DetailRow.vue
+        */
+
+        axios.patch(
+            '/ajax/aml/monitor/' + data.id,
+            {
+                will_monitor: 1,
+                minimum_advertized_price: data.minimumAdvertizedPrice,
+                maximum_offer_quantity: data.maximumOfferQuantity
+            }
+
+        ).then((response) => {
+            console.log(response.data)
+            if (response.data.success) {
+                this.clearMessage()
+                this.monitoredListingCount = response.data.monitoredListingCount
+
+                this.$refs.vuetable.toggleDetailRow(data.id)
+                data.will_monitor = 1
+
+            } else {
+                this.warningMessage(response.data.message)
+            }
+
+        }).catch((response) => {
+            alert('Failed to save your inputs.  Please try again.')
+        });
     },
     'cancel-monitor-form' (data) {
-      console.log('monitorFormSubmitted')
-      this.$refs.vuetable.toggleDetailRow(data.id)
+        console.log('monitorFormSubmitted')
+        this.$refs.vuetable.toggleDetailRow(data.id)
     },
     'filter-set' (filterText) {
-      this.moreParams.filter = filterText
-      Vue.nextTick( () => this.$refs.vuetable.refresh())
+        this.moreParams.filter = filterText
+        Vue.nextTick( () => this.$refs.vuetable.refresh())
     },
     'filter-reset' () {
-      delete this.moreParams.filter
-      Vue.nextTick( () => this.$refs.vuetable.refresh())
-    },
-    'plan-allocation-used-up' (message) {
-      this.message = message
-      this.messageType = 'alert-warning'
-      window.scrollTo(0, 0)
-    },
-    'success-monitor-update' (monitoredCount) {
-      this.message = null
-      this.messageType = null
-
-      this.monitoredListingCount = monitoredCount
+        delete this.moreParams.filter
+        Vue.nextTick( () => this.$refs.vuetable.refresh())
     },
     'close' () {
-      alert('closing popup')
+        alert('closing popup')
     }
   }
 }
