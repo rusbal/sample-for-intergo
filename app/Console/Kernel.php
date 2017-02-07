@@ -57,19 +57,6 @@ class Kernel extends ConsoleKernel
                  ->everyMinute();
 
         /**
-         * `skubright:update-data-request` initiates _GET_MERCHANT_LISTINGS_DATA_ and _GET_AFN_INVENTORY_DATA_ requests
-         * and inserts it to Table: amazon_request_queues with a class=report-update.
-         */
-        $schedule->command('skubright:update-data-request')
-                 ->hourly();
-
-        $schedule->command('skubright:report-price-violation')
-                 ->hourly();
-
-        $schedule->command('skubright:report-offer-violation')
-                 ->hourly();
-
-        /**
          * `skubright:process-queue` queues Job: ProcessAmazonQueue
          * which is then picked up by the `queue:listen` that runs forever being managed by supervisord.
          *
@@ -110,8 +97,21 @@ class Kernel extends ConsoleKernel
         $schedule->command('skubright:process-queue')
                  ->everyMinute();
 
+        /**
+         * `skubright:update-data-request` initiates _GET_MERCHANT_LISTINGS_DATA_ and _GET_AFN_INVENTORY_DATA_ requests
+         * and inserts it to Table: amazon_request_queues with a class=report-update.
+         */
+        $schedule->command('skubright:update-data-request')
+            ->hourly();
+
+        $schedule->command('skubright:report-price-violation')
+            ->hourly();
+
+        $schedule->command('skubright:report-offer-violation')
+            ->hourly();
+
         $schedule->command('skubright:report-revenue-daily')
-                 ->dailyAt('00:01');
+                 ->dailyAt('06:00')->timezone('America/Chicago');
     }
 
     /**
