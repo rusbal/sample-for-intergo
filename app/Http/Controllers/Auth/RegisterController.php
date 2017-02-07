@@ -92,9 +92,9 @@ class RegisterController extends Controller
             'password' => 'required|min:6|confirmed',
         ];
 
-        if (config('app.name') == 'SKU Bright Vue') {
+        if (config('app.url') == 'http://dev.com:8000') {
             /**
-             * 'SKU Bright Dev' means local development server
+             * Local development server
              *
              * Development is throwing error * cURL error 51: SSL: certificate verification failed (result: 5)
              * (see http://curl.haxx.se/libcurl/c/libcurl-errors.html)
