@@ -88,7 +88,7 @@
                 @if (Auth::check())
                     <li class="{{ Request::path() == 'my/dashboard' ? 'active' : '' }}"><a href="my/dashboard">Dashboard</a></li>
                 @else
-                    <li class="{{ Request::path() == '/' ? 'active' : '' }}"><a href="#">Home</a></li>
+                    <li class="{{ Request::path() == '/' ? 'active' : '' }}"><a href="/">Home</a></li>
                 @endif
                 <li><a href="#">About SKUBright</a></li>
                 <li><a href="#">FAQ</a></li>
