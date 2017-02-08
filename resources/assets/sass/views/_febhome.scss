@@ -13,8 +13,8 @@ body.febhome {
   }
 
   .home-block-two {
+    padding-top: 60px;
     min-height: 600px;
-    padding-top: 35px;
     background-color: white;
 
     .image-div {
@@ -44,6 +44,10 @@ body.febhome {
 
 @media (max-width: 769px) {
   body.febhome {
+    h1 {
+      font-size: 30px;
+    }
+
     .home-block-one {
       background-size: contain;
     }

@@ -27,7 +27,6 @@ body.feb {
 .custom-counter li::before {
   float: left;
   content: counter(step-counter);
-  //margin-right: 20px;
   font-size: 80%;
   background-color: $brand-primary;
   color: white;
@@ -35,7 +34,7 @@ body.feb {
   border-radius: 14px;
 }
 
-//medium+ screen sizes
+// medium+ screen sizes
 @media (min-width:992px) {
   .desktop-only {
     display: block !important;
@@ -49,7 +48,7 @@ body.feb {
   text-transform: uppercase;
 }
 
-//small screen sizes
+// small screen sizes
 @media (max-width: 991px) {
   .mobile-only {
     display: block !important;
