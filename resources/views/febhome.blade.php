@@ -144,7 +144,21 @@
             </div>
         </div>
 
-        <div class="container-fluid" style="height: 50px;">
+        <div class="container-fluid copyright-bar">
+            <div class="row p-tb-15">
+                <div class="col-md-8 col-md-offset-2">
+                    <nav class="pull-left">
+                        <a class="text-muted" href="#">Terms</a>
+                        <span class="sep">|</span>
+                        <a class="text-muted" href="#">Privacy</a>
+                    </nav>
+                    <div class="copyright pull-right text-muted">
+                        &copy; 2017
+                        {{ config('app.name') }}. {{ config('app.address_line_1') }}
+                        {{ config('app.address_line_2') }}
+                    </div>
+                </div>
+            </div>
         </div>
     </footer>
 @endsection

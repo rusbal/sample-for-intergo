@@ -5,6 +5,12 @@ body.febhome {
   }
 
   footer {
+    .sep {
+      margin: 0 10px;
+      display: inline-block;
+      color: $muted-color;
+    }
+
     .footer-nav {
       background-color: white;
       padding-bottom: 30px;
@@ -12,6 +18,15 @@ body.febhome {
       .nav-group {
         padding-left: 40px;
         text-align: left;
+      }
+
+      .copyright-bar {
+        nav, .copyright {
+          height: 2em;
+        }
+        a {
+          color: $text-color;
+        }
       }
     }
 
@@ -27,6 +42,10 @@ body.febhome {
       li {
         a {
           color: $text-color;
+
+          &:hover {
+            color: $brand-primary;
+          }
         }
       }
     }
@@ -105,6 +124,7 @@ body.febhome {
   }
 }
 
+/** xs */
 @media (max-width: 769px) {
   body.febhome {
     h1 { font-size: 30px; }
@@ -127,8 +147,19 @@ body.febhome {
   }
   footer {
     text-align: center;
+
+    nav, .copyright {
+      width: 100%;
+      text-align: center;
+    }
+
+    .copyright {
+      margin-top: 20px;
+    }
   }
 }
+
+/** xs to sm */
 @media (min-width: 770px) and (max-width: 991px) {
   body.febhome {
     .home-block-two {

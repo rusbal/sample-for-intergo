@@ -7697,6 +7697,16 @@ body.feb {
   font-size: 14px !important;
 }
 
+/** Transitions */
+a {
+  -webkit-transition: all 0.25s ease;
+  transition: all 0.25s ease;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
 /**
  * Numbered list
  * http://stackoverflow.com/questions/23610151/can-you-style-ordered-list-numbers
@@ -7922,6 +7932,10 @@ body.feb {
  */
 .p-tb-10 {
   padding: 10px 0;
+}
+
+.p-tb-15 {
+  padding: 15px 0;
 }
 
 .p-tb-20 {
@@ -8303,6 +8317,12 @@ body.febhome h1 {
   font-size: 40px;
 }
 
+body.febhome footer .sep {
+  margin: 0 10px;
+  display: inline-block;
+  color: #777777;
+}
+
 body.febhome footer .footer-nav {
   background-color: white;
   padding-bottom: 30px;
@@ -8311,6 +8331,14 @@ body.febhome footer .footer-nav {
 body.febhome footer .footer-nav .nav-group {
   padding-left: 40px;
   text-align: left;
+}
+
+body.febhome footer .footer-nav .copyright-bar nav, body.febhome footer .footer-nav .copyright-bar .copyright {
+  height: 2em;
+}
+
+body.febhome footer .footer-nav .copyright-bar a {
+  color: #3f4040;
 }
 
 body.febhome footer h3 {
@@ -8326,6 +8354,10 @@ body.febhome footer ul {
 
 body.febhome footer ul li a {
   color: #3f4040;
+}
+
+body.febhome footer ul li a:hover {
+  color: #85d9be;
 }
 
 body.febhome .testimonials {
@@ -8398,6 +8430,7 @@ body.febhome ol.custom-counter p {
   margin-left: 45px;
 }
 
+/** xs */
 @media (max-width: 769px) {
   body.febhome h1 {
     font-size: 30px;
@@ -8417,8 +8450,16 @@ body.febhome ol.custom-counter p {
   footer {
     text-align: center;
   }
+  footer nav, footer .copyright {
+    width: 100%;
+    text-align: center;
+  }
+  footer .copyright {
+    margin-top: 20px;
+  }
 }
 
+/** xs to sm */
 @media (min-width: 770px) and (max-width: 991px) {
   body.febhome .home-block-two .image-div img {
     float: none;
