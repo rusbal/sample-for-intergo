@@ -7722,8 +7722,8 @@ body.feb {
   font-size: 80%;
   background-color: #85d9be;
   color: white;
-  padding: 5px 10px;
-  border-radius: 13px;
+  padding: 5px 11px;
+  border-radius: 14px;
 }
 
 @media (min-width: 992px) {
