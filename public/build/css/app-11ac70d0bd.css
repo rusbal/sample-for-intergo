@@ -7712,13 +7712,26 @@ a:hover {
   color: #3bbd93 !important;
 }
 
+/** xs */
+@media (max-width: 769px) {
+  .navbar-nav-links > li > a:hover {
+    color: white !important;
+    background-color: #3bbd93 !important;
+  }
+  .navbar-nav-links > li.active > a:hover {
+    color: white !important;
+    background-color: #3bbd93 !important;
+  }
+}
+
 ul.dropdown-menu a {
   -webkit-transition: none;
   transition: none;
 }
 
 ul.dropdown-menu a:hover {
-  color: #3bbd93 !important;
+  color: white !important;
+  background-color: #3bbd93 !important;
 }
 
 /**

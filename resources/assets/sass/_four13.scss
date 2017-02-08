@@ -26,8 +26,8 @@ ul.dropdown-menu {
   a {
     transition: none;
     &:hover {
-      color: white !important;
-      background-color: darken($brand-primary, 20%) !important;
+      color: darken($brand-primary, 20%) !important;
+      //background-color: darken($brand-primary, 20%) !important;
     }
   }
 }
@@ -157,6 +157,7 @@ ul.dropdown-menu {
   color: $brand-primary !important;
   padding: 6px 35px !important;
   text-transform: uppercase;
+
   &:hover {
     color: darken($brand-primary, 10%) !important;
     border-color: $brand-primary;
@@ -165,6 +166,7 @@ ul.dropdown-menu {
 }
 .btn-primary {
   color: white !important;
+
   &:hover {
     background-color: darken($brand-primary, 10%) !important;
     transition: all 0.25s ease;

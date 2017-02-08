@@ -7718,8 +7718,7 @@ ul.dropdown-menu a {
 }
 
 ul.dropdown-menu a:hover {
-  color: white !important;
-  background-color: #3bbd93 !important;
+  color: #3bbd93 !important;
 }
 
 /**
