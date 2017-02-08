@@ -81,13 +81,13 @@ body.feb {
   }
 }
 
+.navbar-logo {
+  height: 50px;
+  margin: 5px 20px;
+}
+
 .navbar {
   border-color: white;
-
-  .navbar-logo {
-    height: 50px;
-    margin: 5px 20px;
-  }
 
   .navbar-nav-links {
     > li.active > a {
@@ -204,9 +204,9 @@ body.feb {
 /**
  * PADDING
  */
-.p-tb-20 {
-  padding: 20px 0;
-}
+.p-tb-10 { padding: 10px 0; }
+.p-tb-20 { padding: 20px 0; }
+.p-tb-30 { padding: 30px 0; }
 
 .p-b-10 { padding-bottom: 10px; }
 .p-b-20 { padding-bottom: 20px; }

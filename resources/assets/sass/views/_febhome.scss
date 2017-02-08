@@ -4,6 +4,29 @@ body.febhome {
     font-size: 40px;
   }
 
+  footer {
+    .footer-nav {
+      background-color: white;
+      padding-bottom: 30px;
+    }
+
+    h3 {
+      font-size: 1em;
+      color: $brand-primary;
+      text-transform: uppercase;
+    }
+    ul {
+      list-style: none;
+      padding-left: 0;
+
+      li {
+        a {
+          color: $text-color;
+        }
+      }
+    }
+  }
+
   .testimonials {
     background-color: #87d9bf;
     min-height: 300px;
@@ -96,6 +119,9 @@ body.febhome {
         }
       }
     }
+  }
+  footer {
+    text-align: center;
   }
 }
 @media (min-width: 770px) and (max-width: 991px) {
