@@ -1,5 +1,5 @@
 @charset "UTF-8";
-@import url(https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic&subset=latin);
+@import url(https://fonts.googleapis.com/css?family=Lato:200,400,700,400italic,700italic&subset=latin);
 /*!
  * Bootstrap v3.3.7 (http://getbootstrap.com)
  * Copyright 2011-2016 Twitter, Inc.
@@ -7924,6 +7924,38 @@ body.feb {
   padding: 20px 0;
 }
 
+.p-b-10 {
+  padding-bottom: 10px;
+}
+
+.p-b-20 {
+  padding-bottom: 20px;
+}
+
+.p-b-30 {
+  padding-bottom: 30px;
+}
+
+.p-b-40 {
+  padding-bottom: 40px;
+}
+
+.p-10 {
+  padding: 10px;
+}
+
+.p-12 {
+  padding: 12px;
+}
+
+.p-15 {
+  padding: 15px;
+}
+
+.p-20 {
+  padding: 20px;
+}
+
 ol.li-m-b-10 li {
   margin: 0 0 10px 0;
 }
@@ -8243,6 +8275,34 @@ body.febhome h1 {
   font-size: 40px;
 }
 
+body.febhome .home-block-reviews figure {
+  margin-bottom: 20px;
+  padding: 20px;
+  border: 1px solid white;
+  border-radius: 5px;
+  background-color: #93ddc6;
+}
+
+body.febhome .home-block-reviews figure blockquote {
+  font-size: 13px;
+  font-weight: 200;
+  border: none;
+  padding: 0;
+}
+
+body.febhome .home-block-reviews figure footer cite.author {
+  display: block;
+  font-style: normal;
+  font-size: 1.1em;
+  font-weight: bold;
+}
+
+body.febhome .home-block-reviews figure footer cite.info {
+  display: block;
+  font-style: normal;
+  font-size: 13px;
+}
+
 body.febhome .home-block-one {
   min-height: 500px;
   background-image: url("/img/home-light-bulb.png");
@@ -8282,6 +8342,9 @@ body.febhome ol.custom-counter p {
 @media (max-width: 769px) {
   body.febhome h1 {
     font-size: 30px;
+  }
+  body.febhome h2 {
+    font-size: 20px;
   }
   body.febhome .home-block-one {
     background-size: contain;

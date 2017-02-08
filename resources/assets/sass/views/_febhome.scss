@@ -4,6 +4,38 @@ body.febhome {
     font-size: 40px;
   }
 
+  .home-block-reviews {
+
+    figure {
+      margin-bottom: 20px;
+      padding: 20px;
+      border: 1px solid white;
+      border-radius: 5px;
+      background-color: #93ddc6;
+
+      blockquote {
+        font-size: 13px;
+        font-weight: 200;
+        border: none;
+        padding: 0;
+      }
+
+      footer {
+        cite.author {
+          display: block;
+          font-style: normal;
+          font-size: 1.1em;
+          font-weight: bold;
+        }
+        cite.info {
+          display: block;
+          font-style: normal;
+          font-size: 13px;
+        }
+      }
+    }
+  }
+
   .home-block-one {
     min-height: 500px;
     background-image: url('/img/home-light-bulb.png');
@@ -44,9 +76,8 @@ body.febhome {
 
 @media (max-width: 769px) {
   body.febhome {
-    h1 {
-      font-size: 30px;
-    }
+    h1 { font-size: 30px; }
+    h2 { font-size: 20px; }
 
     .home-block-one {
       background-size: contain;
