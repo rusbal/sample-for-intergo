@@ -14,9 +14,7 @@
 // Enable showing of SQL
 DB::enableQueryLog();
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'HomeController@landing');
 
 Auth::routes();
 Route::get('register/confirm/{token}', 'Auth\RegisterController@confirmEmail');

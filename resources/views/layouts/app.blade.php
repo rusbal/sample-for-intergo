@@ -11,18 +11,18 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Styles -->
-    <link href="{!! elixir('css/app.css') !!}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.7/semantic.min.css" media="screen" title="no title" charset="utf-8">
+    <link href="{!! elixir('css/app.css') !!}" rel="stylesheet">
 
     <!-- Scripts -->
     <script>
 window.Laravel = {!! javascriptVariables() !!};
     </script>
 </head>
-<body>
+<body class="feb">
 
     <div id="app">
-        @include('layouts._nav')
+        @include('layouts._febnav')
         @yield('content')
     </div>
 

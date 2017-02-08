@@ -1,12 +1,13 @@
 
 // Fonts
-@import url(https://fonts.googleapis.com/css?family=Raleway:300,400,600);
+//@import url(https://fonts.googleapis.com/css?family=Raleway:300,400,600);
+@import url(https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic&subset=latin);
 
 // Variables
 @import "variables";
 
-// Four13 customizations
-@import "four13";
-
 // Bootstrap
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+
+// Four13 customizations
+@import "four13";
