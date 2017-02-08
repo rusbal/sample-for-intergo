@@ -18,7 +18,7 @@
         window.Laravel = {!! javascriptVariables() !!};
     </script>
 </head>
-<body class="feb">
+<body class="feb {{ $viewName }}">
 
 <div id="app">
     @include('layouts._febnav')

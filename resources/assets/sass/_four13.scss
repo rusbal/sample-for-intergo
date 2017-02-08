@@ -164,18 +164,15 @@ body.feb {
 /**
  * MARGINS
  */
-.m-t-10 {
-  margin-top: 10px;
-}
-.m-t-20 {
-  margin-top: 20px;
-}
-.m-t-30 {
-  margin-top: 30px;
-}
-.m-t-40 {
-  margin-top: 40px;
-}
+.m-t-10 { margin-top: 10px; }
+.m-t-20 { margin-top: 20px; }
+.m-t-30 { margin-top: 30px; }
+.m-t-40 { margin-top: 40px; }
+
+.m-tb-10 { margin-top: 10px; margin-bottom: 10px; }
+.m-tb-20 { margin-top: 20px; margin-bottom: 20px; }
+.m-tb-30 { margin-top: 30px; margin-bottom: 30px; }
+.m-tb-40 { margin-top: 40px; margin-bottom: 40px; }
 
 /**
  * PADDING

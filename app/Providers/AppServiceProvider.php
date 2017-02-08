@@ -13,7 +13,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        /**
+         * http://stackoverflow.com/questions/29458845/laravel-5-get-view-name
+         */
+        view()->composer('*', function($view){
+            $viewName = str_replace('.', '-', $view->getName());
+            view()->share('viewName', $viewName);
+        });
     }
 
     /**

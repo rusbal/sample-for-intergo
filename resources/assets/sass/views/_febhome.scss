@@ -1,0 +1,21 @@
+body.febhome {
+
+  h1 {
+    font-size: 40px;
+  }
+
+  .home-block-one {
+    min-height: 500px;
+    background-image: url('/img/home-light-bulb.png');
+    background-repeat: no-repeat;
+    background-position: center bottom;
+    background-size: 612px 275px;
+  }
+}
+@media (max-width: 769px) {
+  body.febhome {
+    .home-block-one {
+      background-size: contain;
+    }
+  }
+}
