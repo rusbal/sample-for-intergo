@@ -5,6 +5,13 @@ body.febhome {
   }
 
   footer {
+    a {
+      color: $muted-color;
+      &:hover {
+        color: darken($brand-primary, 20%);
+      }
+    }
+
     .sep {
       margin: 0 10px;
       display: inline-block;
@@ -24,9 +31,6 @@ body.febhome {
         nav, .copyright {
           height: 2em;
         }
-        a {
-          color: $text-color;
-        }
       }
     }
 
@@ -38,16 +42,6 @@ body.febhome {
     ul {
       list-style: none;
       padding-left: 0;
-
-      li {
-        a {
-          color: $text-color;
-
-          &:hover {
-            color: $brand-primary;
-          }
-        }
-      }
     }
   }
 

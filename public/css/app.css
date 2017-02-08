@@ -7699,12 +7699,27 @@ body.feb {
 
 /** Transitions */
 a {
-  -webkit-transition: all 0.25s ease;
-  transition: all 0.25s ease;
+  -webkit-transition: all 0.1s ease;
+  transition: all 0.1s ease;
 }
 
 a:hover {
   text-decoration: none;
+  color: #3bbd93;
+}
+
+.navbar-nav-links > li > a:hover, .navbar-nav-links > li > a:focus {
+  color: #3bbd93 !important;
+}
+
+ul.dropdown-menu a {
+  -webkit-transition: none;
+  transition: none;
+}
+
+ul.dropdown-menu a:hover {
+  color: white !important;
+  background-color: #3bbd93 !important;
 }
 
 /**
@@ -8317,6 +8332,14 @@ body.febhome h1 {
   font-size: 40px;
 }
 
+body.febhome footer a {
+  color: #777777;
+}
+
+body.febhome footer a:hover {
+  color: #3bbd93;
+}
+
 body.febhome footer .sep {
   margin: 0 10px;
   display: inline-block;
@@ -8337,10 +8360,6 @@ body.febhome footer .footer-nav .copyright-bar nav, body.febhome footer .footer-
   height: 2em;
 }
 
-body.febhome footer .footer-nav .copyright-bar a {
-  color: #3f4040;
-}
-
 body.febhome footer h3 {
   font-size: 1em;
   color: #85d9be;
@@ -8350,14 +8369,6 @@ body.febhome footer h3 {
 body.febhome footer ul {
   list-style: none;
   padding-left: 0;
-}
-
-body.febhome footer ul li a {
-  color: #3f4040;
-}
-
-body.febhome footer ul li a:hover {
-  color: #85d9be;
 }
 
 body.febhome .testimonials {
