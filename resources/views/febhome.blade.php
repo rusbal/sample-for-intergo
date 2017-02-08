@@ -105,14 +105,14 @@
                         <div class="col-lg-8 col-xs-12">
 
                             <div class="row">
-                                <div class="col-sm-3 col-sm-offset-0 col-xs-8 col-xs-offset-2">
+                                <div class="col-sm-3 col-xs-6 nav-group">
                                     <h3>Support</h3>
                                     <ul>
-                                        <li><a href="#">Email</a></li>
+                                        <li><a href="mailto: {{ config('app.support_email') }}">Email</a></li>
                                         <li><a href="#">Facebook Group</a></li>
                                     </ul>
                                 </div>
-                                <div class="col-sm-3 col-sm-offset-0 col-xs-8 col-xs-offset-2">
+                                <div class="col-sm-3 col-xs-6 nav-group">
                                     <h3>Product</h3>
                                     <ul>
                                         <li><a href="#">Features</a></li>
@@ -120,7 +120,7 @@
                                         <li><a href="#">Pricing</a></li>
                                     </ul>
                                 </div>
-                                <div class="col-sm-3 col-sm-offset-0 col-xs-8 col-xs-offset-2">
+                                <div class="col-sm-3 col-xs-6 nav-group">
                                     <h3>Community</h3>
                                     <ul>
                                         <li><a href="#">Twitter</a></li>
@@ -128,7 +128,7 @@
                                         <li><a href="#">Facebook</a></li>
                                     </ul>
                                 </div>
-                                <div class="col-sm-3 col-sm-offset-0 col-xs-8 col-xs-offset-2">
+                                <div class="col-sm-3 col-xs-6 nav-group">
                                     <h3>Company</h3>
                                     <ul>
                                         <li><a href="#">About</a></li>

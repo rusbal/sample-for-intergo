@@ -7964,6 +7964,26 @@ body.feb {
   padding: 20px;
 }
 
+.p-l-10 {
+  padding-left: 10px;
+}
+
+.p-l-15 {
+  padding-left: 15px;
+}
+
+.p-l-20 {
+  padding-left: 20px;
+}
+
+.p-l-30 {
+  padding-left: 30px;
+}
+
+.p-l-40 {
+  padding-left: 40px;
+}
+
 ol.li-m-b-10 li {
   margin: 0 0 10px 0;
 }
@@ -8286,6 +8306,11 @@ body.febhome h1 {
 body.febhome footer .footer-nav {
   background-color: white;
   padding-bottom: 30px;
+}
+
+body.febhome footer .footer-nav .nav-group {
+  padding-left: 40px;
+  text-align: left;
 }
 
 body.febhome footer h3 {
