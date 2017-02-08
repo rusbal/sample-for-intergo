@@ -7697,6 +7697,35 @@ body.feb {
   font-size: 14px !important;
 }
 
+/**
+ * Numbered list
+ * http://stackoverflow.com/questions/23610151/can-you-style-ordered-list-numbers
+ */
+.custom-counter {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+.custom-counter .title {
+  font-size: 1.5em;
+}
+
+.custom-counter li {
+  counter-increment: step-counter;
+  margin-bottom: 5px;
+}
+
+.custom-counter li::before {
+  float: left;
+  content: counter(step-counter);
+  font-size: 80%;
+  background-color: #85d9be;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 13px;
+}
+
 @media (min-width: 992px) {
   .desktop-only {
     display: block !important;
@@ -8222,9 +8251,51 @@ body.febhome .home-block-one {
   background-size: 612px 275px;
 }
 
+body.febhome .home-block-two {
+  min-height: 600px;
+  padding-top: 35px;
+  background-color: white;
+}
+
+body.febhome .home-block-two .image-div {
+  overflow: hidden;
+  position: relative;
+  right: 0;
+}
+
+body.febhome .home-block-two .image-div img {
+  float: right;
+  height: 700px;
+  width: auto;
+}
+
+body.febhome ol.custom-counter div.title {
+  padding-left: 45px;
+  line-height: 1.2em;
+}
+
+body.febhome ol.custom-counter p {
+  margin-top: 10px;
+  margin-left: 45px;
+}
+
 @media (max-width: 769px) {
   body.febhome .home-block-one {
     background-size: contain;
+  }
+  body.febhome .home-block-two .image-div img {
+    float: none;
+    width: 110%;
+    margin-left: -5%;
+    height: auto;
+  }
+}
+
+@media (min-width: 770px) and (max-width: 991px) {
+  body.febhome .home-block-two .image-div img {
+    float: none;
+    width: 100%;
+    height: auto;
   }
 }
 

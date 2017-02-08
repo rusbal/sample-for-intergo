@@ -11,11 +11,65 @@ body.febhome {
     background-position: center bottom;
     background-size: 612px 275px;
   }
+
+  .home-block-two {
+    min-height: 600px;
+    padding-top: 35px;
+    background-color: white;
+
+    .image-div {
+      overflow: hidden;
+      position: relative;
+      right: 0;
+
+      img {
+        float: right;
+        height: 700px;
+        width: auto;
+      }
+    }
+  }
+
+  ol.custom-counter {
+    div.title {
+      padding-left: 45px;
+      line-height: 1.2em;
+    }
+    p {
+      margin-top: 10px;
+      margin-left: 45px;
+    }
+  }
 }
+
 @media (max-width: 769px) {
   body.febhome {
     .home-block-one {
       background-size: contain;
+    }
+
+    .home-block-two {
+      .image-div {
+        img {
+          float: none;
+          width: 110%;
+          margin-left: -5%;
+          height: auto;
+        }
+      }
+    }
+  }
+}
+@media (min-width: 770px) and (max-width: 991px) {
+  body.febhome {
+    .home-block-two {
+      .image-div {
+        img {
+          float: none;
+          width: 100%;
+          height: auto;
+        }
+      }
     }
   }
 }
