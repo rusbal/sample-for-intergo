@@ -69,8 +69,7 @@ return [
     |
     */
 
-    // Pacific Standard Time (PST)
-    'timezone' => 'America/Los_Angeles',
+    'timezone' => 'UTC',
 
     /*
     |--------------------------------------------------------------------------
