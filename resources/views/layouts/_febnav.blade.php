@@ -94,8 +94,12 @@
                 <li><a href="#">FAQ</a></li>
                 <li><a href="#">Pricing</a></li>
                 @if (Auth::guest())
-                    <li class="mobile-only"><a href="#">Login</a></li>
-                    <li class="mobile-only"><a href="#">Sign In</a></li>
+                    <li class="mobile-only {{ Request::path() == 'login' ? 'active' : '' }}">
+                        <a href="{{ url('/login') }}">Login</a>
+                    </li>
+                    <li class="mobile-only {{ Request::path() == 'register' ? 'active' : '' }}">
+                        <a href="{{ url('/register') }}">Register</a>
+                    </li>
                 @else
                     @include('layouts._myuser', ['class' => 'mobile-only'])
                 @endif
