@@ -8275,7 +8275,13 @@ body.febhome h1 {
   font-size: 40px;
 }
 
-body.febhome .home-block-reviews figure {
+body.febhome .testimonials {
+  background-color: #87d9bf;
+  min-height: 300px;
+  color: white;
+}
+
+body.febhome .testimonials figure {
   margin-bottom: 20px;
   padding: 20px;
   border: 1px solid white;
@@ -8283,21 +8289,21 @@ body.febhome .home-block-reviews figure {
   background-color: #93ddc6;
 }
 
-body.febhome .home-block-reviews figure blockquote {
+body.febhome .testimonials figure blockquote {
   font-size: 13px;
   font-weight: 200;
   border: none;
   padding: 0;
 }
 
-body.febhome .home-block-reviews figure footer cite.author {
+body.febhome .testimonials figure footer cite.author {
   display: block;
   font-style: normal;
   font-size: 1.1em;
   font-weight: bold;
 }
 
-body.febhome .home-block-reviews figure footer cite.info {
+body.febhome .testimonials figure footer cite.info {
   display: block;
   font-style: normal;
   font-size: 13px;

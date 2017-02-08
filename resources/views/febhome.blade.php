@@ -44,7 +44,7 @@
         </div>
     </div>
 
-    <div class="container-fluid home-block-reviews" style="background-color:#87d9bf; min-height:300px; color: white;">
+    <div class="container-fluid testimonials">
 
         <h2 class="text-center p-tb-20">See what other SKUBright Users are saying</h2>
 
