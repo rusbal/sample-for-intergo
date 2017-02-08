@@ -86,7 +86,7 @@
         <div id="navbar1" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-nav-links">
                 @if (Auth::check())
-                    <li class="{{ Request::path() == 'my/dashboard' ? 'active' : '' }}"><a href="my/dashboard">Dashboard</a></li>
+                    <li class="{{ Request::path() == 'my/dashboard' ? 'active' : '' }}"><a href="/my/dashboard">Dashboard</a></li>
                 @else
                     <li class="{{ Request::path() == '/' ? 'active' : '' }}"><a href="/">Home</a></li>
                 @endif
