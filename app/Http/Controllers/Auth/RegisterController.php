@@ -79,6 +79,32 @@ class RegisterController extends Controller
     }
 
     /**
+     * Shows a form that accepts email address.
+     * Submits to @resendVerificationLink
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function unverified()
+    {
+        return view('auth.unverified');
+    }
+
+    public function resendVerificationLink(Request $request)
+    {
+        $email = $request->get('email');
+
+        if ($user = User::getUnverifiedEmail($email)) {
+            $user->notify(new UserSignedUp($user));
+            flash('Email with verification link has been resent.');
+            return redirect()->route('login');
+        }
+
+        flash('Email is not registered or is already verified.', 'danger');
+
+        return view('auth.unverified', ['email' => $email]);
+    }
+
+    /**
      * Get a validator for an incoming registration request.
      *
      * @param  array  $data

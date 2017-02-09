@@ -205,4 +205,18 @@ class User extends Authenticatable
             ->first()
             ?: NullObject::create();
     }
+
+    public static function isUnverifiedEmail($email)
+    {
+        return self::where('email', $email)
+            ->where('token', '!=', null)
+            ->exists();
+    }
+
+    public static function getUnverifiedEmail($email)
+    {
+        return self::where('email', $email)
+            ->where('token', '!=', null)
+            ->first();
+    }
 }

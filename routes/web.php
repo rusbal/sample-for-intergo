@@ -17,7 +17,10 @@ DB::enableQueryLog();
 Route::get('/', 'HomeController@landing');
 
 Auth::routes();
+
 Route::get('register/confirm/{token}', 'Auth\RegisterController@confirmEmail');
+Route::get('register/unverified', 'Auth\RegisterController@unverified')->name('unverifiedUser');
+Route::post('register/resend', 'Auth\RegisterController@resendVerificationLink')->name('resendVerificationLink');
 
 Route::get('/home', 'HomeController@index');
 
