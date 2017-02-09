@@ -55,7 +55,7 @@ SQL;
     {
         $this->user = $user;
         $this->nDays = $nDays;
-        $this->startDate = $startDate->format('Y-m-d');
+        $this->startDate = $startDate;
     }
 
     /**
@@ -99,9 +99,7 @@ SQL;
         return $report;
     }
 
-    /**
-     * Private
-     */
+    // PRIVATE
 
     private function generate()
     {
@@ -112,10 +110,12 @@ SQL;
 
         if ($merchantId) {
 
+            $adjHours = config('app.adjust_hours');
+
             $queryParams = [
                 $merchantId,
-                $this->startDate,
-                $this->startDate,
+                $this->startDate->addHours($adjHours),
+                $this->startDate->addHours($adjHours),
                 $this->nDays
             ];
 

@@ -129,7 +129,7 @@ function reportTitle($singleDateCaption, $startDate, $datePeriodCaption = null, 
                 $start = $startDate->format('M j');
                 $end   = $endDate->format('j, Y');
 
-                return "Revenue <span class='date'>$start-$end</span>";
+                return "{$datePeriodCaption} <span class='date'>$start-$end</span>";
 
             } else {
                 $start = $startDate->format('M d');

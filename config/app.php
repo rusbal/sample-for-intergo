@@ -73,6 +73,18 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Adjust UTC dates in SQL queries.
+    |--------------------------------------------------------------------------
+    |
+    | Value is in hours.
+    |   -8 means UTC less 8       // Pacific Time Zone (America/Los_Angeles)
+    |    1 means UTC plus 1
+    |
+    */
+    'adjust_hours' => (int) env('APP_ADJUST_HOURS', 0),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Locale Configuration
     |--------------------------------------------------------------------------
     |

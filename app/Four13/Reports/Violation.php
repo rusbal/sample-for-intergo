@@ -17,14 +17,16 @@ class Violation
     {
         $this->user = $user;
         $this->nDays = $nDays;
-        $this->startDate = $startDate->format('Y-m-d');
+        $this->startDate = $startDate;
     }
 
     public static function fetchForEmail($user, $startDate, $limit = 100)
     {
+        $adjHours = config('app.adjust_hours');
+
         $queryParams = [
             $user->id,
-            $startDate,
+            $startDate->addHours($adjHours),
             $limit,
         ];
 
@@ -90,10 +92,12 @@ class Violation
 
     private function generate()
     {
+        $adjHours = config('app.adjust_hours');
+
         $queryParams = [
             $this->user->id,
-            $this->startDate,
-            $this->startDate,
+            $this->startDate->addHours($adjHours),
+            $this->startDate->addHours($adjHours),
             $this->nDays
         ];
 
