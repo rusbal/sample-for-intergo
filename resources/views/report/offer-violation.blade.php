@@ -12,7 +12,7 @@
     <tr>
         <td>
             <h1>{!! $reportTitle !!}</h1>
-            <p style="text-align: center;">{{ count($reportData['rows']) }} violations</p>
+            <p style="text-align: center;">{{ pluralize('violation', count($reportData['rows'])) }}</p>
         </td>
     </tr>
     <tr>

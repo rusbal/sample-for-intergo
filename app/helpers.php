@@ -5,6 +5,18 @@ function flash($message, $style = 'info') {
     session()->flash('message_style', $style);
 }
 
+function pluralize($noun, $count, $pluralForm = null) {
+    $pluralForm = $pluralForm ?: "{$noun}s";
+
+    $count = (int) $count;
+
+    if ($count > 1) {
+        return "$count $pluralForm";
+    }
+
+    return "$count $noun";
+}
+
 function amazonOfferLink($asin) {
     return "https://www.amazon.com/gp/offer-listing/$asin";
 }

@@ -14,9 +14,9 @@
         <td style="text-align: center;">
             <h1 style="color: #87d9bf; margin: 0 0 10px; font-size: 1.5em;">OFFER VIOLATIONS</h1>
             @if (count($reportData['rows']) == $reportData['count'])
-                <p>{{ count($reportData['rows']) }} violations</p>
+                <p>{{ pluralize('violation', count($reportData['rows'])) }}</p>
             @else
-                <p>{{ count($reportData['rows']) }} of {{ $reportData['count'] }} violations</p>
+                <p>{{ count($reportData['rows']) }} of {{ pluralize('violation', $reportData['count']) }}</p>
             @endif
         </td>
     </tr>
