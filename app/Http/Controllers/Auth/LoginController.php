@@ -67,7 +67,7 @@ class LoginController extends Controller
                 }
             } else {
                 flash('Sorry, have you verified you email yet?  It is a required step to complete registration.', 'danger');
-                return redirect($this->redirectPath());
+                return redirect()->route('login');
             }
         }
 
