@@ -113,10 +113,10 @@ class Kernel extends ConsoleKernel
             ->hourly();
 
         $schedule->command('skubright:report-revenue-daily')
-             ->dailyAt('06:00')->timezone('America/Los_Angeles');
+            ->timezone('America/Los_Angeles')->dailyAt('06:00');
 
         $schedule->command('programmertest')
-            ->hourlyAt(1)->timezone('America/Los_Angeles'); // run every hour, 1 minute pass the hour
+            ->timezone('America/Los_Angeles')->dailyAt('19:30'); // test
     }
 
     /**
