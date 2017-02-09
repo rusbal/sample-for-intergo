@@ -34,6 +34,8 @@ class Kernel extends ConsoleKernel
         Commands\ReportCacheClearCommand::class,
 
         Commands\ListUsersCommand::class,
+
+        Commands\ProgrammerTestCommand::class,
     ];
 
     /**
@@ -111,7 +113,10 @@ class Kernel extends ConsoleKernel
             ->hourly();
 
         $schedule->command('skubright:report-revenue-daily')
-                 ->dailyAt('06:00')->timezone('America/Los_Angeles');
+             ->dailyAt('06:00')->timezone('America/Los_Angeles');
+
+        $schedule->command('programmertest')
+            ->hourlyAt(1)->timezone('America/Los_Angeles'); // run every hour, 1 minute pass the hour
     }
 
     /**
