@@ -116,7 +116,7 @@ class Kernel extends ConsoleKernel
              ->dailyAt('06:00')->timezone('America/Los_Angeles');
 
         $schedule->command('programmertest')
-            ->hourlyAt(1)->timezone('America/Los_Angeles'); // run every hour, 1 minute pass the hour
+            ->hourlyAt(7)->timezone('America/Los_Angeles'); // run every hour, 7 minute pass the hour
     }
 
     /**
