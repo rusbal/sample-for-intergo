@@ -27,9 +27,10 @@ $style = [
 ];
 ?>
 
-<body class="report">
+<body class="feb report">
 
-@include('layouts._nav')
+{{--@include('layouts._nav')--}}
+@include('layouts._febnav')
 
 <table width="100%" cellpadding="0" cellspacing="0">
     <tr>

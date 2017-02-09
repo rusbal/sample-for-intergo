@@ -6,6 +6,9 @@
 // Variables
 @import "variables";
 
+// SKU global base style
+@import "skubase";
+
 // Bootstrap
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
 
@@ -14,3 +17,4 @@
 
 // View specific customizations
 @import "views/febhome";
+@import "views/report";
