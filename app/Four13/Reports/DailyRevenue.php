@@ -94,7 +94,7 @@ SQL;
         /**
          * Save report to cache
          */
-        $cache->save($report);
+        //$cache->save($report);
 
         return $report;
     }
@@ -112,10 +112,12 @@ SQL;
 
             $adjHours = config('app.adjust_hours');
 
+            $startDte = $this->startDate->addHours($adjHours);
+
             $queryParams = [
                 $merchantId,
-                $this->startDate->addHours($adjHours),
-                $this->startDate->addHours($adjHours),
+                $startDte,
+                $startDte,
                 $this->nDays
             ];
 
