@@ -14,8 +14,10 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         Commands\PokeAmazonCommand::class,
-        Commands\ProcessQueueCommand::class,
         Commands\RequestForUpdatesCommand::class,
+
+        // Commands\ProcessQueueCommand::class,
+        Commands\ProcessQueueImmediateCommand::class,
 
         Commands\BeginRequestCommand::class,
         Commands\PauseRequestsCommand::class,
@@ -96,7 +98,9 @@ class Kernel extends ConsoleKernel
          *    (** empty request_id was caused by unsuccessful initial request
          *        because of not supplying mws_auth_token. So this will not happen anymore.)
          */
-        $schedule->command('skubright:process-queue')
+        // $schedule->command('skubright:process-queue')
+        //          ->everyMinute();
+        $schedule->command('skubright:process-queue-immediate')
                  ->everyMinute();
 
         /**
