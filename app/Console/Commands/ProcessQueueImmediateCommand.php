@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\AmazonMws;
 use App\AmazonRequestQueue;
+use Carbon\Carbon;
 use Four13\AmazonMws\RequestReport;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Auth;
@@ -31,6 +32,8 @@ class ProcessQueueImmediateCommand extends Command
      */
     protected $description = 'Process the Amazon MWS request queue here and now without pushing to queue.';
 
+    private $fileIndicator;
+
     /**
      * Create a new command instance.
      *
@@ -39,6 +42,8 @@ class ProcessQueueImmediateCommand extends Command
     public function __construct()
     {
         parent::__construct();
+
+        $this->fileIndicator = storage_path('skubright.process-queue-immediate.running');
     }
 
     /**
@@ -48,6 +53,10 @@ class ProcessQueueImmediateCommand extends Command
      */
     public function handle()
     {
+        if ($this->isRunningAlready()) {
+            return;
+        }
+
         $queue = AmazonRequestQueue::all();
 
         foreach ($queue as $item) {
@@ -68,5 +77,24 @@ class ProcessQueueImmediateCommand extends Command
 
             Auth::logout();
         }
+
+        unlink($this->fileIndicator);
+    }
+
+    private function isRunningAlready()
+    {
+        if (file_exists($this->fileIndicator)) {
+            $dateTime = file_get_contents($this->fileIndicator);
+
+            $timeDiff = number_format(Carbon::parse($dateTime)->diffInSeconds(Carbon::now()) / 60, 2);
+
+            $this->info(__METHOD__ . " is already running for $timeDiff minutes.  File indicator: {$this->fileIndicator}.  Cancelling.");
+            return true;
+        }
+
+        $dateTime = (string) Carbon::now();
+        file_put_contents($this->fileIndicator, "{$dateTime}\n");
+
+        return false;
     }
 }
