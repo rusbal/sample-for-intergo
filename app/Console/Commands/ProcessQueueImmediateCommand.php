@@ -43,7 +43,7 @@ class ProcessQueueImmediateCommand extends Command
     {
         parent::__construct();
 
-        $this->fileIndicator = storage_path('skubright.process-queue-immediate.running');
+        $this->fileIndicator = storage_path(str_replace($this->signature, ':', '.') . '.running');
     }
 
     /**
