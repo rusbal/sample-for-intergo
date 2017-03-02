@@ -174,7 +174,11 @@ class RequestReport
         $report = $obj->fetchReport();
 
         if ($report) {
-            $obj->saveReport($this->filename());
+
+            if (config('services.amazon.save_files')) {
+                $obj->saveReport($this->filename());
+            }
+
             $this->toDb->saveToDb($report);
             return true;
         }

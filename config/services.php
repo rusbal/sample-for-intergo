@@ -35,4 +35,8 @@ return [
         'secret' => env('STRIPE_SECRET'),
     ],
 
+    'amazon' => [
+        'save_files' => env('SAVE_AMAZON_FILES', false),
+    ],
+
 ];
