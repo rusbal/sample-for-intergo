@@ -24,7 +24,7 @@
         <div class="col-xs-12">
             <div v-if="success === true" class="alert alert-success dismissible">{{ message }}</div>
             <div v-else-if="success === false" class="alert alert-danger dismissible">{{ message }}</div>
-            <div v-else-if="success === null" class="alert alert-warning dismissible">Processing, please wait...</div>
+            <div v-else-if="processing" class="alert alert-warning dismissible">Processing, please wait...</div>
             <div v-else-if="initMessage" class="alert alert-success dismissible">{{ initMessage }}</div>
         </div>
 
@@ -49,9 +49,17 @@
                     </table>
                 </div>
                 <div class="panel-footer">
-                    <button :class="buttonClass(planKey)" @click="submit(planKey, plan.amount)" type="button" class="btn form-control">
-                        {{ button(planKey) }}
-                    </button>
+
+                    <button v-if="currentPlan === planKey" @click="submit(planKey, plan.amount)" type="button" 
+                        class="btn btn-block"
+                        :class="buttonClass(planKey)">{{ button(planKey) }}</button>
+
+                    <button v-else-if="isSubscribed()" @click="submit(planKey, plan.amount)" type="button" 
+                        class="btn btn-block"
+                        :class="buttonClass(planKey)">{{ button(planKey) }}</button>
+
+                    <basic-checkout v-else :formProcessing="processing" :description="describe(plan)" :plan="planKey" :price="plan.amount" caption="Select"></basic-checkout>
+
                 </div>
 
                 <!-- Current Plan Stats -->
@@ -95,14 +103,18 @@ export default {
             arePlansLoading: true,
             userPlanStats: {},
             stripePlans: [],
-            currentPlan: null,
             message: null,
             success: 0,
+            processing: false,
         }
     },
+    computed: {
+        currentPlan() {
+            return this.userPlanStats.plan ? this.userPlanStats.plan : 'free'
+        },
+    },
     mounted() {
-        this.currentPlan = this.plan ? this.plan : 'free'
-        this.userPlanStats = window.Laravel.userPlanStats
+        this.userPlanStats = Laravel.userPlanStats
 
         /**
          * Load the plans from Stripe
@@ -111,7 +123,7 @@ export default {
             .get('/ajax/stripe/plans')
             .then((response) => {
                 this.arePlansLoading = false
-                this.stripePlans = response.data
+                this.setStripePlans(response.data)
             })
             .catch((response) => {
                 this.arePlansLoading = false
@@ -119,15 +131,22 @@ export default {
             })
     },
     methods: {
+        isSubscribed() {
+            return Laravel.isSubscribed
+        },
+        setStripePlans(plans) {
+            this.stripePlans = plans
+        },
+        describe(plan) {
+            return `Monthly Subscription: ${plan.name.capitalize()}`
+        },
         panelClass(plan) {
             let selected = plan === this.currentPlan ? ' selected' : ''
             return 'panel-' + plan + selected
         },
         buttonClass(plan) {
-            let selected = plan === this.currentPlan ? '-selected' : ''
-            let disabled = this.success === null ? ' disabled' : ''
-
-            return 'btn' + selected + disabled
+            return (this.currentPlan === plan ? 'btn-selected ' : 'btn-primary ')
+                 + (this.processing ? 'disabled ' : '')
         },
         button(plan) {
             return this.currentPlan === plan ? '*** CURRENT PLAN ***' : 'SELECT'
@@ -137,35 +156,11 @@ export default {
                 return
             }
 
-            if (Laravel.isNotSubscribed) {
-                this.createPlan(plan, amount)
-            } else {
-                this.updatePlan(plan, amount)
-            }
-        },
-        createPlan(plan, amount) {
-            this.success = null
-            this.message = null
-
-            axios.post(
-              Laravel.route('my.subscription@store'),
-              { plan: plan, amount: amount }
-
-            ).then((response) => {
-                if (response.data.redirect) {
-                    window.location = '/my/subscription/create'
-                } else {
-                    this.success = false
-                    this.message = "Failure.  Please try again later."
-                }
-
-            }).catch((response) => {
-                this.success = false
-                this.message = "Failure.  Please try again later."
-            });
+            this.updatePlan(plan, amount)
         },
         updatePlan(plan, amount) {
             this.success = null
+            this.processing = true
             this.message = null
 
             axios.patch(
@@ -173,15 +168,20 @@ export default {
                 { plan: plan }
 
             ).then((response) => {
+                this.processing = false
                 if (response.data.success) {
                     this.currentPlan = plan
-                    this.userPlanStats = response.data.userPlanStats
+
+                    Laravel.userPlanStats = response.data.userPlanStats
+                    this.userPlanStats = Laravel.userPlanStats
+
                     this.successMessage(`Your subscription plan was successfully set to "${plan.toUpperCase()}"`)
                 } else {
                     this.errorMessage(response.data.message)
                 }
 
             }).catch((response) => {
+                this.processing = false
                 this.errorMessage("Failure.  Please try again later.")
             });
         },
@@ -193,6 +193,22 @@ export default {
             this.success = false
             this.message = message
         },
+    },
+    events: {
+        'subscription-new-success' (selectedPlanStats) {
+            Laravel.isSubscribed = true
+            Laravel.userPlanStats = selectedPlanStats
+            this.userPlanStats = Laravel.userPlanStats
+            this.successMessage(`Your subscription plan was successfully set to "${selectedPlanStats.plan.toUpperCase()}"`)
+            this.$forceUpdate()
+        },
+        'subscription-error' (message) {
+            this.errorMessage(message)
+        },
+        'set-processing-status' (bool) {
+            this.processing = bool
+            this.$forceUpdate()
+        }
     }
 }
 </script>

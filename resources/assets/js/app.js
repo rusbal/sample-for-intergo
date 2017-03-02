@@ -12,6 +12,9 @@ Number.prototype.formatMoney = function(c, d, t){
         j = (j = i.length) > 3 ? j % 3 : 0;
     return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
 };
+String.prototype.capitalize = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+}
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -38,6 +41,7 @@ require('./globals');
 Vue.component('invoices', require('./components/Invoices.vue'));
 Vue.component('my-vuetable', require('./components/MyVuetable.vue'));
 Vue.component('subscription-plan', require('./components/SubscriptionPlan.vue'));
+Vue.component('basic-checkout', require('./components/BasicCheckout.vue'));
 
 const app = new Vue({
     el: '#app'

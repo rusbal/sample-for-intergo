@@ -60,6 +60,8 @@ window.Laravel = {!! javascriptVariables() !!};
     </script>
 
     <!-- Scripts -->
+    @stack('beforeScripts')
+
     @if (Route::current()->getName() === 'subscription.create')
         <!--
         Do not load js/app.js
@@ -73,5 +75,7 @@ window.Laravel = {!! javascriptVariables() !!};
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.7/semantic.min.js" charset="utf-8"></script>
 
     @yield('script')
+
+    @stack('afterScripts')
 </body>
 </html>

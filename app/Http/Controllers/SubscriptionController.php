@@ -21,11 +21,6 @@ class SubscriptionController extends Controller
         });
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         if ($this->user->isSubscribed()) {
@@ -35,24 +30,51 @@ class SubscriptionController extends Controller
         return view('my.plans');
     }
 
+    public function show($id)
+    {
+        return view('my.plans');
+    }
+
+    /**
+     * Ajax POST
+     * Route: /my/subscription/save-new-subscription
+     */
+    public function saveNewSubscription(Request $request)
+    {
+        if (! $request->ajax()) {
+            throw new \Exception(__METHOD__ . ' Invalid non-AJAX call');
+        }
+
+        $plan  = $request->get('plan');
+        $token = $request->get('payment_token');
+
+        $this->user->newSubscription('main', $plan)->create($token, [
+            'description' => $this->user->name,
+            'email' => $this->user->email,
+        ]);
+
+        return response()->json([
+            'userPlanStats' => $this->user->planStats(),
+        ], 201);
+    }
+
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
-    {
-        $plan = session('stripe_plan');
-        $amount = session('stripe_amount');
+    // public function create()
+    // {
+    //     $plan = session('stripe_plan');
+    //     $amount = session('stripe_amount');
 
-        if ($plan && ! is_null($amount)) {
-            /**
-             * Stripe Credit Card entry and payment
-             */
-            return view('my.stripe', compact('plan', 'amount'));
-        }
-        dd($plan, $amount);
+    //     if ($plan && ! is_null($amount)) {
+            
+    //         // Stripe Credit Card entry and payment
+            
+    //         return view('my.stripe', compact('plan', 'amount'));
+    //     }
 
-        throw new \Exception('Invalid call to SubscriptionController@create.  missing plan, amount.');
-    }
+    //     throw new \Exception('Invalid call to SubscriptionController@create.  missing plan, amount.');
+    // }
 
     /**
      * Store a newly created resource in storage via AJAX.
@@ -60,87 +82,19 @@ class SubscriptionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        if ($request->ajax()) {
-            return $this->storeSessionRedirect($request);
+    // public function store(Request $request)
+    // {
+    //     if ($request->ajax()) {
+    //         return $this->storeSessionRedirect($request);
 
-        } else {
-            /**
-             * Step 2 New
-             */
-            $this->successStripeCallback($request);
-            return redirect()->action('SubscriptionController@show', ['id' => $this->user->id]);
-        }
-    }
-
-    /**
-     * Private
-     */
-
-    /**
-     * New Credit card registration to Stripe callback
-     *
-     * @param $request
-     */
-    private function successStripeCallback($request)
-    {
-        $plan = session('stripe_plan');
-        $token = $request->get('stripeToken');
-
-        $this->subscriptionNew($plan, $token);
-
-        $request->session()->forget('stripe_plan');
-        $request->session()->forget('stripe_amount');
-
-        session()->flash('message', 'You have successfully subscribed with plan: ' . strtoupper($plan));
-    }
-
-    private function storeSessionRedirect($request)
-    {
-        /**
-         * STEP 1 (New)
-         *
-         * Save values to session then allow the front-end to redirect.
-         */
-        session(['stripe_plan' => $request->get('plan')]);
-        session(['stripe_amount' => $request->get('amount')]);
-
-        /**
-         * Redirect from front-end to SubscriptionController@create
-         * to show Stripe credit card entry form.
-         */
-        return $this->success('credit card entry', ['redirect' => true]);
-    }
-
-    private function subscriptionNew($plan, $token)
-    {
-        $this->user->newSubscription('main', $plan)->create($token, [
-            'description' => $this->user->name,
-            'email' => $this->user->email,
-        ]);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        return view('my.plans');
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-    }
+    //     } else {
+            
+    //         // Step 2 New
+            
+    //         $this->successStripeCallback($request);
+    //         return redirect()->action('SubscriptionController@show', ['id' => $this->user->id]);
+    //     }
+    // }
 
     /**
      * Ajax: Update the specified resource in storage.
@@ -153,7 +107,7 @@ class SubscriptionController extends Controller
     public function update(Request $request, $id)
     {
         if (! $request->ajax()) {
-            throw new \Exception('Invalid non-AJAX call to SubscriptionController@update.');
+            throw new \Exception(__METHOD__ . ' Invalid non-AJAX call');
         }
 
         $plan = $request->get('plan');
@@ -165,9 +119,50 @@ class SubscriptionController extends Controller
         throw new \Exception('Error: Invalid call to SubscriptionController@update.  Missing plan.');
     }
 
+    // PRIVATE
+
     /**
-     * Private
+     * New Credit card registration to Stripe callback
+     *
+     * @param $request
      */
+    // private function successStripeCallback($request)
+    // {
+    //     $plan = session('stripe_plan');
+    //     $token = $request->get('stripeToken');
+
+    //     $this->subscriptionNew($plan, $token);
+
+    //     $request->session()->forget('stripe_plan');
+    //     $request->session()->forget('stripe_amount');
+
+    //     session()->flash('message', 'You have successfully subscribed with plan: ' . strtoupper($plan));
+    // }
+
+    // private function storeSessionRedirect($request)
+    // {
+        /**
+         * STEP 1 (New)
+         *
+         * Save values to session then allow the front-end to redirect.
+         */
+        // session(['stripe_plan' => $request->get('plan')]);
+        // session(['stripe_amount' => $request->get('amount')]);
+
+        /**
+         * Redirect from front-end to SubscriptionController@create
+         * to show Stripe credit card entry form.
+         */
+    //     return $this->success('credit card entry', ['redirect' => true]);
+    // }
+
+    // private function subscriptionNew($plan, $token)
+    // {
+    //     $this->user->newSubscription('main', $plan)->create($token, [
+    //         'description' => $this->user->name,
+    //         'email' => $this->user->email,
+    //     ]);
+    // }
 
     private function updateSubscription($plan)
     {

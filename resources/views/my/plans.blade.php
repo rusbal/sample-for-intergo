@@ -11,3 +11,7 @@
 
     </div>
 @endsection
+
+@push('beforeScripts')
+<script src="https://checkout.stripe.com/checkout.js"></script>
+@endpush

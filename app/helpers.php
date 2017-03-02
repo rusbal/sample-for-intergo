@@ -53,13 +53,16 @@ function javascriptVariables() {
     $subscriptionPlan = $user ? subscriptionPlan($user) : null;
 
     $data = [
+        'app' => [
+            'name' => config('app.name'),
+        ],
         'csrfToken'        => csrf_token(),
         'userId'           => $user ? $user->id : null,
         'subscriptionPlan' => $subscriptionPlan,
         'isSubscribed'     => $subscriptionPlan ? true : false,
-        'isNotSubscribed'  => $subscriptionPlan ? false : true,
         'issetAmazonMws'   => $user ? issetAmazonMwsForUser($user) : false,
         'userPlanStats'    => userPlanStats($user),
+        'stripePublicKey'  => config('services.stripe.key'),
     ];
 
     return json_encode($data, JSON_PRETTY_PRINT);

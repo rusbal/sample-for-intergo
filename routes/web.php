@@ -26,7 +26,10 @@ Route::get('/home', 'HomeController@index');
 
 Route::resource('/my/dashboard', 'DashboardController');
 Route::resource('/my/settings', 'UserSettingsController');
+
 Route::resource('/my/subscription', 'SubscriptionController');
+Route::post('/my/subscription/save-new-subscription', 'SubscriptionController@saveNewSubscription');
+
 Route::get('/my/invoices', 'MyInvoiceController@index');
 
 /**
